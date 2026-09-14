@@ -52,6 +52,14 @@ def holm(values: list[float]) -> list[float]:
     return adjusted.tolist()
 
 
+def cell_costs(rows: list[dict], field: str) -> np.ndarray:
+    values = np.zeros((len(rows), 2, len(ARMS)))
+    for row_index, row in enumerate(rows):
+        for cell in row["cells"]:
+            values[row_index, cell["round"], ARMS.index(cell["arm"])] = sum(event.get(field, 0) or 0 for event in cell["local_call_events"])
+    return values
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, action="append", required=True)
@@ -89,7 +97,16 @@ def main() -> None:
     probability = {name: np.asarray(values, dtype=float) for name, values in predictions["policies"].items()}
     if any(values.shape != (len(rows), len(ARMS)) for values in probability.values()):
         raise ValueError("Policy probability shape mismatch")
-    report = {"status": "COMPLETE", "domains": {}, "prediction_freeze_sha256": file_hash(args.prediction_freeze), "predictions_sha256": file_hash(args.predictions)}
+    report = {
+        "status": "COMPLETE",
+        "domains": {},
+        "prediction_freeze_sha256": file_hash(args.prediction_freeze),
+        "predictions_sha256": file_hash(args.predictions),
+        "all_recorded_usage": {
+            field: sum(audit["usage"][field] for audit in audits)
+            for field in ["requests", "input_tokens", "output_tokens", "wall_s", "failed_requests", "unknown_usage_requests"]
+        },
+    }
     for domain_index, env in enumerate(["alfworld", "scienceworld"]):
         indices = [index for index, row in enumerate(rows) if row["env"] == env]
         subset = [rows[index] for index in indices]
@@ -119,10 +136,24 @@ def main() -> None:
         early_values = np.array([early[(env, task_id)] for task_id in sorted(early_ids)])
         summaries = {}
         for name, value in values.items():
+            chosen = policies[name]
+            harmful = float((chosen[:, None, :] * (y == 0) * (y[:, :, :1] == 1)).sum())
+            recovered = float((chosen[:, None, :] * (y == 1) * (y[:, :, :1] == 0)).sum())
+            costs = {}
+            for field in ["requests", "input_tokens", "output_tokens", "wall_s"]:
+                per_task = (cell_costs(subset, field).mean(axis=1) * chosen).sum(axis=1)
+                costs[field] = {
+                    "eligible_mean": float(per_task.mean()),
+                    "planned_mean": float(per_task.sum() / len(planned)),
+                }
             summaries[name] = {
                 "eligible_mean": float(value.mean()),
                 "planned_mean": float((value.sum() + early_values.sum()) / len(planned)),
-                "firing_rate_eligible": float(1 - policies[name][:, 0].mean()),
+                "firing_rate_eligible": float(1 - chosen[:, 0].mean()),
+                "action_counts_eligible": chosen.sum(axis=0).tolist(),
+                "harmful_rounds": harmful,
+                "recovered_rounds": recovered,
+                "suffix_cost": costs,
             }
         contrasts = {}
         for left, right in [
@@ -148,6 +179,18 @@ def main() -> None:
             primary = [measurement, contrasts["DIRECT_ADVANTAGE_vs_CONTINUE"], contrasts["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]]
             for item, adjusted in zip(primary, holm([item["group_sign_flip_p"] for item in primary])):
                 item["holm_p_primary_family"] = adjusted
+        group_rows = []
+        for group in sorted(set(gap_groups)):
+            complete_indices = [index for index, value in enumerate(groups) if value == group]
+            group_early = sum(task_meta[(env, task_id)]["group_id"] == group for task_id in early_ids)
+            denominator = len(complete_indices) + group_early
+            group_rows.append({
+                "group_id": group,
+                "n_tasks": denominator,
+                "same_draw_selection_optimism": float(gap[complete_indices].sum() / denominator),
+                "direct_vs_continue": float((values["DIRECT_ADVANTAGE"][complete_indices] - values["CONTINUE"][complete_indices]).sum() / denominator),
+                "direct_vs_matched_comparator": float((values["DIRECT_ADVANTAGE"][complete_indices] - values["MATCHED_COMPARATOR"][complete_indices]).sum() / denominator),
+            })
         report["domains"][env] = {
             "planned_tasks": len(planned),
             "eligible_tasks": len(subset),
@@ -157,13 +200,16 @@ def main() -> None:
             "contrasts": contrasts,
             "same_draw_selection_optimism": measurement,
             "selection": predictions["selection"][env],
+            "group_results": group_rows,
         }
     args.out.mkdir(parents=True)
     (args.out / "results.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     (args.out / "ingestion-audits.json").write_text(json.dumps(audits, indent=2, sort_keys=True) + "\n")
+    (args.out / "analysis-rows.json").write_text(json.dumps(rows, indent=2, sort_keys=True) + "\n")
     manifest = {
         "results_sha256": file_hash(args.out / "results.json"),
         "ingestion_audits_sha256": file_hash(args.out / "ingestion-audits.json"),
+        "analysis_rows_sha256": file_hash(args.out / "analysis-rows.json"),
         "inputs": [{"path": str(path), "sha256": file_hash(path)} for path in args.config + [args.predictions, args.prediction_freeze, Path(__file__)]],
     }
     (args.out / "verification.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")

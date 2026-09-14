@@ -1,0 +1,14 @@
+{
+  "artifacts": [
+    {
+      "path": "direct-benefit-development-selection.json",
+      "role": "development selection and fit receipt",
+      "sha256": "9c88b3490904402cc97de36df3062b163ea5b86aca7f3523a27dc33d4e108b39"
+    },
+    {
+      "path": "direct-benefit-exploratory-results.json",
+      "role": "archived retrospective test analysis; not confirmation evidence",
+      "sha256": "ce34ba962906e95bfd667d25caa7a4ea8a0405f3864c95a74e8a542d4600a421"
+    }
+  ]
+}

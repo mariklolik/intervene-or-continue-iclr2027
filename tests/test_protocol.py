@@ -45,6 +45,17 @@ class ProtocolTests(unittest.TestCase):
         self.assertGreaterEqual(result["group_sign_flip_p"], 0)
         self.assertLessEqual(result["group_sign_flip_p"], 1)
 
+    def test_cell_costs_align_rounds_and_arms(self):
+        evaluate = module(ROOT / "controller/evaluate_confirmation.py", "evaluate_confirmation_cost_test")
+        rows = [{"cells": [
+            {"round": 1, "arm": "A2", "local_call_events": [{"input_tokens": 7}, {"input_tokens": 5}]},
+            {"round": 0, "arm": "A0", "local_call_events": [{"input_tokens": 3}]},
+        ]}]
+        costs = evaluate.cell_costs(rows, "input_tokens")
+        self.assertEqual(costs.shape, (1, 2, 4))
+        self.assertEqual(costs[0, 1, 2], 12)
+        self.assertEqual(costs[0, 0, 0], 3)
+
 
 if __name__ == "__main__":
     unittest.main()

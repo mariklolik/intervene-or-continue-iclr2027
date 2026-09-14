@@ -1,0 +1,16 @@
+# Literature ledger
+
+All entries below were read through alphaXiv from the cited paper PDFs. The ledger records comparison boundaries rather than title-level similarity.
+
+| Paper | Verified overlap | Boundary for this study |
+|---|---|---|
+| ReAct, arXiv:2210.03629, ICLR 2023 | Interleaves reasoning and acting and evaluates ALFWorld success. | It studies the actor scaffold, not outcome-based runtime intervention selection. |
+| ScienceWorld, arXiv:2203.07540 | Defines the ScienceWorld task families, variations, and agent evaluation setting. | The present ScienceWorld panel is a boundary analysis with official-test variations and no retuning. |
+| Reflexion, arXiv:2303.11366 | Uses verbal feedback from previous attempts to improve later attempts. | It does not estimate a one-step intervention menu from matched stochastic continuations. |
+| Self-Refine, arXiv:2303.17651 | Iteratively generates feedback and refines outputs. | It does not isolate the value of a frozen runtime message relative to an explicit continuation arm. |
+| Meta-learners for HTE, arXiv:1706.03461 | Separates response-function learners from learners that target conditional treatment effects. It reports that no meta-learner is uniformly best. | It motivates the feature- and capacity-matched outcome-versus-signed-benefit comparison; it does not itself validate causal language for agent rollouts. |
+| Calibration Is Not Control, arXiv:2606.21399 | Defines intervention advantage and uses same-prefix branching. Main controller regret uses one realized branch per action. Appendix B.7 repeats three actions twice on 24 shallow prefixes and reports zero within-action variation there. | It leaves deeper prefixes under single-rollout evaluation. The present study freezes two fresh draws for all four actions on 441 planned tasks and separates action selection from evaluation draws. |
+| COTA, arXiv:2608.21027 | Trains a 0.5B pairwise advisor and reports 82.84% to 90.30% ALFWorld success for Qwen3-8B. ALFWorld uses 134 valid-unseen tasks, a 30-step limit, four candidates, environment-action support, and 31.15 H200-hours of offline preparation. | Its actor protocol, action support, repeated online intervention, objective, and compute differ. It is a strong external reference, not the feature- and interface-matched comparator in this study. |
+| The reusable holdout, arXiv:1506.02629 | Formalizes overfitting caused by adaptive reuse of holdout data. | It motivates a new identity-disjoint panel but does not directly supply an inference guarantee for this clustered agent benchmark. |
+
+The source-structure audit in `artifacts/reference-style/` uses ReAct, ScienceWorld, Reflexion, and Self-Refine as pre-2024 examples. It records section lengths and float conventions only. Perplexity targeting and author imitation are excluded.

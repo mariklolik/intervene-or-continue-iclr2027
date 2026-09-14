@@ -6,6 +6,7 @@ __pycache__/
 raw/
 data/alfworld
 runtime/leases/
+artifacts/reference-style/*.tar
 paper/*.aux
 paper/*.bbl
 paper/*.blg

@@ -6,7 +6,7 @@ from pathlib import Path
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--phase", choices=["baseline", "arms"], required=True)
+    parser.add_argument("--phase", choices=["baseline", "baseline-resume", "arms"], required=True)
     parser.add_argument("--seconds", type=int, required=True)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--cap-gpu-seconds", type=int, default=72000)
@@ -33,7 +33,7 @@ def main() -> None:
             "config": str(args.root / f"configs/independent-panel/{stem}.json"),
             "out": str(args.root / f"raw/{stem}"),
             "workers": args.workers,
-            "baseline_only": args.phase == "baseline",
+            "baseline_only": args.phase != "arms",
         }
         (args.out / f"{stem}.json").write_text(json.dumps(plan, indent=2, sort_keys=True) + "\n")
 
