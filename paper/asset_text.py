@@ -41,6 +41,8 @@ def command(name: str, value: str | int) -> str:
 def validate(report: dict) -> None:
     if report.get("status") != "COMPLETE" or set(report.get("domains", {})) != {"alfworld", "scienceworld"}:
         raise ValueError("Complete two-domain result required")
+    if set(report.get("all_recorded_usage", {})) != {"requests", "input_tokens", "output_tokens", "wall_s", "failed_requests", "unknown_usage_requests"}:
+        raise ValueError("Complete recorded-usage ledger required")
     for domain in report["domains"].values():
         if domain["planned_tasks"] != domain["eligible_tasks"] + domain["early_terminal_tasks"]:
             raise ValueError("Planned denominator mismatch")
@@ -222,6 +224,7 @@ def write_conclusion(report: dict, out: Path) -> None:
 def write_appendix_results(report: dict, out: Path) -> None:
     alf = report["domains"]["alfworld"]
     sw = report["domains"]["scienceworld"]
+    usage = report["all_recorded_usage"]
     text = f"""\\begin{{table}}[ht]
 \\caption{{All ALFWorld contrasts. Values are percentage points. Holm adjustment applies only to the first two rows and the same-draw diagnostic in the text.}}
 \\label{{tab:alfworld-contrasts}}
@@ -265,6 +268,8 @@ Domain & Policy & Requests & Input tokens & Output tokens & Client seconds \\\\
 \\bottomrule
 \\end{{tabular}}
 \\end{{table}}
+
+Across baseline, arm, and retained attempt records, the episode ledger contains {usage['requests']:,} model requests, {usage['input_tokens']:,} input tokens, {usage['output_tokens']:,} output tokens, and {usage['wall_s']:,.1f} client-seconds. It records {usage['failed_requests']} failed requests and {usage['unknown_usage_requests']} requests with unknown token usage. The separate GPU lease ledger charges model loading, qualification probes, generation, idle occupancy, failures, and cleanup.
 """
     out.write_text(text)
 

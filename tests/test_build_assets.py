@@ -57,7 +57,7 @@ def domain(primary=False):
 
 
 def test_validate_and_render_tables():
-    report = {"status": "COMPLETE", "domains": {"alfworld": domain(True), "scienceworld": domain()}}
+    report = {"status": "COMPLETE", "domains": {"alfworld": domain(True), "scienceworld": domain()}, "all_recorded_usage": {key: 0 for key in ["requests", "input_tokens", "output_tokens", "wall_s", "failed_requests", "unknown_usage_requests"]}}
     MODULE.validate(report)
     assert "ALFWorld" in MODULE.policy_table(report)
     assert "Direct $-$ Continue" in MODULE.contrast_rows(report, "alfworld")
@@ -65,7 +65,7 @@ def test_validate_and_render_tables():
 
 
 def test_validate_rejects_incomplete_denominator():
-    report = {"status": "COMPLETE", "domains": {"alfworld": domain(True), "scienceworld": domain()}}
+    report = {"status": "COMPLETE", "domains": {"alfworld": domain(True), "scienceworld": domain()}, "all_recorded_usage": {key: 0 for key in ["requests", "input_tokens", "output_tokens", "wall_s", "failed_requests", "unknown_usage_requests"]}}
     report["domains"]["alfworld"]["planned_tasks"] = 3
     try:
         MODULE.validate(report)
