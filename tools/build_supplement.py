@@ -10,8 +10,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DIRECTORIES = ["controller", "extension", "src", "configs", "models", "protocol", "tests", "raw"]
-FILES = ["README.md", "SUBMISSION_CHECKLIST.md", "pyproject.toml", "uv.lock"]
+DIRECTORIES = ["controller", "extension", "src", "configs", "models", "protocol", "tests", "raw", "runtime"]
+FILES = ["README.md", "SUBMISSION_CHECKLIST.md", "pyproject.toml", "uv.lock", "gpu_budget.jsonl"]
 TEXT_SUFFIXES = {".bib", ".bst", ".json", ".jsonl", ".lock", ".md", ".py", ".sty", ".tex", ".txt", ".toml"}
 BANNED = ["mekashirskiy", "mariklolik", "AlekseiSDev", "avi-gn-fsk", "/Users/", "/home/"]
 
@@ -30,7 +30,9 @@ def copy_inputs(target: Path) -> None:
     shutil.copytree(ROOT / "artifacts" / "prediction-freeze", target / "artifacts" / "prediction-freeze")
     shutil.copytree(ROOT / "paper", target / "paper", ignore=shutil.ignore_patterns("build", "__pycache__", "*.aux", "*.bbl", "*.blg", "*.log", "*.out"))
     for name in FILES:
-        shutil.copy2(ROOT / name, target / name)
+        source = ROOT / name
+        if source.exists():
+            shutil.copy2(source, target / name)
 
 
 def anonymous_text(value: str) -> str:
