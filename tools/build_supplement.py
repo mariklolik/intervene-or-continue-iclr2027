@@ -76,9 +76,15 @@ def rewrite_config_lineage(target: Path) -> None:
     for row in predictions["rows"]:
         row["config_sha256"] = changes.get(row["config_sha256"], row["config_sha256"])
     prediction_path.write_text(json.dumps(predictions, indent=2, sort_keys=True) + "\n")
+    prefix_path = target / "artifacts" / "prediction-freeze" / "prefixes.json"
+    prefixes = json.loads(prefix_path.read_text())
+    for row in prefixes:
+        row["config_sha256"] = changes.get(row["config_sha256"], row["config_sha256"])
+    prefix_path.write_text(json.dumps(prefixes, indent=2, sort_keys=True) + "\n")
     freeze_path = target / "artifacts" / "prediction-freeze" / "prediction-freeze.json"
     freeze = json.loads(freeze_path.read_text())
     freeze["predictions_sha256"] = digest(prediction_path)
+    freeze["prefixes_sha256"] = digest(prefix_path)
     for row in freeze["inputs"]:
         value = Path(row["path"])
         if "configs/independent-panel" in row["path"]:

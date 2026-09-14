@@ -1,4 +1,5 @@
 import importlib.util
+import json
 from pathlib import Path
 
 
@@ -43,3 +44,25 @@ def test_verify_supplement_checks_internal_manifest(tmp_path):
     MODULE.write_zip(source, archive)
     result = MODULE.verify_archive(archive)
     assert result["files"] == 1
+
+
+def test_rewrite_config_lineage_updates_prefix_freeze(tmp_path):
+    target = tmp_path / "supplement"
+    source = ROOT / "configs" / "independent-panel" / "panel-shard0.json"
+    config = target / source.relative_to(ROOT)
+    config.parent.mkdir(parents=True)
+    config.write_text(MODULE.anonymous_text(source.read_text()))
+    frozen = target / "artifacts" / "prediction-freeze"
+    frozen.mkdir(parents=True)
+    old_hash = MODULE.digest(source)
+    (frozen / "predictions.json").write_text(json.dumps({"rows": [{"config_sha256": old_hash}]}))
+    (frozen / "prefixes.json").write_text(json.dumps([{"config_sha256": old_hash}]))
+    (frozen / "prediction-freeze.json").write_text(json.dumps({"inputs": []}))
+    MODULE.rewrite_config_lineage(target)
+    new_hash = MODULE.digest(config)
+    predictions = json.loads((frozen / "predictions.json").read_text())
+    prefixes = json.loads((frozen / "prefixes.json").read_text())
+    freeze = json.loads((frozen / "prediction-freeze.json").read_text())
+    assert predictions["rows"][0]["config_sha256"] == new_hash
+    assert prefixes[0]["config_sha256"] == new_hash
+    assert freeze["prefixes_sha256"] == MODULE.digest(frozen / "prefixes.json")
