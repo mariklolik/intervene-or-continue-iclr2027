@@ -9,6 +9,11 @@
       "path": "direct-benefit-exploratory-results.json",
       "role": "archived retrospective test analysis; not confirmation evidence",
       "sha256": "ce34ba962906e95bfd667d25caa7a4ea8a0405f3864c95a74e8a542d4600a421"
+    },
+    {
+      "path": "systems-27b-summary.json",
+      "role": "separate actor-systems result; not controller evidence",
+      "sha256": "6b85879c67eb564c96bb6e6a91e97ce516aac2a6ade19b57e033e4fa4f87cac8"
     }
   ]
 }

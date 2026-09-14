@@ -1,0 +1,36 @@
+{
+  "classification": "separate_actor_systems_result",
+  "controller_evidence": false,
+  "internal_reserved_panel": {
+    "alfworld": {
+      "actor_27b_successes": 131,
+      "control_8b_successes": 76,
+      "planned_tasks": 160,
+      "floorplan_groups": 64,
+      "paired_difference": 0.34375,
+      "marginal_cluster_t_97_5": [0.2420082949821888, 0.4454917050178112]
+    },
+    "scienceworld": {
+      "actor_27b_mean_native_score": 33.851851851851855,
+      "control_8b_mean_native_score": -30.37037037037037,
+      "task_families": 27,
+      "paired_difference_native_score": 64.22222222222223,
+      "marginal_cluster_t_97_5": [10.603596248372991, 117.84084819607147]
+    },
+    "boundary": "Whole-system comparison changes actor, policy, filtering, and decoder stream; 49 of 64 ALFWorld floorplans appeared in historical tasks."
+  },
+  "public_alfworld": {
+    "planned_tasks": 134,
+    "floorplan_groups": 4,
+    "actor_27b_successes": 108,
+    "selfcheck_27b_successes": 108,
+    "paired_difference": 0.0,
+    "boundary": "Historically exposed standard frame; descriptive only; no public SOTA certification."
+  },
+  "allocated_gpu_hours_all_followup_stages": 8.431822466850281,
+  "source_sha256": {
+    "PRIMARY_RESULTS.json": "af40ae6455ca7ed52659166ed3a553a9047e60942bb64b7f242d95b91c35f0a8",
+    "PUBLIC_COMPARISON.json": "7ff243e48b374b67153a0a4d39fe40b31c6c4c6db01f2e444fb02bdacf6a7857",
+    "FINAL_ALLOCATION.json": "ead80d60ec44282efa8bcb1ecaa9b1a1859271f21b27e0244176ad0f2fd19a62"
+  }
+}
