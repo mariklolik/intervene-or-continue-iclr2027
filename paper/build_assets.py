@@ -39,6 +39,8 @@ def main() -> None:
     parser.add_argument("--results", type=Path, default=ROOT / "artifacts" / "confirmation" / "results.json")
     parser.add_argument("--out", type=Path, default=ROOT / "paper")
     args = parser.parse_args()
+    args.results = args.results.resolve()
+    args.out = args.out.resolve()
     report = json.loads(args.results.read_text())
     validate(report)
     generated = args.out / "generated"

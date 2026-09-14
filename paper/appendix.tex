@@ -89,10 +89,10 @@ Object & Frozen identifier \\
 Panel and analysis commit & \texttt{8ddf66b} and \texttt{4dd0785} precede baseline generation \\
 Prediction-freeze commit & \texttt{f0f26bf}, pushed before arm generation \\
 Eligible prefixes & 406: 355 ALFWorld and 51 ScienceWorld \\
-Prefix digest & \texttt{0f5a80d1a401a17e8276898d64fa9c47ca8573840c864dfeff058441cc46e863} \\
-Prediction digest & \texttt{7838091417d183133bc561be4670313d8fc9d4235f409ed86c13616afaf6911b} \\
-Arm-outcome model digest & \texttt{759b9d02a27affb6e39eaa51ce557c41108c87fc23c4b3feee8a41f7437d612b} \\
-Direct model digest & \texttt{4ad689108907ccda96f411a415a9b247f2783003fb56f907879cecd78bfe16db} \\
+Prefix digest & \texttt{0f5a80d1...46e863} \\
+Prediction digest & \texttt{78380914...f6911b} \\
+Arm-outcome model digest & \texttt{759b9d02...7d612b} \\
+Direct model digest & \texttt{4ad68910...fe16db} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -132,11 +132,23 @@ uv venv --python 3.12 .venv
 uv sync --frozen
 .venv/bin/python -m pytest -q
 .venv/bin/python controller/evaluate_confirmation.py \
-  --config configs/independent-panel/panel-master.json \
-  --raw raw --predictions artifacts/prediction-freeze/predictions.json \
+  --config configs/independent-panel/panel-shard0.json \
+  --config configs/independent-panel/panel-shard1.json \
+  --config configs/independent-panel/panel-shard2.json \
+  --config configs/independent-panel/panel-shard3.json \
+  --config configs/independent-panel/panel-shard4.json \
+  --config configs/independent-panel/panel-shard5.json \
+  --config configs/independent-panel/panel-shard6.json \
+  --config configs/independent-panel/panel-shard7.json \
+  --raw raw \
+  --predictions artifacts/prediction-freeze/predictions.json \
+  --prediction-freeze \
+    artifacts/prediction-freeze/prediction-freeze.json \
   --out artifacts/confirmation
 .venv/bin/python paper/build_assets.py
-python compile_latex.py paper/main.tex --output-directory paper/build
+cd paper
+python compile_latex.py main.tex --output-directory build
+cd ..
 python tools/verify_artifacts.py
 \end{verbatim}
 
