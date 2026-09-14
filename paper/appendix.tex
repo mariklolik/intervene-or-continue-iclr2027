@@ -22,7 +22,7 @@ where $Y'$ is an independent action-outcome vector and $\widehat a(Y')$ is the a
 \section{Action and information contracts}
 \label{app:actions}
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{The complete frozen action menu. The message is inserted once immediately before the next actor decision and remains in the visible transcript.}
 \label{tab:messages}
 \centering
@@ -46,7 +46,7 @@ Every arm receives the same task instruction, public action history, public obse
 
 The 50 numeric features are action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. The text field concatenates the recent public observations and actions. Word TF--IDF uses at most 512 terms; the fitted development vocabulary is reduced to at most 16 components. All text fitting occurs inside each task-group fold during development selection. The final transform is refit on all admitted development tasks only.
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{Development-only policy selection. Utilities average the two saved continuation draws within each complete task row. The strongest matched comparator and the operational selection were fixed before confirmation outcomes.}
 \label{tab:development}
 \centering
@@ -77,7 +77,7 @@ The repeated arm-outcome control, \textsc{Repeated}, predicts all four outcomes 
 
 The ALFWorld source inventory was grouped by its six task types. We removed every goal directory found in the 59 supplied prior configuration and outcome files, ranked the remaining identities by SHA-256 with seed 270914, and retained the first 64 identities per type. The resulting 384 tasks occupy 96 floorplan groups. ScienceWorld began from a 57-variation reserved official-test frame. We verified that none of its variations occurred among the 227 variations in the supplied exposure packet; the panel occupies 25 task families. These exclusions establish independence from the supplied research record, not from model pretraining or all work by other parties.
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{Pre-outcome lineage. Full digests are machine-checked in the supplement.}
 \label{tab:lineage}
 \centering
