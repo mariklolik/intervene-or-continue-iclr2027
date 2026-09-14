@@ -1,0 +1,39 @@
+{
+  "frozen": true,
+  "frozen_utc": "2026-08-20T15:58:00Z",
+  "note": "These four arms are the complete action set for pi(x_t). Texts are FIXED and must not be altered after this point. A0 carries no message at all (not an empty message) so that CONTINUE is a true no-op on the dialogue prefix.",
+  "arms": {
+    "A0": {
+      "name": "CONTINUE",
+      "text": null,
+      "modifies_dialogue": false,
+      "modifies_environment": false,
+      "description": "No extra message is appended; the agent simply takes its next step from the saved prefix."
+    },
+    "A1": {
+      "name": "WARNING",
+      "text": "Re-check the goal, the latest observation, and your previous action. Continue only after correcting any inconsistency you notice.",
+      "modifies_dialogue": true,
+      "modifies_environment": false
+    },
+    "A2": {
+      "name": "REPLAN",
+      "text": "Construct a fresh, concise plan from the current goal and observable state. Then execute that plan.",
+      "modifies_dialogue": true,
+      "modifies_environment": false
+    },
+    "A3": {
+      "name": "ROLLBACK_REPLAN",
+      "text": "The previous attempted action has been reverted. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan.",
+      "modifies_dialogue": true,
+      "modifies_environment": true,
+      "environment_operation": "Restore environment AND dialogue state to just before the most recent reversible action (BaseAdapter.rollback_checkpoint), then append the text above.",
+      "eligibility": "Requires step_index >= 1; undefined at step 0."
+    }
+  },
+  "injection_protocol": {
+    "position": "The overseer text is appended to the observable transcript as an [OVERSEER] entry immediately BEFORE the agent's next action decision at the checkpoint step.",
+    "persistence": "The overseer entry remains in the transcript for the remainder of the episode, matching how a real runtime overseer message would behave.",
+    "one_shot": true
+  }
+}
