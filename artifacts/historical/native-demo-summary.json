@@ -1,0 +1,28 @@
+{
+  "classification": "exploratory_actor_interface_and_demonstration_ablation",
+  "controller_evidence": false,
+  "native_interface_composite": {
+    "native_success_rate": 0.8059701492537313,
+    "base_success_rate": 0.7089552238805971,
+    "paired_difference": 0.09701492537313433,
+    "task_bootstrap_95": [0.0149, 0.1866],
+    "boundary": "Thinking mode, response cap, and demonstration use changed together; one fresh paired seed after benchmark inspection."
+  },
+  "conditional_demonstration_ablation": {
+    "with_demonstrations_successes": 116,
+    "without_demonstrations_successes": 107,
+    "planned_tasks": 134,
+    "paired_difference": 0.06716417910447761,
+    "task_bootstrap_95": [-0.0075, 0.1418],
+    "two_sided_task_sign_flip_p": 0.1087,
+    "without_scene_10_difference": -0.0351,
+    "token_ratio_with_vs_without": 1.281,
+    "boundary": "Conditional ablation fixes native thinking and 768-token cap; one paired seed, four scenes, and benchmark reuse remain exploratory."
+  },
+  "source_sha256": {
+    "README.md": "6e37cc13a30aa6053a14b9f00b400f22650bf7ace736fac835d60c35a6f7b438",
+    "REVIEW.md": "ecae9efaf088e03c5fa33853a94849598e899cad1cead8bd2b47bdf699bebbac",
+    "ABLATION_FREEZE.json": "0f1a16f727bd67330550e8cbc873a6eb8fa351f3e180d82b5a8630a3ebfad61e",
+    "ablation-evidence-2026-09-09.zip": "7e6e06df46e5a9abf51e4a8890b336b258ab22fd54113a5a47ee25d906e8ed6d"
+  }
+}

@@ -14,6 +14,11 @@
       "path": "systems-27b-summary.json",
       "role": "separate actor-systems result; not controller evidence",
       "sha256": "6b85879c67eb564c96bb6e6a91e97ce516aac2a6ade19b57e033e4fa4f87cac8"
+    },
+    {
+      "path": "native-demo-summary.json",
+      "role": "exploratory actor and conditional demonstration evidence; not controller confirmation",
+      "sha256": "a8e7cc42f8b992b1f652fa69d8a25e0f535b816e7b77c3bdd56e5cea0396336f"
     }
   ]
 }
