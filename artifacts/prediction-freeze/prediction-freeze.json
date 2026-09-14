@@ -1,0 +1,142 @@
+{
+  "eligible_prefixes": 406,
+  "inputs": [
+    {
+      "path": "configs/independent-panel/panel-shard0.json",
+      "sha256": "f4fb00daca46f63057635e7f8de765fb926cea38da467c62ed39c63c217b4633"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard1.json",
+      "sha256": "987fcc2e160bdc3956ec7462180a95eecd7b869022605b89922c5965ec8e1bee"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard2.json",
+      "sha256": "865f96e460d9be0915f575b2ccba48fce98193e60cbc2490417a76ef3cae54b8"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard3.json",
+      "sha256": "907acdfae2050f0f084b36d065c7dd14bda815a1088cc48dc0b9f937f1622249"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard4.json",
+      "sha256": "55357795479f026f3e5391678ae594951b35919c3f3a54ba2268ffcbc9a55508"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard5.json",
+      "sha256": "e27c9ccfac081c155a9b1991bda803ccde541887ee1acefdc13fa9597fbdb023"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard6.json",
+      "sha256": "45031c613127d993b38d0e6a17bee2c2878494fbe709e185e89bf0119552f00d"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard7.json",
+      "sha256": "cf67963cae3d247768b9c77ba53267217574330d3cd08e68727080c125c4daef"
+    },
+    {
+      "path": "models/direct-benefit.joblib",
+      "sha256": "4ad689108907ccda96f411a415a9b247f2783003fb56f907879cecd78bfe16db"
+    },
+    {
+      "path": "models/direct-benefit-manifest.json",
+      "sha256": "cdb5d3c5f0efb625345dd9f37d61f099a47911ee4406c0375457538f0e8ed161"
+    },
+    {
+      "path": "models/policies.joblib",
+      "sha256": "759b9d02a27affb6e39eaa51ce557c41108c87fc23c4b3feee8a41f7437d612b"
+    },
+    {
+      "path": "models/manifest.json",
+      "sha256": "523fb4c070232e239d08b659dc0dea6f4a18ea15889cf294f775f4eefeeeda58"
+    },
+    {
+      "path": "/Users/mekashirskiy/.codex/.chatgpt-projects/g-p-6a84252afa14819186401a092bcc38e6/output/intervene-iclr2027-clean/controller/freeze_predictions.py",
+      "sha256": "5f78e6d0b2f8ec88314141fea30858e12a91b0c02c3ff5e916b2c176542fe903"
+    },
+    {
+      "path": "/Users/mekashirskiy/.codex/.chatgpt-projects/g-p-6a84252afa14819186401a092bcc38e6/output/intervene-iclr2027-clean/controller/direct_advantage.py",
+      "sha256": "d072de002b8bf055331988593cdd22b96e51a4321d1105ab57512cf324daba1d"
+    },
+    {
+      "path": "/Users/mekashirskiy/.codex/.chatgpt-projects/g-p-6a84252afa14819186401a092bcc38e6/output/intervene-iclr2027-clean/extension/policies.py",
+      "sha256": "d7bbf205434a57374a79f9df78a431f2e0b9a0eee208e812bd5a83495f788f85"
+    }
+  ],
+  "policy_set": [
+    "ARM_OUTCOME",
+    "BEST_FIXED",
+    "CONTINUE",
+    "DIRECT_ADVANTAGE",
+    "MATCHED_ALFWORLD",
+    "MATCHED_SCIENCEWORLD"
+  ],
+  "predictions_sha256": "7838091417d183133bc561be4670313d8fc9d4235f409ed86c13616afaf6911b",
+  "prefixes_sha256": "0f5a80d1a401a17e8276898d64fa9c47ca8573840c864dfeff058441cc46e863",
+  "selection": {
+    "alfworld": {
+      "arm_outcome_parameterization_control": "REPEATED",
+      "candidates": [
+        {
+          "name": "CONTINUE",
+          "oof_firing_rate": 0.0,
+          "oof_utility": 0.45348837209302323
+        },
+        {
+          "arm": 2,
+          "name": "BEST_FIXED",
+          "oof_firing_rate": 1.0,
+          "oof_utility": 0.5038759689922481
+        },
+        {
+          "name": "DIRECT_ADVANTAGE",
+          "oof_firing_rate": 0.3410852713178295,
+          "oof_utility": 0.47674418604651164
+        },
+        {
+          "name": "SINGLE_1",
+          "oof_firing_rate": 0.7984496124031008,
+          "oof_utility": 0.5116279069767442
+        }
+      ],
+      "selected": {
+        "name": "SINGLE_1",
+        "oof_firing_rate": 0.7984496124031008,
+        "oof_utility": 0.5116279069767442
+      },
+      "strongest_matched_comparator": "SINGLE_1"
+    },
+    "scienceworld": {
+      "arm_outcome_parameterization_control": "REPEATED",
+      "candidates": [
+        {
+          "name": "CONTINUE",
+          "oof_firing_rate": 0.0,
+          "oof_utility": 0.20909090909090908
+        },
+        {
+          "arm": 2,
+          "name": "BEST_FIXED",
+          "oof_firing_rate": 1.0,
+          "oof_utility": 0.24545454545454545
+        },
+        {
+          "name": "DIRECT_ADVANTAGE",
+          "oof_firing_rate": 0.21818181818181814,
+          "oof_utility": 0.23636363636363636
+        },
+        {
+          "name": "SINGLE_1",
+          "oof_firing_rate": 1.0,
+          "oof_utility": 0.2727272727272727
+        }
+      ],
+      "selected": {
+        "name": "SINGLE_1",
+        "oof_firing_rate": 1.0,
+        "oof_utility": 0.2727272727272727
+      },
+      "strongest_matched_comparator": "SINGLE_1"
+    }
+  },
+  "status": "FROZEN_AFTER_BASELINES_BEFORE_ANY_ARM_OUTCOME_GENERATION"
+}
