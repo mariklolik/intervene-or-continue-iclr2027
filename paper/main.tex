@@ -1,0 +1,195 @@
+\documentclass{article}
+\usepackage{iclr2027_conference,times}
+\input{math_commands.tex}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,booktabs,graphicx,microtype,multirow}
+\usepackage{hyperref}
+\usepackage{url}
+\input{generated/numbers.tex}
+
+\title{Selection Is Not Evaluation:\\Independent Continuations for Runtime Intervention in Language Agents}
+
+\author{Anonymous authors}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{generated/abstract.tex}
+\end{abstract}
+
+\section{Introduction}
+
+A language agent can be warned, asked to replan, or rolled back when a trajectory appears to be failing. None of these repairs is free. A warning can displace useful context, a new plan can abandon partial progress, and a rollback can undo a correct action. A runtime controller must therefore answer a treatment-choice question: which action, including no intervention, has the highest expected utility from the current prefix?
+
+The evaluation is easy to bias. Suppose an experiment restores one agent prefix, samples several intervention branches, and chooses the branch with the best observed outcome. Scoring that choice on the same sampled branches measures a realized maximum. It credits the selection rule for favorable continuation noise. The problem is acute in binary-success environments, where one lucky branch can turn an otherwise tied action menu into an apparent rescue. Repeating the task under a different seed is not enough if the repeated outcome is again used both to choose and to score the action.
+
+This distinction is separate from two established ideas. First, outcome regression and direct treatment-effect regression are alternative target parameterizations for heterogeneous treatment effects \citep{kunzel2019metalearners}. Second, separating selection from evaluation is a general remedy for maximization bias and adaptive reuse \citep{vanhasselt2010double,dwork2015generalization}. We apply both distinctions to intervention policies for language agents. The closest same-prefix study, \citet{zhang2026calibration}, evaluates the main controller with one realized branch per action and repeats three actions twice on 24 shallow ALFWorld prefixes as a stability check. \citet{jiang2026cota} compare concrete candidate actions with a learned advisor, but their actor history, action support, intervention frequency, and compute differ from the fixed repair menu studied here.
+
+We use two independently seeded continuations for each of four actions from a shared prefix. Any policy fitted on separate development tasks is evaluated on both draws. For an outcome-informed oracle diagnostic, the action selected on one draw is evaluated on the other. This yields a symmetric, pathwise nonnegative gap between the observed maximum and the independent-draw value of the selected action. The gap measures how much a same-outcome analysis can overstate deployable utility on the sampled task frame. It does not establish that any learned intervention helps.
+
+The controller comparison holds the development records, observable prefix features, four task-group folds, 200-tree capacity, margin grid, and action menu fixed. One forest predicts four arm outcomes. A second predicts three signed benefits relative to continuation,
+\begin{equation}
+\Delta_a(x)=\mathbb{E}[Y_a-Y_0\mid X=x],\qquad a\in\{1,2,3\}.
+\end{equation}
+Both controllers can choose \textsc{Continue}. The candidate set also contains the development-best fixed arm and the strongest runnable policy from the existing arm-outcome family. All predictions were committed before confirmation arm outcomes were generated.
+
+The confirmation panel contains \AlfPlanned{} ALFWorld tasks balanced over six task types and grouped by \AlfGroups{} floorplans. Their goal directories are absent from the supplied prior configuration and outcome-exposure packet. A secondary panel contains \SwPlanned{} previously reserved ScienceWorld official-test variations that were not present in that packet. ALFWorld is the target population because development evidence selected it; ScienceWorld is a boundary analysis, not a second claim of broad generality. We report the complete primary family, every frozen policy, costs, early-terminal tasks, and the adverse historical evidence.
+
+The paper makes three contributions. It gives a repeated-branch protocol and a simple diagnostic that prevents a realized action maximum from being reported as policy value. It provides a controlled target-parameterization comparison between direct signed-benefit and arm-outcome forests, with explicit no-intervention and fixed-arm fallbacks. It also releases a pre-outcome configuration, prediction freeze, bounded compute ledger, full result census, and scripts that regenerate every table and figure. The empirical conclusions are stated in Section~\ref{sec:results}; they are not widened beyond the frozen tests.
+
+\section{Evaluating a runtime intervention}
+\label{sec:estimand}
+
+\subsection{Policy value after a shared prefix}
+
+Let $X_i$ be the observable prefix for task $i$ at a fixed checkpoint. The action set is $\mathcal{A}=\{0,1,2,3\}$, where $0$ means continue without an injected message. A stochastic continuation under action $a$ produces binary task success $Y_{ia}\in\{0,1\}$ with conditional mean $\mu_a(x)=\mathbb{E}[Y_{ia}\mid X_i=x]$. For a prefix-only policy $\pi(a\mid x)$, the target value is
+\begin{equation}
+V(\pi)=\mathbb{E}_X\!\left[\sum_{a\in\mathcal{A}}\pi(a\mid X)\mu_a(X)\right].
+\label{eq:policy-value}
+\end{equation}
+The expectation includes continuation randomness. A controller that always intervenes can have lower value than continuation even when it correctly detects a difficult prefix. Detection quality and treatment choice are different estimands \citep{vasudev2026failure}.
+
+Our simulated environments permit a repeated-branch design. From the same serialized state, we generate two draws $Y_{ia}^{(0)}$ and $Y_{ia}^{(1)}$ for every action. The request seeds are independent deterministic hashes of task, draw, action, and request index. Full-state hashes validate restoration before the first suffix call. The actor sees only the common public prefix, the assigned message, and subsequent observations.
+
+\subsection{The same-draw optimism diagnostic}
+
+Define $\widehat a_i^{(r)}=\arg\max_a Y_{ia}^{(r)}$ with continuation-first tie breaking. A same-draw analysis scores this outcome-informed choice as $\max_aY_{ia}^{(r)}$. Cross-draw evaluation instead scores the selected action on the other draw. We use the symmetric gap
+\begin{equation}
+G_i=\frac{1}{2}\!\left[
+\max_aY_{ia}^{(0)}-Y_{i,\widehat a_i^{(1)}}^{(0)}+
+\max_aY_{ia}^{(1)}-Y_{i,\widehat a_i^{(0)}}^{(1)}
+\right].
+\label{eq:gap}
+\end{equation}
+
+\textbf{Proposition 1.} $G_i\geq0$ for every realized pair of action-outcome vectors. If the two draws are identically distributed conditional on $X_i$, then $\mathbb{E}[G_i\mid X_i]$ equals the expected same-draw maximum minus the independent-draw value of the action chosen on that draw.
+
+The pathwise statement follows because each maximum is at least the outcome of the action selected on the other draw. Conditional exchangeability supplies the expectation identity. Independence is needed to interpret the cross-draw score as fresh policy evaluation, but not for nonnegativity. A positive $G_i$ can arise from unstable binary outcomes even when all actions have the same conditional mean. We therefore treat $G$ as an evaluation diagnostic, not as treatment benefit, action heterogeneity, or controller regret. Appendix~\ref{app:proof} gives the derivation and tie cases.
+
+Figure~\ref{fig:design} shows the information boundary. Frozen policies use the prefix only. The outcome-informed selector exists solely to quantify same-draw optimism; it is not a deployable method or a training label for the confirmation policies.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/design.pdf}
+\caption{Repeated-branch confirmation. A baseline actor creates a checkpoint. Every eligible prefix is restored for four actions and two independently seeded draws. Prefix-only controller predictions are frozen before any of these arm outcomes. Outcome-informed action choice on draw 0 is scored on draw 1 and vice versa.}
+\label{fig:design}
+\end{figure}
+
+\section{Controllers with a continuation option}
+\label{sec:controllers}
+
+\subsection{Matched target parameterizations}
+
+The repeated arm-outcome learner fits a multi-output random forest \citep{breiman2001random} to
+\begin{equation}
+\bar Y_{ia}=\frac{Y_{ia}^{(0)}+Y_{ia}^{(1)}}{2},\qquad a\in\mathcal A.
+\end{equation}
+At prediction time it compares four estimated outcome means. The direct learner uses the same records but fits three outputs,
+\begin{equation}
+\bar D_{ia}=\frac{1}{2}\sum_{r=0}^{1}\left(Y_{ia}^{(r)}-Y_{i0}^{(r)}\right),
+\qquad a\in\{1,2,3\}.
+\end{equation}
+Its continuation score is fixed at zero. Thus the two learners differ in the response target while retaining the same action menu and predictor class. The comparison does not assume that direct effect regression is uniformly preferable; such an ordering is absent even in standard heterogeneous-effect settings \citep{kunzel2019metalearners}.
+
+Both learners receive public information available at the fork: environment identifier, checkpoint index, counts of invalid or inadmissible actions, reward and usage summaries, action repetition signals, recent observations and actions, and recent prefix text. Hidden state hashes and reversibility metadata are excluded. Numeric fields are vectorized directly. Recent text uses a 512-term TF--IDF vocabulary fitted within each training fold and at most 16 truncated-SVD components.
+
+Model selection uses four shuffled whole-task folds with seed 260908. Each candidate has 200 trees, minimum leaf size 5 or 10, and a continuation margin in $\{0,0.05,0.10\}$. Vocabulary and projection fitting occur inside each fold. Out-of-fold utility selects the configuration, and lower intervention rate breaks utility ties. The final forests are refit on all admitted development tasks. Source and target hashes, fold identities, feature schemas, library versions, and every candidate score are stored in the model manifests.
+
+\subsection{Fallbacks and the comparator}
+
+The policy set contains five distinct decisions at confirmation time. \textsc{Continue} always chooses $a=0$. \textsc{Best fixed} chooses the development-best arm, which is replanning ($a=2$) in both environments. \textsc{Direct} uses the signed-benefit learner. \textsc{Arm outcome} uses the two-draw outcome forest and isolates response parameterization. \textsc{Matched comparator} is the strongest runnable member of the existing arm-outcome family by development out-of-fold utility. It is \textsc{Single-1}, an otherwise matched forest fitted to one predesignated outcome draw.
+
+The operational candidate set is $\{\textsc{Continue},\textsc{Best fixed},\textsc{Direct},\textsc{Matched comparator}\}$. Its development-only selection uses the same utility and tie rule. The selected policy is reported as \textsc{Safe selected} even when it is a baseline or an existing learner. In both environments the frozen selection chose \textsc{Single-1}. Calling this rule safe means only that it can decline intervention and was selected without confirmation outcomes; it is not a safety guarantee.
+
+\begin{table}[t]
+\caption{Controlled comparison and frozen action menu}
+\label{tab:design}
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Component & Arm-outcome forest & Direct signed-benefit forest \\
+\midrule
+Development rows & Same two-draw task blocks & Same two-draw task blocks \\
+Features and text & Shared prefix transform & Shared prefix transform \\
+Folds and capacity & 4 groups; 200 trees & 4 groups; 200 trees \\
+Leaf and margin grid & $\{5,10\}$; $\{0,.05,.10\}$ & $\{5,10\}$; $\{0,.05,.10\}$ \\
+Response & $(\bar Y_0,\ldots,\bar Y_3)$ & $(\bar D_1,\bar D_2,\bar D_3)$ \\
+No-intervention action & $a=0$ & zero-benefit reference \\
+\midrule
+$a=0$ & \multicolumn{2}{l}{Continue with no injected message} \\
+$a=1$ & \multicolumn{2}{l}{Check goal, observation, and previous action} \\
+$a=2$ & \multicolumn{2}{l}{Construct and execute a fresh concise plan} \\
+$a=3$ & \multicolumn{2}{l}{Undo the previous action, then replan; matched decision budget} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Independent confirmation design}
+\label{sec:design}
+
+\subsection{Actor and interventions}
+
+The actor is Qwen3-8B at revision \texttt{b968826d9c46dd6066d109eabc6255188de91218} \citep{yang2025qwen3}. It receives a grounded ReAct-style prompt \citep{yao2023react}: one short thought followed by an exact valid action. Thinking mode is disabled. Generation uses temperature 0.7, top-$p$ 0.9, at most 256 output tokens, and a 32,768-token context. Serving uses deterministic-inference mode in a content-addressed SGLang container. This setting fixes the sampling implementation for the study; seeded language-model generation is not claimed to be universally invariant across hardware or serving systems \citep{bjarnason2026randomness}.
+
+ALFWorld episodes have a 50-action limit and checkpoints at step 4 or 8 \citep{shridhar2021alfworld}. ScienceWorld episodes have a 100-action limit and checkpoints at step 8 or 16 \citep{wang2022scienceworld}. A hash of each task identity assigns the checkpoint before generation. Action 3 restores the state before the last executed action and reduces the suffix limit by one. The other arms restore the checkpoint state. This gives every arm the same total decision budget. The intervention message is inserted once at the restored step and remains in history; no controller sees future state or outcome fields.
+
+Each task first receives one baseline episode. A task that terminates before its assigned checkpoint has no intervention decision. Its observed terminal success is assigned to every policy and all contrasts and optimism terms are zero. For every eligible task, two fresh continuation arms are generated rather than copying the suffix of the baseline episode. This matters because the baseline trajectory helped define the prefix.
+
+\subsection{Panels and exposure boundary}
+
+The primary panel has \AlfPlanned{} ALFWorld tasks, 64 from each of the benchmark's six task types. Tasks come from the ALFWorld training source because it provides enough identity-disjoint instances for a powered confirmation. Selection excluded 394 goal directories appearing in 59 supplied prior configurations or outcome records. The remaining tasks were ranked by a fixed hash seed, then assigned across eight shards. They form \AlfGroups{} floorplan groups. This is a fresh study panel relative to the supplied research archive, not a claim that the underlying benchmark instances have never appeared in model pretraining or outside experiments.
+
+Development results favored ALFWorld, so the domain was chosen before the panel was sampled and before controller predictions were frozen. Our confirmatory population is therefore ALFWorld under this actor and action menu. The secondary panel has \SwPlanned{} ScienceWorld official-test variations drawn from a previously reserved frame after excluding 227 variations present in the supplied exposure packet. It spans \SwGroups{} task families. No ScienceWorld outcome changes the primary family or controller tuning.
+
+The panel configuration and hypotheses were committed before baseline generation. After all baselines, the feature transforms and one-hot policy choices for \EligibleTotal{} eligible prefixes were hashed and committed before any arm outcome. The freeze contains \AlfEligible{} ALFWorld and \SwEligible{} ScienceWorld predictions. Appendix~\ref{app:lineage} gives the commit and SHA-256 lineage.
+
+\subsection{Hypotheses, uncertainty, and stopping}
+
+The ALFWorld primary family contains three quantities: mean same-draw optimism $\mathbb E[G]$, \textsc{Direct} minus \textsc{Continue}, and \textsc{Direct} minus \textsc{Matched comparator}. For each, we average the paired task contrast over all \AlfPlanned{} planned tasks. Early-terminal tasks contribute zero. We use a two-sided sign-flip test over floorplan-group sums with 50,000 Monte Carlo assignments and apply Holm correction across the three tests at familywise $\alpha=0.05$. A positive estimate with an adjusted $p$ value above 0.05 is not called an improvement.
+
+Uncertainty plots show 10,000-resample percentile intervals at two levels. The task bootstrap resamples task blocks. The grouped bootstrap resamples complete floorplan groups or ScienceWorld task families and retains all tasks in a sampled group. These intervals are descriptive and marginal; the sign-flip and Holm procedure is the primary decision rule. The evaluator also reports direct-versus-arm-outcome, direct-versus-best-fixed, the development-selected policy, intervention rate, action counts, recoveries, disruptions, requests, tokens, and client wall time. Every ScienceWorld comparison is retained regardless of sign.
+
+No task is removed for a poor outcome or long trajectory. Missing eligible cells block final analysis. One shard received a single administrative baseline resume after its original 1,000-second coordinator lease ended during an episode; its failed attempt remains in the usage ledger and the task identity, seed, code, and model were unchanged. The experiment stops when the frozen panel is complete. The combined reservation cap is 72,000 H100 GPU-seconds, including baseline generation, the resume, model startup, qualification, idle time, failed calls, and arm generation.
+
+\section{Results}
+\label{sec:results}
+\input{generated/results.tex}
+
+\section{What repeated branches reveal}
+\label{sec:analysis}
+\input{generated/analysis.tex}
+
+\section{Related work}
+
+Reasoning-and-acting agents maintain an action history and ground language-model decisions in environment feedback \citep{yao2023react}. Reflexion uses feedback from earlier attempts \citep{shinn2023reflexion}; Self-Refine iterates feedback and generation within a task \citep{madaan2023selfrefine}. These methods alter how an actor recovers, but they do not estimate the value of a fixed intervention menu from matched stochastic continuations.
+
+Runtime supervision now covers several decision types. Calibration Is Not Control defines intervention advantage and evaluates RF-based intervention policies from same-prefix branches \citep{zhang2026calibration}. COTA trains a small pairwise advisor to rank concrete candidate actions \citep{jiang2026cota}. CHILL-Harness learns effects of reasoning procedures in different long-horizon workloads \citep{fu2026chill}. DreamGuard predicts trajectory risk and maps it to pass, hold, or block decisions \citep{lin2026dreamguard}. Harness-R1 edits four lifecycle hooks around a frozen agent, scores candidate patches by fresh task reruns, and separately tests patches inferred from sparse failures on held-out tasks \citep{shao2026harnessr1}. RAIL instead learns a no-branch-gated controller for allocating training rollouts to an evolving policy; its outcome is reward contrast rather than frozen-actor task utility \citep{zhang2026rail}. BOA searches a stochastic trajectory tree for low-probability safety failures, exposing a broader version of the gap between one realized run and a deployment distribution \citep{lin2026safetymeasurement}. These systems establish the importance of acting on or measuring runtime signals. They use different interventions, histories, objectives, and actor budgets, so their headline task scores are not matched baselines for our per-prefix four-arm study.
+
+Our controller comparison follows the outcome-model versus direct-effect distinction in heterogeneous treatment-effect estimation \citep{kunzel2019metalearners}. The repeated branches are not observational causal data: all four actions are executed from a simulator checkpoint, and inference targets this experimental action menu. The design also resembles methods that decouple maximization from evaluation \citep{vanhasselt2010double} and work on adaptive holdout reuse \citep{dwork2015generalization}. Our contribution is the measurement and controlled application to stochastic runtime intervention, not a new general theorem about post-selection inference.
+
+\section{Limitations, ethics, and conclusion}
+
+The confirmation covers one 8B actor, two text environments, one checkpoint rule, four fixed messages, binary terminal success, and two draws per action. Two draws support a paired selection/evaluation diagnostic but estimate each action's continuation distribution coarsely. The ALFWorld tasks are new relative to the supplied archive, not guaranteed absent from model pretraining. ALFWorld was chosen using development evidence, while the smaller ScienceWorld panel is boundary evidence. Neither panel supports claims about web agents, code agents, safety-critical tools, human interventions, or arbitrary action proposals.
+
+The direct and arm-outcome forests are controlled small-data baselines. A null direct-versus-outcome comparison may reflect target parameterization, limited features, development shift, or forest capacity. A favorable result would remain local to the frozen action menu. The group bootstrap also inherits the benchmark's floorplan and task-family grouping choices. More environments, actor families, intervention times, and continuation draws are required before recommending a deployment policy.
+
+The study uses simulated household and elementary-science tasks and contains no human-subject data. Interventions can still degrade task success, so the artifact reports disruptions and includes continuation as an action. Compute is capped and fully charged by GPU occupancy rather than successful examples. The released repository remains private during double-blind review; the supplementary archive removes user names, host names, repository ownership, and absolute paths. Authors must enter affiliations and eligibility information truthfully in the submission system.
+
+\input{generated/conclusion.tex}
+
+\paragraph{Reproducibility statement.}
+Appendix~\ref{app:repro} specifies task construction, prompts, seeds, software, model revision, container digest, controller grids, inference procedures, and exact commands. The anonymous supplement includes the frozen configurations and predictions, raw result hashes, failure records, evaluator, figure builder, environment lock, and a script that verifies and regenerates every reported number. The main repository commit and every derived artifact are linked by SHA-256 manifests.
+
+\paragraph{AI use statement.}
+AI tools assisted literature search through alphaXiv, experiment and analysis code, manuscript drafting, copyediting, and format checks. Procedural research skills influenced the evidence and review workflow \citep{kassis2026skills}. The confirmation hypotheses, panel, inference, stopping rule, and controller predictions were frozen before their corresponding outcomes. Quantitative claims were regenerated from stored artifacts, citations were checked against source papers, and adverse results were retained. The authors remain responsible for the manuscript and submission.
+
+\bibliographystyle{iclr2027_conference}
+\bibliography{references}
+
+\clearpage
+\appendix
+\input{appendix.tex}
+
+\end{document}

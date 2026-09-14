@@ -1,0 +1,150 @@
+\section{Derivation of the repeated-branch diagnostic}
+\label{app:proof}
+
+For a fixed task, write $m^{(r)}=\max_aY_a^{(r)}$ and $\widehat a^{(r)}=\arg\max_aY_a^{(r)}$, with a fixed continuation-first order for ties. For either draw,
+\begin{equation}
+m^{(0)}-Y_{\widehat a^{(1)}}^{(0)}\geq0,
+\qquad
+m^{(1)}-Y_{\widehat a^{(0)}}^{(1)}\geq0,
+\end{equation}
+because the selected action from the other draw remains an element of the maximization set. Their mean is $G$, so $G\geq0$ pathwise. The result is unchanged by ties because any deterministic tie choice indexes an available action.
+
+Now condition on the shared prefix $X=x$. If the two action-outcome vectors are exchangeable and independent draws from the same conditional continuation distribution, then
+\begin{align}
+\mathbb E[G\mid x]
+&=\mathbb E[m^{(0)}\mid x]
+-\mathbb E[Y_{\widehat a^{(1)}}^{(0)}\mid x] \\
+&=\mathbb E\!\left[\max_aY_a\mid x\right]
+-\mathbb E\!\left[\mu_{\widehat a(Y')} (x)\mid x\right],
+\end{align}
+where $Y'$ is an independent action-outcome vector and $\widehat a(Y')$ is the action selected from it. The first term is a realized maximum. The second is the value of the outcome-informed selection rule on a fresh continuation. It is not the value of any prefix-only deployable controller. If all actions share the same success probability but outcomes fluctuate, the difference may still be positive; $G$ therefore identifies evaluation optimism rather than a causal intervention effect.
+
+\section{Action and information contracts}
+\label{app:actions}
+
+\begin{table}[h]
+\caption{The complete frozen action menu. The message is inserted once immediately before the next actor decision and remains in the visible transcript.}
+\label{tab:messages}
+\centering
+\small
+\begin{tabular}{@{}clp{0.66\linewidth}@{}}
+\toprule
+Arm & Name & Operation \\
+\midrule
+0 & \textsc{Continue} & Restore the checkpoint and append no message. \\
+1 & \textsc{Warning} & ``Re-check the goal, the latest observation, and your previous action. Continue only after correcting any inconsistency you notice.'' \\
+2 & \textsc{Replan} & ``Construct a fresh, concise plan from the current goal and observable state. Then execute that plan.'' \\
+3 & \textsc{Rollback--replan} & Restore environment and dialogue to before the latest reversible action, append ``The previous attempted action has been reverted. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan,'' and reduce the suffix budget by one decision. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Every arm receives the same task instruction, public action history, public observations, actor weights, decoding parameters, and total decision budget. The controller receives only fields computed from the prefix. Environment state hashes, future observations, suffix outcomes, rollback metadata, and task-selection provenance are excluded. Arm 3 changes the simulator state by exactly the most recent reversible action and has no special access to a future legal-action sequence. The intervention decision occurs once per episode.
+
+\section{Controller construction and development selection}
+\label{app:controller}
+
+The 50 numeric features are action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. The text field concatenates the recent public observations and actions. Word TF--IDF uses at most 512 terms; the fitted development vocabulary is reduced to at most 16 components. All text fitting occurs inside each task-group fold during development selection. The final transform is refit on all admitted development tasks only.
+
+\begin{table}[h]
+\caption{Development-only policy selection. Utilities average the two saved continuation draws within each complete task row. The strongest matched comparator and the operational selection were fixed before confirmation outcomes.}
+\label{tab:development}
+\centering
+\small
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Environment & Candidate & OOF utility (\%) & Intervention rate (\%) \\
+\midrule
+\multirow{4}{*}{ALFWorld}
+& \textsc{Continue} & 45.35 & 0.00 \\
+& \textsc{Best fixed} (arm 2) & 50.39 & 100.00 \\
+& \textsc{Direct} & 47.67 & 34.11 \\
+& \textsc{Single-1} & \textbf{51.16} & 79.84 \\
+\midrule
+\multirow{4}{*}{ScienceWorld}
+& \textsc{Continue} & 20.91 & 0.00 \\
+& \textsc{Best fixed} (arm 2) & 24.55 & 100.00 \\
+& \textsc{Direct} & 23.64 & 21.82 \\
+& \textsc{Single-1} & \textbf{27.27} & 100.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The repeated arm-outcome control, \textsc{Repeated}, predicts all four outcomes after fitting to the mean of two draws. \textsc{Single-1} uses the same action-outcome formulation but fits to one predesignated draw; it was the strongest runnable development comparator. \textsc{Direct} predicts three outcomes relative to continuation. Both target-parameterization learners share the same feature builder, task-group folds, 200-tree random-forest class, minimum-leaf grid $\{5,10\}$, continuation-margin grid $\{0,.05,.10\}$, and task rows. A candidate must exceed the continuation margin to intervene; otherwise it chooses arm 0. Utility ties favor the lower firing rate and then the prespecified candidate order.
+
+\section{Panel construction and lineage}
+\label{app:lineage}
+
+The ALFWorld source inventory was grouped by its six task types. We removed every goal directory found in the 59 supplied prior configuration and outcome files, ranked the remaining identities by SHA-256 with seed 270914, and retained the first 64 identities per type. The resulting 384 tasks occupy 96 floorplan groups. ScienceWorld began from a 57-variation reserved official-test frame. We verified that none of its variations occurred among the 227 variations in the supplied exposure packet; the panel occupies 25 task families. These exclusions establish independence from the supplied research record, not from model pretraining or all work by other parties.
+
+\begin{table}[h]
+\caption{Pre-outcome lineage. Full digests are machine-checked in the supplement.}
+\label{tab:lineage}
+\centering
+\small
+\begin{tabular}{@{}lp{0.69\linewidth}@{}}
+\toprule
+Object & Frozen identifier \\
+\midrule
+Panel and analysis commit & \texttt{8ddf66b} and \texttt{4dd0785} precede baseline generation \\
+Prediction-freeze commit & \texttt{f0f26bf}, pushed before arm generation \\
+Eligible prefixes & 406: 355 ALFWorld and 51 ScienceWorld \\
+Prefix digest & \texttt{0f5a80d1a401a17e8276898d64fa9c47ca8573840c864dfeff058441cc46e863} \\
+Prediction digest & \texttt{7838091417d183133bc561be4670313d8fc9d4235f409ed86c13616afaf6911b} \\
+Arm-outcome model digest & \texttt{759b9d02a27affb6e39eaa51ce557c41108c87fc23c4b3feee8a41f7437d612b} \\
+Direct model digest & \texttt{4ad689108907ccda96f411a415a9b247f2783003fb56f907879cecd78bfe16db} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Baseline generation produced 35 structural early terminations. One episode exceeded its original coordinator lease. A single administrative resume reused the frozen task, seed, actor, software, and checkpoint rule; the interrupted attempt and resumed occupancy are both retained in the append-only ledger. No arm outcome was available when features and actions for the remaining 406 prefixes were serialized and committed.
+
+\section{Complete statistical specification}
+\label{app:statistics}
+
+For a policy $p$, task-level utility is the mean of the two selected arm outcomes. Structural early-terminal tasks contribute their observed terminal success to every policy. A policy contrast is the paired difference in task utility. Task-bootstrap intervals resample tasks with replacement. Group-bootstrap intervals resample floorplans for ALFWorld and task families for ScienceWorld, retaining every task in each sampled group. Both use 10,000 draws and fixed stored seeds.
+
+The primary randomization statistic is the absolute mean task contrast. Under the null, we independently multiply each group sum by $-1$ or $+1$, retaining within-group task dependence, and compare 50,000 Monte Carlo assignments with the observed statistic. The Monte Carlo $p$ value includes the observed assignment through the usual plus-one correction. We order the three raw ALFWorld $p$ values and apply Holm's step-down adjustment. The family comprises the optimism gap, \textsc{Direct} minus \textsc{Continue}, and \textsc{Direct} minus \textsc{Single-1}. All other tests and intervals are descriptive secondary analyses.
+
+Recoveries count draw-level cases in which continuation fails and the policy succeeds. Disruptions count the reverse. Intervention rate is computed over eligible prefixes; success denominators include all planned tasks. Request, token, and client-wall-time summaries include the selected suffix only for eligible tasks and the shared baseline cost separately. No missing eligible cell is imputed: the final evaluator refuses to emit results if any of the eight required arm/draw cells is absent.
+
+\section{Complete confirmation results}
+\label{app:results}
+
+\input{generated/appendix_results.tex}
+
+\section{Historical and exploratory evidence}
+\label{app:historical}
+
+Earlier work motivated the new confirmation but does not enter its multiplicity family. On a 134-game official unseen ALFWorld panel with a different actor interface, the prior repeated-branch learner reached 68.16\% against 69.40\% for continuation, a difference of $-1.24$ percentage points with task-bootstrap interval $[-4.98,2.24]$ and $p=0.5946$. Same-arm mismatches ranged from 8.25\% to 12.06\%, and the same-draw sample oracle exceeded a fresh-replica evaluation by 7.94 points. A four-stratum retrospective direct-benefit reanalysis averaged 30.14\%, compared with 32.62\% for continuation and 28.92\% for the repeated-outcome policy. These records motivated independent continuation evaluation and the direct target comparison; they do not confirm either new hypothesis.
+
+The native-interface follow-up and its demonstration ablation are reported only as actor-side exploratory analyses. Changing thinking mode, output cap, and demonstration use together produced 80.60\% versus 70.90\% in one paired 134-task draw. A later conditional ablation held thinking and cap fixed: including two released demonstrations produced 116/134 successes (86.57\%) versus 107/134 (79.85\%), a $+6.72$-point estimate with task-bootstrap interval $[-0.75,14.18]$ and two-sided sign-flip $p=0.1087$. Excluding one scene reversed the latter estimate to $-3.51$ points. Neither result is pooled with confirmation, establishes a controller effect, or supports a state-of-the-art claim.
+
+A separate 27B experiment is retained as a systems result. It changes the actor scale and therefore cannot identify the contribution of controller target parameterization. CAMELS-CIS is outside this paper. The released evidence index preserves those boundaries rather than using favorable actor or domain subsets to replace the frozen confirmation.
+
+\section{Reproduction}
+\label{app:repro}
+
+The anonymous supplement contains the exact ICLR source, panel manifests, frozen prefix features and actions, controller manifests, raw confirmation records, analysis environment lock, tests, evaluator, rendering program, and artifact manifest. Model weights and benchmark installations are excluded. Analysis and paper regeneration require no GPU.
+
+\begin{verbatim}
+uv venv --python 3.12 .venv
+uv sync --frozen
+.venv/bin/python -m pytest -q
+.venv/bin/python controller/evaluate_confirmation.py \
+  --config configs/independent-panel/panel-master.json \
+  --raw raw --predictions artifacts/prediction-freeze/predictions.json \
+  --out artifacts/confirmation
+.venv/bin/python paper/build_assets.py
+python compile_latex.py paper/main.tex --output-directory paper/build
+python tools/verify_artifacts.py
+\end{verbatim}
+
+Inference reproduction additionally requires ALFWorld 0.4.2, TextWorld 1.7.0, ScienceWorld 1.3.0, the recorded Qwen3-8B revision, and the content-addressed serving image. Each GPU worker receives one panel shard and a unique port. A bounded coordinator charges model loading, qualification, generation, failures, and reserved idle occupancy against the 72,000 H100 GPU-second cap. Exact request seeds are derived from task identity, arm, draw, and request index. New stochastic generations are replications and must not overwrite the released outcomes.
+
+The supplement's verification program checks the source commit, all protected input hashes, complete task and cell counts, task/fold disjointness, action visibility, panel exclusions, prediction freeze, recomputed result JSON, figure inputs, page limit, unresolved references, anonymous strings, and final archive digest. Absolute execution paths and private repository ownership are replaced by symbolic roots in the anonymous archive; scientific identifiers and file-content digests are unchanged.
+
+\section{AI assistance and author responsibilities}
+\label{app:ai}
+
+AI tools were used for literature discovery through alphaXiv, code drafting, statistical and manuscript review, LaTeX drafting, copyediting, and format inspection. They were not treated as authors. The pre-outcome commits and immutable result evaluator separate assistance during design from outcome-conditioned reporting. The complete result census, adverse evidence, source links, and assistance ledger are provided for audit. Human authors remain responsible for checking claims, citations, authorship, conflicts, affiliations, eligibility, disclosure categories, and the final submission.
