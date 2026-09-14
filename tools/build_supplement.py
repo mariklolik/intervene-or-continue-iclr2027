@@ -6,7 +6,7 @@ import shutil
 import subprocess
 import tempfile
 import zipfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -157,6 +157,25 @@ def write_zip(source: Path, output: Path) -> None:
             archive.writestr(info, path.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
 
 
+def verify_archive(path: Path) -> dict:
+    with zipfile.ZipFile(path) as archive:
+        names = archive.namelist()
+        manifests = [name for name in names if name.endswith("artifacts/MANIFEST.json")]
+        if len(names) != len(set(names)) or len(manifests) != 1:
+            raise ValueError("Invalid supplement inventory")
+        manifest = json.loads(archive.read(manifests[0]))
+        if manifest.get("anonymous_derivative") is not True or manifest.get("result_values_preserved") is not True:
+            raise ValueError("Invalid supplement lineage flags")
+        if not re.fullmatch(r"[0-9a-f]{40}", manifest.get("source_commit", "")):
+            raise ValueError("Invalid source commit")
+        root = PurePosixPath(manifests[0]).parents[1]
+        for row in manifest.get("files", []):
+            name = str(root / row["path"])
+            if name not in names or hashlib.sha256(archive.read(name)).hexdigest() != row["sha256"]:
+                raise ValueError(f"Supplement hash mismatch: {row['path']}")
+        return {"files": len(manifest.get("files", [])), "members": len(names)}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / "dist" / "intervene-or-continue-iclr2027-supplement.zip")
@@ -176,7 +195,8 @@ def main() -> None:
         write_manifest(target, source_commit)
         verify_anonymous(target)
         write_zip(target, args.output)
-    print(json.dumps({"path": str(args.output), "sha256": digest(args.output), "bytes": args.output.stat().st_size}, sort_keys=True))
+    verified = verify_archive(args.output)
+    print(json.dumps({"path": str(args.output), "sha256": digest(args.output), "bytes": args.output.stat().st_size, "verified": verified}, sort_keys=True))
 
 
 if __name__ == "__main__":

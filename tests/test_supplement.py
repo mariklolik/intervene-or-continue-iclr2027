@@ -29,3 +29,17 @@ def test_deterministic_zip_metadata(tmp_path):
     MODULE.write_zip(source, first)
     MODULE.write_zip(source, second)
     assert first.read_bytes() == second.read_bytes()
+
+
+def test_verify_supplement_checks_internal_manifest(tmp_path):
+    source = tmp_path / "source"
+    artifact = source / "paper" / "main.pdf"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_bytes(b"pdf")
+    manifest = source / "artifacts" / "MANIFEST.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text('{"anonymous_derivative": true, "result_values_preserved": true, "source_commit": "0123456789012345678901234567890123456789", "files": [{"path": "paper/main.pdf", "sha256": "c35b21d6ca39aa7cc3b79a705d989f1a6e88b99ab43988d74048799e3db926a3"}]}')
+    archive = tmp_path / "supplement.zip"
+    MODULE.write_zip(source, archive)
+    result = MODULE.verify_archive(archive)
+    assert result["files"] == 1
