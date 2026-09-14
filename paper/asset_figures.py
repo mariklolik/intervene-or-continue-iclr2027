@@ -35,7 +35,7 @@ def draw_design(out: Path) -> None:
         (4.55, 1.15, 2.0, 1.05, "4 actions × 2\nindependent draws", "#FFF1D6"),
         (7.15, 1.85, 2.0, .9, "Prefix policy\nvalue", "#E4F2EE"),
         (7.15, .35, 2.0, .9, "Outcome-selected\ncross-draw value", "#FCE3E3"),
-        (9.8, 1.15, 1.95, 1.05, "Report both;\nnever reuse outcome", "#E8EEF5"),
+        (9.8, 1.15, 1.95, 1.05, "Report both;\nno outcome reuse", "#E8EEF5"),
     ]
     for x, y, width, height, label, color in boxes:
         axis.add_patch(FancyBboxPatch((x, y), width, height, boxstyle="round,pad=0.06", facecolor=color, edgecolor="#30343B", linewidth=.8))
@@ -43,10 +43,10 @@ def draw_design(out: Path) -> None:
     arrows = [((1.85, 1.68), (2.35, 1.68)), ((4.0, 1.68), (4.55, 1.68)), ((6.55, 1.68), (7.15, 2.3)), ((6.55, 1.68), (7.15, .8)), ((9.15, 2.3), (9.8, 1.78)), ((9.15, .8), (9.8, 1.53))]
     for start, end in arrows:
         axis.annotate("", xy=end, xytext=start, arrowprops={"arrowstyle": "->", "color": "#30343B", "lw": 1.0})
-    axis.text(5.55, 2.72, "No arm outcome exists before this boundary", ha="center", color="#8A3B32", fontsize=8)
-    axis.plot([4.28, 4.28], [.15, 3.05], color="#8A3B32", linestyle="--", linewidth=.9)
+    axis.text(5.55, 3.12, "No arm outcome exists before this boundary", ha="center", color="#8A3B32", fontsize=8)
+    axis.plot([4.28, 4.28], [.15, 3.0], color="#8A3B32", linestyle="--", linewidth=.9)
     figure.tight_layout(pad=.2)
-    figure.savefig(out, bbox_inches="tight")
+    figure.savefig(out, bbox_inches="tight", metadata={"CreationDate": None, "ModDate": None})
     plt.close(figure)
 
 
@@ -74,7 +74,7 @@ def draw_policy_effects(report: dict, out: Path) -> None:
     axis.set_axisbelow(True)
     axis.text(.99, .04, "thick: task bootstrap   thin: floorplan bootstrap", transform=axis.transAxes, ha="right", color="#59616B", fontsize=7.5)
     figure.tight_layout(pad=.5)
-    figure.savefig(out, bbox_inches="tight")
+    figure.savefig(out, bbox_inches="tight", metadata={"CreationDate": None, "ModDate": None})
     plt.close(figure)
 
 
@@ -94,5 +94,5 @@ def draw_group_results(report: dict, out: Path) -> None:
         axis.set_axisbelow(True)
     axes[0].set_ylabel("Same-draw optimism (pp)")
     figure.tight_layout(pad=.6, w_pad=1.0)
-    figure.savefig(out, bbox_inches="tight")
+    figure.savefig(out, bbox_inches="tight", metadata={"CreationDate": None, "ModDate": None})
     plt.close(figure)

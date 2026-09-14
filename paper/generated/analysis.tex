@@ -1,0 +1,12 @@
+The same-draw action maximum exceeds independent-draw evaluation by 15.36 percentage points over all ALFWorld tasks (task-bootstrap 95\% interval [12.50, 18.49]; floorplan-bootstrap [12.46, 18.30]; Holm-adjusted $p=<10^{-4}$). The gap is pathwise nonnegative, but its magnitude depends on how often stochastic branch outcomes disagree. It should not be read as an intervention gain or the regret of the learned controller.
+
+Figure~\ref{fig:groups} keeps the complete group distribution visible. Groups in the upper-left quadrant exhibit a positive selection/evaluation gap while direct intervention underperforms continuation. This is precisely the case in which a realized rescue can look compelling even though the deployable policy loses utility. Groups with zero gap are retained.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/group-results.pdf}
+\caption{Group-level measurement and policy effects. Each point is a complete floorplan or task-family group; area is proportional to its task count. Vertical position is same-draw optimism and horizontal position is Direct minus Continue. Dashed lines mark zero.}
+\label{fig:groups}
+\end{figure}
+
+ScienceWorld provides a prespecified boundary rather than a second opportunity to claim success. Its same-draw gap is 5.26 points ([1.69, 10.00] by task-family bootstrap), and Direct minus Continue is 0.00 points ([0.00, 0.00]). All 57 tasks, 25 families, six policies, costs, recoveries, and disruptions appear in Table~\ref{tab:scienceworld-contrasts} and the released result JSON. Differences in direction across environments narrow the empirical scope instead of motivating post hoc domain selection.

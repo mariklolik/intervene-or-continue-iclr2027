@@ -21,6 +21,14 @@ def test_anonymous_text_removes_local_identity_and_paths():
     assert not any(item in result for item in MODULE.BANNED)
 
 
+def test_sanitize_text_files_includes_runtime_logs(tmp_path):
+    path = tmp_path / "runtime" / "worker.log"
+    path.parent.mkdir()
+    path.write_text("/home/mekashirskiy/intervene-or-continue-iclr2027/logs")
+    MODULE.sanitize_text_files(tmp_path)
+    assert path.read_text() == "$PROJECT_ROOT/logs"
+
+
 def test_deterministic_zip_metadata(tmp_path):
     source = tmp_path / "source"
     source.mkdir()

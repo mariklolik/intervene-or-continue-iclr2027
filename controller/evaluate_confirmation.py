@@ -56,7 +56,8 @@ def cell_costs(rows: list[dict], field: str) -> np.ndarray:
     values = np.zeros((len(rows), 2, len(ARMS)))
     for row_index, row in enumerate(rows):
         for cell in row["cells"]:
-            values[row_index, cell["round"], ARMS.index(cell["arm"])] = sum(event.get(field, 0) or 0 for event in cell["local_call_events"])
+            events = cell["local_call_events"]
+            values[row_index, cell["round"], ARMS.index(cell["arm"])] = len(events) if field == "requests" else sum(event.get(field, 0) or 0 for event in events)
     return values
 
 

@@ -55,6 +55,9 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(costs.shape, (1, 2, 4))
         self.assertEqual(costs[0, 1, 2], 12)
         self.assertEqual(costs[0, 0, 0], 3)
+        requests = evaluate.cell_costs(rows, "requests")
+        self.assertEqual(requests[0, 1, 2], 2)
+        self.assertEqual(requests[0, 0, 0], 1)
 
 
 if __name__ == "__main__":

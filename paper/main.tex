@@ -3,7 +3,7 @@
 \input{math_commands.tex}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,booktabs,graphicx,microtype,multirow}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{url}
 \input{generated/numbers.tex}
 
@@ -151,7 +151,7 @@ The ALFWorld primary family contains three quantities: mean same-draw optimism $
 
 Uncertainty plots show 10,000-resample percentile intervals at two levels. The task bootstrap resamples task blocks. The grouped bootstrap resamples complete floorplan groups or ScienceWorld task families and retains all tasks in a sampled group. These intervals are descriptive and marginal; the sign-flip and Holm procedure is the primary decision rule. The evaluator also reports direct-versus-arm-outcome, direct-versus-best-fixed, the development-selected policy, intervention rate, action counts, recoveries, disruptions, requests, tokens, and client wall time. Every ScienceWorld comparison is retained regardless of sign.
 
-No task is removed for a poor outcome or long trajectory. Missing eligible cells block final analysis. One shard received a single administrative baseline resume after its original 1,000-second coordinator lease ended during an episode; its failed attempt remains in the usage ledger and the task identity, seed, code, and model were unchanged. The experiment stops when the frozen panel is complete. The combined reservation cap is 72,000 H100 GPU-seconds, including baseline generation, the resume, model startup, qualification, idle time, failed calls, and arm generation.
+No task is removed for a poor outcome or long trajectory. Missing eligible cells block final analysis. One shard received a single administrative baseline resume after its original 1,000-second coordinator lease ended during an episode; its failed attempt remains in the usage ledger and the task identity, seed, code, and model were unchanged. The experiment stops when the frozen panel is complete. An actual-or-reserved occupancy cap of 72,000 H100 GPU-seconds covers model startup, qualification, generation, idle time, failures, and resumes; closed leases return unused reservation headroom. The completed study charged 47,876.7 H100 GPU-seconds (13.30 H100-hours).
 
 \section{Results}
 \label{sec:results}

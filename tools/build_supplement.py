@@ -12,7 +12,7 @@ from pathlib import Path, PurePosixPath
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORIES = ["controller", "extension", "src", "configs", "models", "protocol", "tests", "raw", "runtime"]
 FILES = ["README.md", "SUBMISSION_CHECKLIST.md", "pyproject.toml", "uv.lock", "gpu_budget.jsonl"]
-TEXT_SUFFIXES = {".bib", ".bst", ".json", ".jsonl", ".lock", ".md", ".py", ".sty", ".tex", ".txt", ".toml"}
+TEXT_SUFFIXES = {".bib", ".bst", ".json", ".jsonl", ".lock", ".log", ".md", ".py", ".sty", ".tex", ".txt", ".toml"}
 BANNED = ["mekashirskiy", "mariklolik", "AlekseiSDev", "avi-gn-fsk", "/Users/", "/home/"]
 
 
