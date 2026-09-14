@@ -72,7 +72,8 @@ class PrefixTest(unittest.TestCase):
             self.assertIsNone(experiment.load_episode(path, common))
             self.assertEqual(json.loads(path.with_suffix(".attempt1.json").read_text()), saved)
             path.write_text(json.dumps(saved))
-            self.assertEqual(experiment.load_episode(path, common), saved["episode"])
+            self.assertIsNone(experiment.load_episode(path, common))
+            self.assertEqual(json.loads(path.with_suffix(".attempt2.json").read_text()), saved)
 
     def test_prefix_has_no_future_and_rollback_injects_at_restored_step(self):
         self.assertIsNotNone(importlib.util.find_spec("experiment"))

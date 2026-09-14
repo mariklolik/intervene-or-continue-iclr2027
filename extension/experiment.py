@@ -62,8 +62,11 @@ def load_episode(path: Path, common: dict) -> dict | None:
     if any(saved.get(key) != value for key, value in common.items()):
         raise ValueError(f"Configuration mismatch in {path}")
     episode = saved["episode"]
-    archived = path.with_suffix(".attempt1.json")
-    if (episode.get("failure") or episode.get("suspended")) and not archived.exists():
+    if episode.get("failure") or episode.get("suspended"):
+        number = 1
+        while path.with_suffix(f".attempt{number}.json").exists():
+            number += 1
+        archived = path.with_suffix(f".attempt{number}.json")
         path.rename(archived)
         return None
     return episode
