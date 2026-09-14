@@ -27,7 +27,7 @@ def main() -> None:
     args = parser.parse_args()
     lease = json.loads(Path(args.lease).read_text())
     root = Path(lease["root"])
-    sys.path.insert(0, str(root))
+    sys.path[:0] = [str(root / "extension"), str(root)]
     from sampling_preflight import verify_sampling
     endpoint = f"http://127.0.0.1:{lease['port']}/v1"
     started = time.time()
