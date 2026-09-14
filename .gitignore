@@ -6,7 +6,8 @@ __pycache__/
 *.egg-info/
 raw/
 data/alfworld
-runtime/leases/
+runtime/
+gpu_budget.jsonl
 artifacts/reference-style/*.tar
 paper/*.aux
 paper/*.bbl
