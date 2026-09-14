@@ -147,7 +147,14 @@ uv sync --frozen
   --out artifacts/confirmation
 .venv/bin/python paper/build_assets.py
 cd paper
-python compile_latex.py main.tex --output-directory build
+mkdir -p build
+pdflatex -interaction=nonstopmode -halt-on-error \
+  -output-directory=build main.tex
+BIBINPUTS=.: BSTINPUTS=.: bibtex build/main
+pdflatex -interaction=nonstopmode -halt-on-error \
+  -output-directory=build main.tex
+pdflatex -interaction=nonstopmode -halt-on-error \
+  -output-directory=build main.tex
 cd ..
 python tools/verify_artifacts.py
 \end{verbatim}
