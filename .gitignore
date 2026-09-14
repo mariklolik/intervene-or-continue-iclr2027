@@ -3,6 +3,8 @@
 __pycache__/
 *.pyc
 raw/
+data/alfworld
+runtime/leases/
 paper/*.aux
 paper/*.bbl
 paper/*.blg
