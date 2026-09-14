@@ -4,6 +4,7 @@
 __pycache__/
 *.pyc
 *.egg-info/
+.coverage
 raw/
 data/alfworld
 runtime/
