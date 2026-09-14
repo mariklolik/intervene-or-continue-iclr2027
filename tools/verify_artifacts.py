@@ -30,12 +30,19 @@ def command_output(command: list[str]) -> str:
     return subprocess.run(command, check=True, capture_output=True, text=True).stdout
 
 
+def main_text_page(aux: str) -> int:
+    match = re.search(r"\\newlabel\{main-end\}\{\{[^}]*\}\{(\d+)\}", aux)
+    if not match:
+        raise ValueError("Main-text page label is missing")
+    return int(match.group(1))
+
+
 def verify_pdf(path: Path) -> dict:
     info = command_output(["pdfinfo", str(path)])
     pages = int(re.search(r"^Pages:\s+(\d+)$", info, re.MULTILINE).group(1))
     aux = (ROOT / "paper" / "build" / "main.aux").read_text()
-    match = re.search(r"\\newlabel\{main-end\}\{\{\}\{(\d+)\}", aux)
-    if not match or int(match.group(1)) > 9:
+    main_page = main_text_page(aux)
+    if main_page > 9:
         raise ValueError("Main text exceeds nine pages or page label is missing")
     fonts = command_output(["pdffonts", str(path)]).splitlines()[2:]
     if not fonts or any(row.split()[4] != "yes" for row in fonts if len(row.split()) > 5):
@@ -51,7 +58,7 @@ def verify_pdf(path: Path) -> dict:
     for value in BANNED:
         if value in text:
             raise ValueError(f"PDF contains identifying string: {value}")
-    return {"pages": pages, "main_end_page": int(match.group(1)), "fonts": len(fonts), "sha256": digest(path)}
+    return {"pages": pages, "main_end_page": main_page, "fonts": len(fonts), "sha256": digest(path)}
 
 
 def verify_supplement(path: Path) -> dict:
