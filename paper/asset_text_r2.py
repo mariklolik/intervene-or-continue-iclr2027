@@ -288,13 +288,15 @@ def noise_scaling(hot: list[dict], cold: list[dict], out: Path) -> None:
     shared = sorted({row["task_id"] for row in hot} & {row["task_id"] for row in cold})
     a = branch_statistics([row for row in hot if row["task_id"] in shared])
     b = branch_statistics([row for row in cold if row["task_id"] in shared])
-    direction = "raises" if a["gap"] > b["gap"] else "lowers"
+    same = (a["gap"] - b["gap"]) * (a["variance"] - b["variance"]) >= 0
+    verdict = ("moves with it" if same else "moves against it")
     text = (
         f"A temperature ablation runs the same checkpoint rule, menu, and draw count twice on {len(shared)} shared identity-disjoint ALFWorld tasks, "
-        "once with the actor's sampling temperature at the frozen 0.7 and once at 1.0. "
-        f"Raising it lowers continuation success from {pct(b['continue'])}\\% to {pct(a['continue'])}\\%, moves the mean per-task outcome variance from {b['variance']:.3f} to {a['variance']:.3f}, "
-        f"and {direction} the same-draw gap from {pct(b['gap'])} to {pct(a['gap'])} percentage points on the same tasks. "
-        "The diagnostic therefore follows the randomness of the continuation rather than a property of one benchmark, which is what the variance profile in the main text measures within a single panel. "
-        "This ablation is exploratory: it was generated after the confirmation panels and enters no confirmatory family.\n"
+        "once at the frozen sampling temperature of 0.7 and once at 1.0. It separates the diagnostic from the knob usually assumed to drive it. "
+        f"At 0.7 the mean per-task outcome variance is {b['variance']:.4f} and the same-draw gap is {pct(b['gap'])} percentage points; at 1.0 the variance is {a['variance']:.4f} and the gap is {pct(a['gap'])} points. "
+        f"Raising the temperature did not raise the variance on these tasks, and the gap {verdict}. "
+        "Temperature is therefore an indirect and non-monotone handle: what the diagnostic follows is the variance of the continuation outcome itself, which the profile in the main text measures directly within a single panel. "
+        "A domain whose tools or simulated users inject randomness of their own raises that variance and so raises the gap, which is the sense in which the estimates here are a lower reference for such settings. "
+        "This ablation is exploratory: its panel is small, it was generated after the confirmation panels, and it enters no confirmatory family.\n"
     )
     out.write_text(text)
