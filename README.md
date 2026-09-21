@@ -2,13 +2,17 @@
 
 This repository is the clean research and submission package for an independent evaluation of runtime intervention in stochastic language-model agents.
 
-The frozen study compares a direct signed-benefit forest with the existing arm-outcome forest under identical features, grouped folds, capacity, action menu, and development data. `CONTINUE` and the development-selected fixed arm remain explicit candidates. The primary confirmation uses new ALFWorld task identities; a separate untouched ScienceWorld variation panel tests the boundary without retuning.
+The repository holds two frozen confirmations. The first compares a direct signed-benefit forest with the existing arm-outcome forest under identical features, grouped folds, capacity, action menu, and development data, at a hash-assigned early checkpoint with four fixed repair messages; a separate untouched ScienceWorld panel tests the boundary without retuning. The second keeps the estimand, the protocol, and the learner family and changes two design variables that the first study's headroom reading identified as binding: the decision is taken at the first public failure signal rather than at a scheduled step, and the menu separates repair depth from repair content. It adds a cross-draw controller that chooses its action on one development draw and values it on another. `CONTINUE` and the development-best unconditional action remain explicit candidates throughout.
 
 The repository starts from the verified native/demo runtime and the `intervene_8gpuh` scientific contract. Historical source artifacts are copied rather than edited in place. Raw outcomes, frozen predictions, audits, aggregate results, the ICLR 2027 source, and the reviewer supplement are linked by content hashes.
 
 ## Result
 
 On the frozen 384-task ALFWorld confirmation, same-draw action selection overstates independent-draw value by 15.36 percentage points, with a floorplan-bootstrap 95% interval of [12.46, 18.30] and Holm-adjusted p < 0.0001. Direct signed-benefit prediction changes success by +1.56 points versus `CONTINUE` and -0.39 points versus the matched controller; neither contrast is significant after correction. The complete 57-task ScienceWorld boundary panel is retained.
+
+## Second study
+
+`protocol/PREREGISTRATION-R2.md` fixes the panels, the menu, the checkpoint rules, and the two-hypothesis family before generation. `configs/d2-event`, `configs/p2-event`, and `configs/p2-scheduled` are the frozen panels; the confirmation identities are shared by the two checkpoint rules, so the rule contrast is paired at the task level. `extension/arms.py` holds the shared action and checkpoint contract, `controller/cross_draw.py` the cross-draw learner, and `paper/build_assets_r2.py` the tables, figures, and prose generated from its result file.
 
 ## Reproduce
 
