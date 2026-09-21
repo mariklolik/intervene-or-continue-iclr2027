@@ -1,0 +1,302 @@
+{
+  "papers": [
+    {
+      "abstract_words": 148,
+      "double_column_figures": 0,
+      "double_column_tables": 0,
+      "figure_widths": [
+        "scale=0.3",
+        "scale=0.32"
+      ],
+      "figures": 3,
+      "main_source": "main.tex",
+      "main_text_words": 4242,
+      "paper": "1810.08272",
+      "sections": [
+        {
+          "title": "Introduction",
+          "words": 612
+        },
+        {
+          "title": "Related Work",
+          "words": 495
+        },
+        {
+          "title": "BabyAI Platform",
+          "words": 1567
+        },
+        {
+          "title": "Experiments",
+          "words": 1242
+        },
+        {
+          "title": "Conclusion \\& Future Work",
+          "words": 262
+        },
+        {
+          "title": "Acknowledgements",
+          "words": 64
+        }
+      ],
+      "tables": 5
+    },
+    {
+      "abstract_words": 179,
+      "double_column_figures": 1,
+      "double_column_tables": 0,
+      "figure_widths": [
+        "width=\\textwidth"
+      ],
+      "figures": 1,
+      "main_source": "main.tex",
+      "main_text_words": 4731,
+      "paper": "2010.03768",
+      "sections": [
+        {
+          "title": "Introduction",
+          "words": 695
+        },
+        {
+          "title": "Aligning  and",
+          "words": 706
+        },
+        {
+          "title": "Introducing : An Embodied Multi-task Agent",
+          "words": 825
+        },
+        {
+          "title": "Experiments",
+          "words": 1093
+        },
+        {
+          "title": "Ablations",
+          "words": 855
+        },
+        {
+          "title": "Related Work",
+          "words": 365
+        },
+        {
+          "title": "Conclusion",
+          "words": 157
+        },
+        {
+          "title": "Acknowledgments",
+          "words": 35
+        }
+      ],
+      "tables": 3
+    },
+    {
+      "abstract_words": 118,
+      "double_column_figures": 0,
+      "double_column_tables": 0,
+      "figure_widths": [
+        "width=0.24\\linewidth",
+        "width=0.25\\linewidth",
+        "width=0.295\\linewidth",
+        "width=0.33\\linewidth",
+        "width=0.35\\linewidth",
+        "width=0.36\\linewidth",
+        "width=0.48\\linewidth",
+        "width=0.53\\linewidth",
+        "width=\\linewidth"
+      ],
+      "figures": 6,
+      "main_source": "main.tex",
+      "main_text_words": 4222,
+      "paper": "2203.11171",
+      "sections": [
+        {
+          "title": "Introduction",
+          "words": 596
+        },
+        {
+          "title": "Self-Consistency over Diverse Reasoning Paths",
+          "words": 581
+        },
+        {
+          "title": "Experiments",
+          "words": 2139
+        },
+        {
+          "title": "Related work",
+          "words": 481
+        },
+        {
+          "title": "Conclusion and Discussion",
+          "words": 192
+        },
+        {
+          "title": "Reproducibility Statement",
+          "words": 125
+        },
+        {
+          "title": "Ethics Statement",
+          "words": 108
+        }
+      ],
+      "tables": 10
+    },
+    {
+      "abstract_words": 151,
+      "double_column_figures": 0,
+      "double_column_tables": 0,
+      "figure_widths": [
+        "width = \\textwidth"
+      ],
+      "figures": 1,
+      "main_source": "main.tex",
+      "main_text_words": 2849,
+      "paper": "2205.10625",
+      "sections": [
+        {
+          "title": "Introduction",
+          "words": 371
+        },
+        {
+          "title": "Least-to-Most Prompting",
+          "words": 334
+        },
+        {
+          "title": "Results",
+          "words": 1264
+        },
+        {
+          "title": "Related Work",
+          "words": 518
+        },
+        {
+          "title": "Limitations",
+          "words": 163
+        },
+        {
+          "title": "Conclusion and Discussion",
+          "words": 136
+        },
+        {
+          "title": "Acknowledgement",
+          "words": 63
+        }
+      ],
+      "tables": 12
+    },
+    {
+      "abstract_words": 197,
+      "double_column_figures": 0,
+      "double_column_tables": 0,
+      "figure_widths": [
+        "width=.76\\textwidth",
+        "width=\\textwidth"
+      ],
+      "figures": 2,
+      "main_source": "iclr2023 2_arXiv/iclr2023_conference.tex",
+      "main_text_words": 4779,
+      "paper": "2210.03629",
+      "sections": [
+        {
+          "title": "Introduction",
+          "words": 844
+        },
+        {
+          "title": ": Synergizing Reasoning + Acting",
+          "words": 645
+        },
+        {
+          "title": "Knowledge-Intensive Reasoning Tasks",
+          "words": 1413
+        },
+        {
+          "title": "Decision Making Tasks",
+          "words": 904
+        },
+        {
+          "title": "Related Work",
+          "words": 607
+        },
+        {
+          "title": "Conclusion",
+          "words": 366
+        }
+      ],
+      "tables": 3
+    }
+  ],
+  "perplexity_targeting_used": false,
+  "vocabulary": {
+    "leave_one_out_reference": {
+      "1810.08272": 0.8286,
+      "2010.03768": 0.7934,
+      "2203.11171": 0.8873,
+      "2205.10625": 0.8712,
+      "2210.03629": 0.8444
+    },
+    "our_tokens": 3734,
+    "our_types": 1084,
+    "outside_reference_types": [
+      "abandon",
+      "absent",
+      "action's",
+      "action-outcome",
+      "acute",
+      "adaptive",
+      "add",
+      "adds",
+      "adjusted",
+      "administrative",
+      "admitted",
+      "adverse",
+      "advisor",
+      "again",
+      "alongside",
+      "alphaxiv",
+      "apparent",
+      "appeared",
+      "appearing",
+      "appears",
+      "arbitrary",
+      "archive",
+      "arise",
+      "arises",
+      "arm",
+      "arm-outcome",
+      "arms",
+      "artifact",
+      "artifacts",
+      "assigned",
+      "assignments",
+      "assigns",
+      "attaining",
+      "balanced",
+      "benchmark's",
+      "bias",
+      "binary",
+      "binary-success",
+      "binding",
+      "bjarnason",
+      "bound",
+      "boundary",
+      "bounded",
+      "bounds",
+      "branch",
+      "branches",
+      "breaks",
+      "breiman",
+      "budget",
+      "builder",
+      "calling",
+      "cancel",
+      "cap",
+      "capacity",
+      "capped",
+      "carlo",
+      "carries",
+      "causal",
+      "ceiling",
+      "census"
+    ],
+    "reference_types": 3239,
+    "token_coverage": 0.7025,
+    "type_coverage": 0.5046
+  }
+}
