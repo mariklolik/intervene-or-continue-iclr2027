@@ -32,7 +32,7 @@ def draw_design(out: Path) -> None:
     boxes = [
         (0.15, 1.15, 1.7, 1.05, "Baseline actor\nshared prefix", "#E8EEF5"),
         (2.35, 1.15, 1.65, 1.05, "Freeze\nprefix policies", "#E4F2EE"),
-        (4.55, 1.15, 2.0, 1.05, "4 actions × 2\nindependent draws", "#FFF1D6"),
+        (4.55, 1.15, 2.0, 1.05, "Actions × 2\nindependent draws", "#FFF1D6"),
         (7.15, 1.85, 2.0, .9, "Prefix policy\nvalue", "#E4F2EE"),
         (7.15, .35, 2.0, .9, "Outcome-selected\ncross-draw value", "#FCE3E3"),
         (9.8, 1.15, 1.95, 1.05, "Report both;\nno outcome reuse", "#E8EEF5"),
@@ -94,5 +94,39 @@ def draw_group_results(report: dict, out: Path) -> None:
         axis.set_axisbelow(True)
     axes[0].set_ylabel("Same-draw optimism (pp)")
     figure.tight_layout(pad=.6, w_pad=1.0)
+    figure.savefig(out, bbox_inches="tight", metadata={"CreationDate": None, "ModDate": None})
+    plt.close(figure)
+
+
+def draw_headroom(reports: dict, out: Path) -> None:
+    panels = [(label, report["domains"]["alfworld"]) for label, report in reports.items()]
+    figure, axes = plt.subplots(1, 2, figsize=(7.0, 2.6))
+    labels = ["Continue", "Best fixed", "Cross-draw\noracle", "Same-draw\noracle"]
+    keys = ["continue_eligible", "best_fixed_eligible", "cross_draw_oracle_eligible", "same_draw_oracle_eligible"]
+    colors = ["#6C7785", "#167D8D", "#173F5F", "#C08A2E"]
+    width = .8 / max(len(panels), 1)
+    positions = np.arange(len(labels))
+    for index, (label, domain) in enumerate(panels):
+        values = [100 * domain["headroom"][key] for key in keys]
+        axes[0].bar(positions + index * width, values, width * .9, label=label, color=colors[index % len(colors)])
+    axes[0].set_xticks(positions + width * (len(panels) - 1) / 2, labels, fontsize=7.5)
+    axes[0].set_ylabel("Success on eligible prefixes (\%)")
+    axes[0].legend(frameon=False, fontsize=7.5)
+    axes[0].grid(axis="y", color="#E7E9EC", linewidth=.5)
+    axes[0].set_axisbelow(True)
+    for index, (label, domain) in enumerate(panels):
+        record = domain["same_draw_selection_optimism"]
+        floor = record["exchangeable_label_floor"]
+        axes[1].errorbar(100 * floor["mean"], index, xerr=[[100 * (floor["mean"] - floor["interval_95"][0])], [100 * (floor["interval_95"][1] - floor["mean"])]],
+                         fmt="s", color="#9AA3AE", markersize=5, capsize=2.5, label="Exchangeable-label floor" if index == 0 else None)
+        axes[1].plot(100 * floor["observed_eligible_mean"], index, "o", color="#8A3B32", markersize=5,
+                     label="Observed $G$" if index == 0 else None)
+    axes[1].set_yticks(range(len(panels)), [label for label, _ in panels], fontsize=7.5)
+    axes[1].set_xlabel("Same-draw optimism (pp)")
+    axes[1].set_ylim(-.6, len(panels) - .4)
+    axes[1].legend(frameon=False, fontsize=7.5, loc="lower right")
+    axes[1].grid(axis="x", color="#E7E9EC", linewidth=.5)
+    axes[1].set_axisbelow(True)
+    figure.tight_layout(pad=.5, w_pad=1.2)
     figure.savefig(out, bbox_inches="tight", metadata={"CreationDate": None, "ModDate": None})
     plt.close(figure)
