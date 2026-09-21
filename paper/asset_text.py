@@ -38,15 +38,15 @@ def command(name: str, value: str | int) -> str:
     return f"\\newcommand{{\\{name}}}{{{value}}}"
 
 
-def validate(report: dict) -> None:
-    if report.get("status") != "COMPLETE" or set(report.get("domains", {})) != {"alfworld", "scienceworld"}:
-        raise ValueError("Complete two-domain result required")
+def validate(report: dict, domains: set[str] | None = None, policies: set[str] | None = None, contrasts: set[str] | None = None) -> None:
+    if report.get("status") != "COMPLETE" or set(report.get("domains", {})) != (domains or {"alfworld", "scienceworld"}):
+        raise ValueError("Complete result for the declared domains required")
     if set(report.get("all_recorded_usage", {})) != {"requests", "input_tokens", "output_tokens", "wall_s", "failed_requests", "unknown_usage_requests"}:
         raise ValueError("Complete recorded-usage ledger required")
     for domain in report["domains"].values():
         if domain["planned_tasks"] != domain["eligible_tasks"] + domain["early_terminal_tasks"]:
             raise ValueError("Planned denominator mismatch")
-        if set(domain["policies"]) != set(POLICY_LABELS):
+        if set(domain["policies"]) != (policies or set(POLICY_LABELS)):
             raise ValueError("Unexpected policy set")
         required = {
             "DIRECT_ADVANTAGE_vs_CONTINUE",
@@ -55,7 +55,7 @@ def validate(report: dict) -> None:
             "DIRECT_ADVANTAGE_vs_BEST_FIXED",
             "SAFE_SELECTED_vs_CONTINUE",
         }
-        if set(domain["contrasts"]) != required:
+        if set(domain["contrasts"]) != (contrasts or required):
             raise ValueError("Unexpected contrast set")
         for result in [domain["same_draw_selection_optimism"], *domain["contrasts"].values()]:
             if result["n_tasks"] != domain["planned_tasks"] or len(result["raw_task_values"]) != domain["planned_tasks"]:
