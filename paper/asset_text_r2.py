@@ -129,7 +129,7 @@ The second is how much of the same-draw gap is mechanical. Within-task permutati
 \\begin{{figure}}[t]
 \\centering
 \\includegraphics[width=\\linewidth]{{figures/headroom.pdf}}
-\\caption{{What the action menu can reach, and how much same-draw optimism is mechanical. Left: success on eligible prefixes for continuation, the best fixed repair, and outcome-informed selectors scored across and within draws. Right: observed same-draw optimism against the within-task exchangeable-label reference.}}
+\\caption{{What the decision point and the action menu can reach, and how much same-draw optimism is mechanical. Left: success on eligible prefixes for continuation, the best fixed repair, and per-task selectors scored across and within draws, for the first study's scheduled panel and both rules of the second. Right: observed same-draw optimism against the within-task exchangeable-label reference.}}
 \\label{{fig:headroom}}
 \\end{{figure}}
 

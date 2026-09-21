@@ -35,7 +35,9 @@ def main() -> None:
     r2.write_appendix(reports, freezes, outputs[5])
     r2.write_conclusion(json.loads(args.first.read_text()), reports, outputs[6])
     setup_plotting()
-    draw_headroom({r2.RULE_LABELS[rule]: report for rule, report in reports.items()}, outputs[3])
+    panels = {"First study": json.loads(args.first.read_text())}
+    panels.update({r2.RULE_LABELS[rule]: report for rule, report in reports.items()})
+    draw_headroom(panels, outputs[3])
     manifest = {
         "inputs": {rule: digest(path) for rule, path in paths.items()},
         "builder_sha256": digest(Path(__file__)),

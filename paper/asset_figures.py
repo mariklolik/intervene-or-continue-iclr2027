@@ -108,7 +108,7 @@ def draw_headroom(reports: dict, out: Path) -> None:
     figure, axes = plt.subplots(1, 2, figsize=(7.0, 2.6))
     labels = ["Continue", "Best fixed", "Cross-draw\noracle", "Same-draw\noracle"]
     keys = ["continue_eligible", "best_fixed_eligible", "cross_draw_oracle_eligible", "same_draw_oracle_eligible"]
-    colors = ["#6C7785", "#167D8D", "#173F5F", "#C08A2E"]
+    colors = ["#C08A2E", "#167D8D", "#173F5F", "#6C7785"]
     width = .8 / max(len(panels), 1)
     positions = np.arange(len(labels))
     for index, (label, domain) in enumerate(panels):
@@ -128,8 +128,8 @@ def draw_headroom(reports: dict, out: Path) -> None:
                      label="Observed $G$" if index == 0 else None)
     axes[1].set_yticks(range(len(panels)), [label for label, _ in panels], fontsize=7.5)
     axes[1].set_xlabel("Same-draw optimism (pp)")
-    axes[1].set_ylim(-.6, len(panels) - .4)
-    axes[1].legend(frameon=False, fontsize=7.5, loc="lower right")
+    axes[1].set_ylim(-.9, len(panels) - .4)
+    axes[1].legend(frameon=False, fontsize=7.5, loc="lower center", ncol=2, bbox_to_anchor=(.5, -.02))
     axes[1].grid(axis="x", color="#E7E9EC", linewidth=.5)
     axes[1].set_axisbelow(True)
     figure.tight_layout(pad=.5, w_pad=1.2)
