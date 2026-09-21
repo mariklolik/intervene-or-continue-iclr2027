@@ -41,6 +41,7 @@ def main() -> None:
     parser.add_argument("--image", required=True)
     parser.add_argument("--context-length", type=int, default=16384)
     parser.add_argument("--cap-gpu-seconds", type=int, default=36000)
+    parser.add_argument("--mem-fraction", type=float, default=0.75)
     args = parser.parse_args()
     if args.seconds < 60:
         raise ValueError("Shutdown reserve requires at least 60 seconds")
@@ -48,7 +49,7 @@ def main() -> None:
     ledger = root / "gpu_budget.jsonl"
     reserve(ledger, args.name, args.seconds, 1, args.cap_gpu_seconds)
     started = time.time()
-    command = ["sudo", "-n", "docker", "run", "--rm", "--pull=never", "--name", args.name, "--gpus", f"device={args.gpu}", "--ipc=host", "--network=host", "-e", "HF_HUB_OFFLINE=1", "-e", "TRANSFORMERS_OFFLINE=1", "-v", "/home/mekashirskiy/.cache/huggingface/hub:/home/mekashirskiy/.cache/huggingface/hub:ro", "-v", f"{root}/extension:/experiment:ro", "--entrypoint", "python3", args.image, "/experiment/container_deadline.py", str(started + args.seconds - 15), "python3", "-m", "sglang.launch_server", "--model-path", args.model_path, "--served-model-name", args.model, "--host", "127.0.0.1", "--port", str(args.port), "--context-length", str(args.context_length), "--mem-fraction-static", "0.75", "--max-running-requests", "64", "--tp-size", "1", "--disable-cuda-graph", "--enable-deterministic-inference"]
+    command = ["sudo", "-n", "docker", "run", "--rm", "--pull=never", "--name", args.name, "--gpus", f"device={args.gpu}", "--ipc=host", "--network=host", "-e", "HF_HUB_OFFLINE=1", "-e", "TRANSFORMERS_OFFLINE=1", "-v", "/home/mekashirskiy/.cache/huggingface/hub:/home/mekashirskiy/.cache/huggingface/hub:ro", "-v", f"{root}/extension:/experiment:ro", "--entrypoint", "python3", args.image, "/experiment/container_deadline.py", str(started + args.seconds - 15), "python3", "-m", "sglang.launch_server", "--model-path", args.model_path, "--served-model-name", args.model, "--host", "127.0.0.1", "--port", str(args.port), "--context-length", str(args.context_length), "--mem-fraction-static", str(args.mem_fraction), "--max-running-requests", "64", "--tp-size", "1", "--disable-cuda-graph", "--enable-deterministic-inference"]
     log_path = root / "logs" / f"{args.name}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with log_path.open("w") as log:

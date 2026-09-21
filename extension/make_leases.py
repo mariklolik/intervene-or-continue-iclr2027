@@ -11,6 +11,7 @@ def main() -> None:
     parser.add_argument("--prefix", default="ioc27")
     parser.add_argument("--gpus", default="0,1,2,3,4,5,6,7")
     parser.add_argument("--raw", default="raw")
+    parser.add_argument("--mem-fraction", type=float, default=0.75)
     parser.add_argument("--seconds", type=int, required=True)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--cap-gpu-seconds", type=int, default=72000)
@@ -35,6 +36,7 @@ def main() -> None:
             "image": template["image"],
             "context_length": template["runtime_contract"]["context_length"],
             "cap_gpu_seconds": args.cap_gpu_seconds,
+            "mem_fraction": args.mem_fraction,
             "config": str(args.root / f"configs/{args.panel}/{stem}.json"),
             "out": str(args.root / f"{args.raw}/{stem}"),
             "workers": args.workers,

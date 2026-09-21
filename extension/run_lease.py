@@ -36,6 +36,7 @@ def main() -> None:
         command.extend(["--" + key.replace("_", "-"), str(lease[key])])
     command.extend(["--context-length", str(lease.get("context_length", 16384))])
     command.extend(["--cap-gpu-seconds", str(lease.get("cap_gpu_seconds", 36000))])
+    command.extend(["--mem-fraction", str(lease.get("mem_fraction", 0.75))])
     server = subprocess.Popen(command)
     experiment = None
     log_path = root / "logs" / f"{lease['name']}.episodes.log"
