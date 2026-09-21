@@ -1,10 +1,10 @@
 {
   "builder_sha256": "838611fd6e0b3d525750392c2bb00111a3e2629efede279bc5d7c75a08f52b39",
-  "figure_builder_sha256": "7e6df1a6c96772db483418a8f7c2a05b22e99de7676a071e2792446f5c1d822b",
+  "figure_builder_sha256": "dccdb55e0eaa1df1dddf46beedc910e2a8a10ecf650b37cef2e1770411929a29",
   "outputs": [
     {
       "path": "paper/generated/numbers.tex",
-      "sha256": "58565746cbbeddd18a7e30d71dc4c6ac10c8647a62908fbe49e96289ffd9b531"
+      "sha256": "24f23b767a2d64e45f682ee15e6c377b0dfcfd29aa9e3b73d345caaeea7a898e"
     },
     {
       "path": "paper/generated/abstract.tex",
@@ -12,7 +12,7 @@
     },
     {
       "path": "paper/generated/results.tex",
-      "sha256": "82fc877d4cb2eec53c587fb9b3be63a9fdfe6634fe21ada3b48cd3d6657e95f6"
+      "sha256": "c725f34a1e7e30fd93bd0d7981c16ad978e34669ec565aa5477591e4f5c7a1ff"
     },
     {
       "path": "paper/generated/analysis.tex",
@@ -47,6 +47,6 @@
       "sha256": "b6e02b9f0a3359263ad197a96192b91e2487ef107a252b50253db767536ecf41"
     }
   ],
-  "results_sha256": "d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d",
-  "text_builder_sha256": "9c98af43bedb46645abc7d042f5701d55db16132b9661b00d742a60f8305374b"
+  "results_sha256": "f10ee7cf00106313b2d66e34326e78f13f3e49b44f13774d955802599e1573e5",
+  "text_builder_sha256": "cbed5457bd2f1c9f97a2a9b68ac22cf84d7029f7cc145439d47b732f2a6f704b"
 }
