@@ -78,7 +78,7 @@ Figure~\ref{fig:design} shows the information boundary. Frozen policies use the 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/design.pdf}
-\caption{Repeated-branch confirmation. A baseline actor creates a checkpoint. Every eligible prefix is restored for four actions and two independently seeded draws. Prefix-only controller predictions are frozen before any of these arm outcomes. Outcome-informed action choice on draw 0 is scored on draw 1 and vice versa.}
+\caption{Repeated-branch confirmation. A baseline actor creates a checkpoint, at a hash-assigned step in the first confirmation and at the first public failure signal in the second. Every eligible prefix is restored for every action in the frozen menu and two independently seeded draws. Prefix-only controller predictions are frozen before any of these arm outcomes. Outcome-informed action choice on draw 0 is scored on draw 1 and vice versa.}
 \label{fig:design}
 \end{figure}
 
