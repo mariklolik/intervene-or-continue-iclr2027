@@ -91,7 +91,7 @@ The repeated arm-outcome learner fits a multi-output random forest \citep{breima
 \begin{equation}
 \bar Y_{ia}=\frac{Y_{ia}^{(0)}+Y_{ia}^{(1)}}{2},\qquad a\in\mathcal A.
 \end{equation}
-At prediction time it compares four estimated outcome means. The direct learner uses the same records but fits three outputs,
+At prediction time it compares the estimated outcome mean of every action. The direct learner uses the same records but fits three outputs,
 \begin{equation}
 \bar D_{ia}=\frac{1}{2}\sum_{r=0}^{1}\left(Y_{ia}^{(r)}-Y_{i0}^{(r)}\right)=\bar Y_{ia}-\bar Y_{i0},
 \qquad a\neq0.
@@ -100,7 +100,7 @@ Its continuation score is fixed at zero. Thus the two learners differ in the res
 
 Both learners receive public information available at the fork: environment identifier, checkpoint index, counts of invalid or inadmissible actions, reward and usage summaries, action repetition signals, recent observations and actions, and recent prefix text. Hidden state hashes and reversibility metadata are excluded. Numeric fields are vectorized directly. Recent text uses a 512-term TF--IDF vocabulary fitted within each training fold and at most 16 truncated-SVD components.
 
-Model selection uses four shuffled folds that keep every record of a task together, with seed 260908. Each candidate has 200 trees, minimum leaf size 5 or 10, and a continuation margin in $\{0,0.05,0.10\}$. Vocabulary and projection fitting occur inside each fold. Out-of-fold utility selects the configuration, and lower intervention rate breaks utility ties. The final forests are refit on all admitted development tasks. Source and target hashes, fold identities, feature schemas, library versions, and every candidate score are stored in the model manifests.
+Model selection uses four shuffled folds that keep every record of a task together, with seed 260908. Each candidate has 200 trees, minimum leaf size 5 or 10, and a continuation margin in $\{0.00,0.05,0.10\}$. Vocabulary and projection fitting occur inside each fold. Out-of-fold utility selects the configuration, and lower intervention rate breaks utility ties. The final forests are refit on all admitted development tasks. Source and target hashes, fold identities, feature schemas, library versions, and every candidate score are stored in the model manifests.
 
 \subsection{Cross-draw selection inside the controller}
 \label{sec:crossdraw}
@@ -112,18 +112,18 @@ A deployed controller also maximizes. It compares estimates $\widehat\Delta_a(x)
 S(x)=\tfrac12\!\left[\widehat\Delta^{(1)}_{\widehat a^{(0)}(x)}(x)+\widehat\Delta^{(0)}_{\widehat a^{(1)}(x)}(x)\right],
 \label{eq:crossdraw}
 \end{equation}
-and the controller intervenes only when the two draws agree on the arm and $S(x)$ exceeds the continuation margin. Equation~\ref{eq:crossdraw} is Equation~\ref{eq:gap} moved from the evaluator to the controller: the same symmetric construction, applied to estimates rather than outcomes, and the same requirement that the quantity used to choose never be the quantity used to value. Agreement is a stability requirement, not a confidence statement; it declines to act when the two draws disagree about which repair the prefix calls for.
+and the controller intervenes when $S(x)$ exceeds the continuation margin. One binary entry joins the shared grid: whether to additionally require $\widehat a^{(0)}(x)=\widehat a^{(1)}(x)$, which declines to act when the two draws disagree about which repair the prefix calls for. Both entries are chosen by development out-of-fold utility before any confirmation outcome. Equation~\ref{eq:crossdraw} is Equation~\ref{eq:gap} moved from the evaluator to the controller: the same symmetric construction, applied to estimates rather than outcomes, and the same requirement that the quantity used to choose never be the quantity used to value. Agreement is a stability requirement, not a confidence statement.
 
 Model selection faces the same problem once more, because the development grid is scored and then maximized on the same folds. We therefore report a nested out-of-fold utility that selects the leaf and margin inside each training fold and scores the resulting rule on the held-out fold, alongside the plain out-of-fold utility used by the frozen candidate rule.
 
 \subsection{Fallbacks and the comparator}
 
-The policy set contains five distinct decisions at confirmation time. \textsc{Continue} always chooses $a=0$. \textsc{Best fixed} chooses the development-best arm, which is replanning ($a=2$) in both environments. \textsc{Direct} uses the signed-benefit learner. \textsc{Arm outcome} uses the two-draw outcome forest and isolates response parameterization. \textsc{Matched comparator} is the strongest runnable member of the existing arm-outcome family by development out-of-fold utility. It is \textsc{Single-1}, an otherwise matched forest fitted to one predesignated outcome draw.
+\textsc{Continue} always chooses $a=0$ and \textsc{Best fixed} always chooses the development-best arm, which is replanning ($a=2$). \textsc{Direct} uses the signed-benefit learner and \textsc{Arm outcome} the two-draw outcome forest; this pair is the sample-matched target-parameterization contrast, because both fit the same two-draw rows. \textsc{Matched comparator} is instead the strongest runnable member of the existing arm-outcome family by development out-of-fold utility, which is \textsc{Single-1}, a forest fitted to one predesignated draw; comparing \textsc{Direct} against it therefore measures the target parameterization together with the draw count, and is reported as the strongest available benchmark rather than as the clean parameterization test. The second confirmation adds \textsc{Cross-draw} and two learners that instantiate the closest external objectives inside this interface: a comparison-only forest fitted to the sign of $Y_a-Y_0$, and a failure-risk detector that gates a fixed arm on predicted continuation failure.
 
 The operational candidate set is $\{\textsc{Continue},\textsc{Best fixed},\textsc{Direct},\textsc{Matched comparator}\}$. Its development-only selection uses the same utility and tie rule. The selected policy is reported as \textsc{Safe selected} even when it is a baseline or an existing learner. In both environments the frozen selection chose \textsc{Single-1}. Calling this rule safe means only that it can decline intervention and was selected without confirmation outcomes; it is not a safety guarantee.
 
 \begin{table}[t]
-\caption{Controlled comparison and frozen action menu}
+\caption{Controlled comparison and frozen action menu. Arms $a=0$ to $a=3$ are shared by both confirmations.}
 \label{tab:design}
 \centering
 \small
@@ -142,6 +142,7 @@ $a=0$ & \multicolumn{2}{l}{Continue with no injected message} \\
 $a=1$ & \multicolumn{2}{l}{Check goal, observation, and previous action} \\
 $a=2$ & \multicolumn{2}{l}{Construct and execute a fresh concise plan} \\
 $a=3$ & \multicolumn{2}{l}{Undo the previous action, then replan; matched decision budget} \\
+$a=4,5$ & \multicolumn{2}{l}{Second confirmation only: undo three decisions, then replan; relocate the goal} \\
 \bottomrule
 \end{tabular}
 \end{table}
