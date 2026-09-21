@@ -73,6 +73,17 @@ def optimism(y: np.ndarray) -> np.ndarray:
     return total / (replicas * (replicas - 1))
 
 
+def cross_draw_oracle(y: np.ndarray) -> np.ndarray:
+    replicas = y.shape[1]
+    rows = np.arange(len(y))
+    total = np.zeros(len(y))
+    for left in range(replicas):
+        for right in range(replicas):
+            if left != right:
+                total += y[rows, left, y[:, right].argmax(axis=1)]
+    return total / (replicas * (replicas - 1))
+
+
 def label_exchange_floor(y: np.ndarray, seed: int, draws: int = 20000) -> dict:
     if not len(y):
         return {"mean": None, "interval_95": None, "one_sided_p": None, "draws": draws}
@@ -208,6 +219,22 @@ def main() -> None:
         gap_groups = groups + [task_meta[(env, task_id)]["group_id"] for task_id in sorted(early_ids)]
         measurement = bootstrap(gap_values, gap_groups, 271014 + domain_index)
         measurement["exchangeable_label_floor"] = label_exchange_floor(y, 271014 + domain_index)
+        if len(y):
+            arm_means = y.mean(axis=(0, 1))
+            oracle = cross_draw_oracle(y)
+            report["domains"].setdefault(env, {})
+            headroom = {
+                "arm_means_eligible": arm_means.tolist(),
+                "continue_eligible": float(arm_means[0]),
+                "best_fixed_eligible": float(arm_means[1:].max()),
+                "best_fixed_arm": int(arm_means[1:].argmax()) + 1,
+                "cross_draw_oracle_eligible": float(oracle.mean()),
+                "oracle_minus_best_fixed": float(oracle.mean() - arm_means[1:].max()),
+                "same_draw_oracle_eligible": float(y.max(axis=2).mean()),
+                "definition": "Value of an outcome-informed selector that reads one complete independent draw of every arm and is scored on another; an honest reference for what any prefix-conditional policy can reach at this draw count",
+            }
+        else:
+            headroom = None
         if env == "alfworld":
             primary = [measurement, contrasts["DIRECT_ADVANTAGE_vs_CONTINUE"], contrasts["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]]
             for item, adjusted in zip(primary, holm([item["group_sign_flip_p"] for item in primary])):
@@ -232,6 +259,7 @@ def main() -> None:
             "policies": summaries,
             "contrasts": contrasts,
             "same_draw_selection_optimism": measurement,
+            "headroom": headroom,
             "selection": predictions["selection"][env],
             "group_results": group_rows,
         }
