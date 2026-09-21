@@ -257,7 +257,7 @@ Contrast & Mean & Task 95\\% & Group 95\\% & Group $p$ & Holm $p$ \\\\
 \\end{{table}}
 
 \\begin{{table}}[ht]
-\\caption{{All ScienceWorld contrasts, retained as unadjusted boundary analyses. Values are percentage points.}}
+\\caption{{All ScienceWorld contrasts, retained as unadjusted boundary analyses. Values are percentage points. Identical rows are not typesetting errors: on this panel the arm-outcome forest selected arm 2 on every eligible prefix and therefore coincides with \\textsc{{Best fixed}}, and development selection chose \\textsc{{Single-1}}, so \\textsc{{Safe selected}} coincides with \\textsc{{Matched}}.}}
 \\label{{tab:scienceworld-contrasts}}
 \\centering
 \\scriptsize
@@ -273,7 +273,7 @@ Contrast & Mean & Task 95\\% & Group 95\\% & Group $p$ & Holm $p$ \\\\
 ALFWorld same-draw optimism is {pct(alf['same_draw_selection_optimism']['mean'])} points with task-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'task_bootstrap_95')}, group-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'group_bootstrap_95')}, raw group sign-flip $p={p_value(alf['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$, and Holm-adjusted $p={p_value(alf['same_draw_selection_optimism']['holm_p_primary_family']).replace('$', '')}$. ScienceWorld optimism is {pct(sw['same_draw_selection_optimism']['mean'])} points with task-family-bootstrap interval {interval(sw['same_draw_selection_optimism'], 'group_bootstrap_95')} and unadjusted group sign-flip $p={p_value(sw['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$.
 
 \\begin{{table}}[ht]
-\\caption{{Mean selected-suffix cost per planned task. Structural early terminations have zero suffix cost.}}
+\\caption{{Mean selected-suffix cost per planned task. Structural early terminations have zero suffix cost. Policies that select the same action on every eligible prefix share a row by construction.}}
 \\label{{tab:costs}}
 \\centering
 \\small
