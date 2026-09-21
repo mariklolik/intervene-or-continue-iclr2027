@@ -256,7 +256,8 @@ def write_conclusion(first: dict, reports: dict, out: Path) -> None:
     fixed = claim(cb, f" and by {pct(cb['mean'])} points over the best unconditional repair",
                   f" and by {pct(cb['mean'])} points against the best unconditional repair")
     text = (
-        f"Independent continuation evaluation establishes a {pct(gap['mean'])}-point gap relative to same-draw maximization on the first frozen panel, "
+        "We introduced a repeated-branch protocol that separates the continuation used to choose a runtime repair from the continuation used to value it, and a reading of the same branches that says what a decision point and an action menu can reach before a controller is fitted. "
+        f"On the first frozen panel the protocol establishes a {pct(gap['mean'])}-point gap between same-draw maximization and independent-draw evaluation, "
         f"and a within-task exchangeable-label reference places {pct(floor['mean'])} points of it in continuation noise rather than in action advantage. "
         "The same draws read the design before any controller is fitted: where a complete independent draw of the menu cannot beat the best unconditional repair, no prefix-conditional rule will. "
         f"Moving the decision to the first public failure signal and separating repair depth from repair content lifts that reference to {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%, "
