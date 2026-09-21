@@ -104,7 +104,7 @@ def write_abstract(report: dict, out: Path) -> None:
         f"The confirmation covers {alf['planned_tasks']} identity-disjoint ALFWorld tasks ({alf['groups']} floorplan groups), with predictions frozen before arm outcomes. "
         f"{gap_claim}: the planned-task gap is {pct(gap['mean'])} percentage points "
         f"(group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}, Holm-adjusted $p={p_value(gap['holm_p_primary_family']).replace('$', '')}$). "
-        "Holding features, task-group folds, forest capacity, and action support fixed, direct signed-benefit prediction changes success by "
+        "Holding features, whole-task folds, forest capacity, and action support fixed, direct signed-benefit prediction changes success by "
         f"{pct(direct_continue['mean'])} points versus continuation and {pct(direct_matched['mean'])} points versus the strongest runnable matched controller. "
         "Neither controller contrast reaches significance before or after multiplicity correction. We retain the complete ScienceWorld boundary panel and adverse historical results, and make no cross-harness state-of-the-art claim. "
         "The resulting protocol turns an outcome-selected rescue into an auditable policy-value estimate."
