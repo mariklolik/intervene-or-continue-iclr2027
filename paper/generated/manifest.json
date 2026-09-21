@@ -1,6 +1,6 @@
 {
   "builder_sha256": "838611fd6e0b3d525750392c2bb00111a3e2629efede279bc5d7c75a08f52b39",
-  "figure_builder_sha256": "f0656ba2b83458c93e1220276c05eaf848b9bc4aaac1afabc6ca1c2870b51927",
+  "figure_builder_sha256": "7e6df1a6c96772db483418a8f7c2a05b22e99de7676a071e2792446f5c1d822b",
   "outputs": [
     {
       "path": "paper/generated/numbers.tex",
@@ -32,7 +32,7 @@
     },
     {
       "path": "paper/generated/analysis_floats.tex",
-      "sha256": "c37732d2bca3384a4531cf1b0d38d3eba9fd1b70dd5be1732668a69ffaf93d3a"
+      "sha256": "e930400d3675aa2f6da7b7f90730d2985500a9d43b23e00b688a96460722799f"
     },
     {
       "path": "paper/figures/design.pdf",
@@ -44,9 +44,9 @@
     },
     {
       "path": "paper/figures/group-results.pdf",
-      "sha256": "9f797c43b2b90f86d8a360b2ffe3238e83c1198bcc391f54b86c3aa66dd45ee4"
+      "sha256": "b6e02b9f0a3359263ad197a96192b91e2487ef107a252b50253db767536ecf41"
     }
   ],
   "results_sha256": "d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d",
-  "text_builder_sha256": "f6ecc8238d15977712e9055c21ab483d76c52506be5e5dbae361b5ec856cbaf8"
+  "text_builder_sha256": "2de1549450d7d65324308ca629771435fe6c27cd32c39fcad75a3a50bab2c405"
 }

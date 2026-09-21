@@ -88,7 +88,12 @@ def draw_group_results(report: dict, out: Path) -> None:
         axis.scatter(x, y, s=10 + sizes * 9, color="#167D8D", alpha=.65, edgecolor="white", linewidth=.35)
         axis.axvline(0, color="#666A70", linestyle="--", linewidth=.7)
         axis.axhline(0, color="#666A70", linestyle="--", linewidth=.7)
-        axis.set_title(f"{DOMAIN_LABELS[env]}: {len(rows)} groups")
+        title = f"{DOMAIN_LABELS[env]}: {len(rows)} groups"
+        if len(x) and np.allclose(x, 0):
+            axis.set_xlim(-1, 1)
+            axis.set_xticks([-1, 0, 1])
+            title += "; every group at 0.00"
+        axis.set_title(title)
         axis.set_xlabel("Direct − Continue (pp)")
         axis.grid(color="#E7E9EC", linewidth=.5)
         axis.set_axisbelow(True)

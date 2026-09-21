@@ -214,7 +214,7 @@ def write_analysis_floats(report: dict, out: Path) -> None:
     text = f"""\\begin{{figure}}[ht]
 \\centering
 \\includegraphics[width=\\linewidth]{{figures/group-results.pdf}}
-\\caption{{Group-level measurement and policy effects. Each point is a complete floorplan or task-family group; area is proportional to its task count. Vertical position is same-draw optimism and horizontal position is Direct minus Continue. Dashed lines mark zero.}}
+\\caption{{Group-level measurement and policy effects. Each point is a complete floorplan or task-family group; area is proportional to its task count. Vertical position is same-draw optimism and horizontal position is Direct minus Continue; a group in the upper left shows optimism from the outcome-informed selector while the deployable controller loses utility. Dashed lines mark zero.}}
 \\label{{fig:groups}}
 \\end{{figure}}
 
