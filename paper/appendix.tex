@@ -1,7 +1,7 @@
 \section{Derivation of the repeated-branch diagnostic}
 \label{app:proof}
 
-For a fixed task, write $m^{(r)}=\max_aY_a^{(r)}$ and $\widehat a^{(r)}=\arg\max_aY_a^{(r)}$, with a fixed continuation-first order for ties. For either draw,
+For a fixed task, write $m^{(r)}=\max_aY_a^{(r)}$ and $\widehat a^{(r)}=\arg\max_aY_a^{(r)}$, breaking ties by the lowest action index. Because $a=0$ carries the lowest index, continuation wins every tie in which it attains the maximum, and the lowest-indexed successful intervention wins otherwise. This convention fixes the realized value of $G$ in the binary-outcome case, where ties are common. For either draw,
 \begin{equation}
 m^{(0)}-Y_{\widehat a^{(1)}}^{(0)}\geq0,
 \qquad
@@ -9,7 +9,7 @@ m^{(1)}-Y_{\widehat a^{(0)}}^{(1)}\geq0,
 \end{equation}
 because the selected action from the other draw remains an element of the maximization set. Their mean is $G$, so $G\geq0$ pathwise. The result is unchanged by ties because any deterministic tie choice indexes an available action.
 
-Now condition on the shared prefix $X=x$. If the two action-outcome vectors are exchangeable and independent draws from the same conditional continuation distribution, then
+Now condition on the shared prefix $X=x$. Let the two action-outcome vectors be independent and identically distributed given $X=x$; independence is what allows the cross-draw term to factor, and identical distribution is what makes the two orderings interchangeable. Then
 \begin{align}
 \mathbb E[G\mid x]
 &=\mathbb E[m^{(0)}\mid x]
@@ -18,6 +18,8 @@ Now condition on the shared prefix $X=x$. If the two action-outcome vectors are 
 -\mathbb E\!\left[\mu_{\widehat a(Y')} (x)\mid x\right],
 \end{align}
 where $Y'$ is an independent action-outcome vector and $\widehat a(Y')$ is the action selected from it. The first term is a realized maximum. The second is the value of the outcome-informed selection rule on a fresh continuation. It is not the value of any prefix-only deployable controller. If all actions share the same success probability but outcomes fluctuate, the difference may still be positive; $G$ therefore identifies evaluation optimism rather than a causal intervention effect.
+
+Two consequences follow for inference. First, a sign-flip permutation null is degenerate for $G$: non-negativity makes every group sum non-negative, the observed statistic is the algebraic maximum over sign vectors, and rejection only excludes deterministic continuations. We therefore report $G$ as an estimate with bootstrap intervals and exclude it from the tested family. Second, the mechanical part of $G$ can be quantified directly. Permuting the recorded outcomes within a task across all action and draw cells holds the number of successes fixed, preserves the continuation noise level, and destroys any action structure. The mean of $G$ under this within-task permutation is the noise floor that a homogeneous menu would produce, and the observed $G$ is read against it. With $R>2$ draws we average $G$ over ordered draw pairs, which reduces to Equation~\ref{eq:gap} at $R=2$.
 
 \section{Action and information contracts}
 \label{app:actions}
@@ -34,17 +36,17 @@ Arm & Name & Operation \\
 0 & \textsc{Continue} & Restore the checkpoint and append no message. \\
 1 & \textsc{Warning} & ``Re-check the goal, the latest observation, and your previous action. Continue only after correcting any inconsistency you notice.'' \\
 2 & \textsc{Replan} & ``Construct a fresh, concise plan from the current goal and observable state. Then execute that plan.'' \\
-3 & \textsc{Rollback--replan} & Restore environment and dialogue to before the latest reversible action, append ``The previous attempted action has been reverted. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan,'' and reduce the suffix budget by one decision. \\
+3 & \textsc{Rollback--replan} & Restore the serialized environment and dialogue state at step $t-1$, append ``The previous attempted action has been reverted. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan,'' and set the suffix limit to $L-1$. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Every arm receives the same task instruction, public action history, public observations, actor weights, decoding parameters, and total decision budget. The controller receives only fields computed from the prefix. Environment state hashes, future observations, suffix outcomes, rollback metadata, and task-selection provenance are excluded. Arm 3 changes the simulator state by exactly the most recent reversible action and has no special access to a future legal-action sequence. The intervention decision occurs once per episode.
+Every arm receives the same task instruction, public action history, public observations, actor weights, decoding parameters, and total decision budget. An arm that reverts $k$ decisions restores the serialized snapshot at step $t-k$ unconditionally, regardless of domain-level physical reversibility, and receives suffix limit $L-k$ for an episode limit $L$; the actor therefore makes exactly $L$ decisions on every arm and $L-k$ environment actions remain in the episode. The controller receives only fields computed from the prefix. Environment state hashes, future observations, suffix outcomes, rollback metadata, and task-selection provenance are excluded. Arm 3 has no special access to a future legal-action sequence. The intervention decision occurs once per episode.
 
 \section{Controller construction and development selection}
 \label{app:controller}
 
-The 50 numeric features are action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. The text field concatenates the recent public observations and actions. Word TF--IDF uses at most 512 terms; the fitted development vocabulary is reduced to at most 16 components. All text fitting occurs inside each task-group fold during development selection. The final transform is refit on all admitted development tasks only.
+The 50 numeric features are action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. Environment and checkpoint identity enter through the stratum: a separate forest is fitted for each actor and environment, and the checkpoint index is one of the 50 numeric fields. No categorical task identifier is encoded. The text field concatenates the recent public observations and actions. Word TF--IDF uses a vocabulary of at most 512 terms, and the resulting representation is reduced to at most 16 truncated-SVD components. All text fitting occurs inside each task-group fold during development selection. The final transform is refit on all admitted development tasks only.
 
 \begin{table}[ht]
 \caption{Development-only policy selection. Utilities average the two saved continuation draws within each complete task row. The strongest matched comparator and the operational selection were fixed before confirmation outcomes.}
@@ -70,7 +72,7 @@ Environment & Candidate & OOF utility (\%) & Intervention rate (\%) \\
 \end{tabular}
 \end{table}
 
-The repeated arm-outcome control, \textsc{Repeated}, predicts all four outcomes after fitting to the mean of two draws. \textsc{Single-1} uses the same action-outcome formulation but fits to one predesignated draw; it was the strongest runnable development comparator. \textsc{Direct} predicts three outcomes relative to continuation. Both target-parameterization learners share the same feature builder, task-group folds, 200-tree random-forest class, minimum-leaf grid $\{5,10\}$, continuation-margin grid $\{0,.05,.10\}$, and task rows. A candidate must exceed the continuation margin to intervene; otherwise it chooses arm 0. Utility ties favor the lower firing rate and then the prespecified candidate order.
+The repeated arm-outcome control, \textsc{Repeated}, predicts all four outcomes after fitting to the mean of two draws. \textsc{Single-1} uses the same action-outcome formulation but fits to one predesignated draw; it was the strongest runnable development comparator. \textsc{Direct} predicts three outcomes relative to continuation. Both target-parameterization learners share the same feature builder, task-group folds, 200-tree random-forest class, minimum-leaf grid $\{5,10\}$, continuation-margin grid $\{0.00,0.05,0.10\}$, and task rows. A candidate must exceed the continuation margin to intervene; otherwise it chooses arm 0. Utility ties favor the lower firing rate and then the prespecified candidate order.
 
 \section{Panel construction and lineage}
 \label{app:lineage}
@@ -118,9 +120,9 @@ Recoveries count draw-level cases in which continuation fails and the policy suc
 
 Earlier work motivated the new confirmation but does not enter its multiplicity family. On a 134-game official unseen ALFWorld panel with a different actor interface, the prior repeated-branch learner reached 68.16\% against 69.40\% for continuation, a difference of $-1.24$ percentage points with task-bootstrap interval $[-4.98,2.24]$ and $p=0.5946$. Same-arm mismatches ranged from 8.25\% to 12.06\%, and the same-draw sample oracle exceeded a fresh-replica evaluation by 7.94 points. A four-stratum retrospective direct-benefit reanalysis averaged 30.14\%, compared with 32.62\% for continuation and 28.92\% for the repeated-outcome policy. These records motivated independent continuation evaluation and the direct target comparison; they do not confirm either new hypothesis.
 
-The native-interface follow-up and its demonstration ablation are reported only as actor-side exploratory analyses. Changing thinking mode, output cap, and demonstration use together produced 80.60\% versus 70.90\% in one paired 134-task draw. A later conditional ablation held thinking and cap fixed: including two released demonstrations produced 116/134 successes (86.57\%) versus 107/134 (79.85\%), a $+6.72$-point estimate with task-bootstrap interval $[-0.75,14.18]$ and two-sided sign-flip $p=0.1087$. Excluding one scene reversed the latter estimate to $-3.51$ points. Neither result is pooled with confirmation, establishes a controller effect, or supports a state-of-the-art claim.
+The native-interface follow-up and its demonstration ablation are reported only as actor-side exploratory analyses. Changing thinking mode, output cap, and demonstration use together produced 80.60\% versus 70.90\% in one paired 134-task draw. A later conditional ablation held thinking and cap fixed: including two released demonstrations produced 116/134 successes (86.57\%) versus 107/134 (79.85\%), a $+6.72$ percentage-point estimate with task-bootstrap interval $[-0.75,14.18]$ and two-sided sign-flip $p=0.1087$. Excluding one scene reversed the latter estimate to $-3.51$ points. Neither result is pooled with confirmation, establishes a controller effect, or supports a state-of-the-art claim.
 
-A separate 27B experiment is retained as a systems result. On its internal reserved panel, the plain 27B actor scored 131/160 (81.88\%) against 76/160 (47.50\%) for an 8B self-check system; the paired difference was $+34.38$ points with a prespecified 97.5\% cluster-$t$ interval $[24.20,44.55]$. The systems differ in model, policy, filtering, and decoder stream, and 49 of 64 confirmation floorplans had appeared in historical tasks. On the historically exposed 134-task public ALFWorld frame, the plain and self-check 27B systems both scored 108/134. These results establish neither an isolated parameter-count effect nor a controller advance and are not pooled with confirmation. CAMELS-CIS is outside this paper. The released evidence index preserves those boundaries rather than using favorable actor or domain subsets to replace the frozen confirmation.
+A separate 27B experiment is retained as a systems result. On its internal reserved panel, the plain 27B actor scored 131/160 (81.88\%) against 76/160 (47.50\%) for an 8B self-check system; the paired difference was $+34.38$ percentage points with a prespecified two-sided 97.5\% cluster-$t$ interval $[24.20,44.55]$, whose lower limit is the one-sided 98.75\% bound recorded for that systems check; every other interval in this paper is reported at 95\%. The systems differ in model, policy, filtering, and decoder stream, and 49 of 64 confirmation floorplans had appeared in historical tasks. On the historically exposed 134-task public ALFWorld frame, the plain and self-check 27B systems both scored 108/134. These results establish neither an isolated parameter-count effect nor a controller advance and are not pooled with confirmation. A separate internal retrieval study on an unrelated corpus is outside this paper. The released evidence index preserves those boundaries rather than using favorable actor or domain subsets to replace the frozen confirmation.
 
 \section{Reproduction}
 \label{app:repro}
@@ -157,7 +159,7 @@ pdflatex -interaction=nonstopmode -halt-on-error \
 pdflatex -interaction=nonstopmode -halt-on-error \
   -output-directory=build main.tex
 cd ..
-python tools/verify_artifacts.py --supplement \
+.venv/bin/python tools/verify_artifacts.py --supplement \
   ../intervene-or-continue-iclr2027-supplement.zip
 \end{verbatim}
 
