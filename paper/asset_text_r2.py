@@ -17,6 +17,16 @@ POLICY_LABELS = {
     "SAFE_SELECTED": "Safe selected",
 }
 RULE_LABELS = {"event": "Event-triggered", "scheduled": "Scheduled"}
+ARM_LABELS = ["continuation", "the warning", "replanning", "the one-step rollback", "the three-step rollback", "the relocation message"]
+
+
+def arm_sentence(head: dict) -> str:
+    means = head["arm_means_eligible"]
+    parts = [f"{ARM_LABELS[index]} {pct(means[index] - means[0])}" for index in range(1, len(means))]
+    order = sorted(range(1, len(means)), key=lambda index: means[index])
+    worst, best = ARM_LABELS[order[0]], ARM_LABELS[order[-1]]
+    return ("Relative to continuation the arm means are " + ", ".join(parts)
+            + f" percentage points, so the menu is not interchangeable: {worst} is the costliest arm on average and {best} the least costly")
 
 
 def domain(report: dict) -> dict:
@@ -122,7 +132,7 @@ def write_analysis(reports: dict, out: Path) -> None:
     head, shead = event["headroom"], scheduled["headroom"]
     gap, sgap = event["same_draw_selection_optimism"], scheduled["same_draw_selection_optimism"]
     floor, sfloor = gap["exchangeable_label_floor"], sgap["exchangeable_label_floor"]
-    text = f"""Two readings connect the two confirmations, and both come from the same repeated branches rather than from a new experiment. The first is what the menu can reach. A per-task selector given one complete independent draw of every arm, scored on the other draw, reaches {pct(head['cross_draw_oracle_eligible'])}\\% on triggered prefixes against {pct(head['best_fixed_eligible'])}\\% for the best fixed repair, a margin of {pct(head['oracle_minus_best_fixed'])} points; under the scheduled rule the same quantities are {pct(shead['cross_draw_oracle_eligible'])}\\% and {pct(shead['best_fixed_eligible'])}\\%, a margin of {pct(shead['oracle_minus_best_fixed'])} points. A trigger exists on {event['eligible_tasks']}/{event['planned_tasks']} tasks, against {scheduled['eligible_tasks']}/{scheduled['planned_tasks']} that reach the scheduled checkpoint on the same identities, so the event rule does not open its room by offering more chances to act. Conditioning the decision on a public failure signal is what opens prefix-level room for a controller; a larger learner at the earlier decision point does not.
+    text = f"""Two readings connect the two confirmations, and both come from the same repeated branches rather than from a new experiment. The first is what the menu can reach. A per-task selector given one complete independent draw of every arm, scored on the other draw, reaches {pct(head['cross_draw_oracle_eligible'])}\\% on triggered prefixes against {pct(head['best_fixed_eligible'])}\\% for the best fixed repair, a margin of {pct(head['oracle_minus_best_fixed'])} points; under the scheduled rule the same quantities are {pct(shead['cross_draw_oracle_eligible'])}\\% and {pct(shead['best_fixed_eligible'])}\\%, a margin of {pct(shead['oracle_minus_best_fixed'])} points. A trigger exists on {event['eligible_tasks']}/{event['planned_tasks']} tasks, against {scheduled['eligible_tasks']}/{scheduled['planned_tasks']} that reach the scheduled checkpoint on the same identities, so the event rule does not open its room by offering more chances to act. {arm_sentence(head)}. An average cost is not a verdict on any prefix, which is the distinction a controller is asked to make. Conditioning the decision on a public failure signal is what opens prefix-level room for a controller; a larger learner at the earlier decision point does not.
 
 The second is how much of the same-draw gap is mechanical. Within-task permutation of the recorded action and draw labels fixes the continuation noise level and removes any action structure. Under the event rule the observed gap is {pct(gap['mean'])} points over planned tasks and {pct(floor['observed_eligible_mean'])} points over eligible prefixes, against an exchangeable-label floor of {pct(floor['mean'])} points ({interval(floor, 'interval_95')}). Under the scheduled rule the observed gap is {pct(sgap['mean'])} points against a floor of {pct(sfloor['mean'])} points ({interval(sfloor, 'interval_95')}). The gap tracks continuation noise, which is why it is reported as an estimate rather than tested.
 
