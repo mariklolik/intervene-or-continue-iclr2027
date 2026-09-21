@@ -10,6 +10,8 @@ from direct_advantage import ROW_KEYS, forest, signed_targets
 from policies import Features, LEAVES, MARGINS, SEED, digest, task_folds
 
 DRAWS = (0, 1)
+CANDIDATE_SETS = ('all', 'evidence')
+EVIDENCE_WIDTH = 2
 
 
 def draw_targets(outcomes):
@@ -18,7 +20,14 @@ def draw_targets(outcomes):
     return y[:, :, 1:] - y[:, :, :1]
 
 
-def choose(per_draw, margin, agreement=True):
+def admissible(targets):
+    ranked = np.argsort(-np.asarray(targets).mean(axis=(0, 1)))
+    return sorted(int(index) for index in ranked[:EVIDENCE_WIDTH])
+
+
+def choose(per_draw, margin, agreement=True, allowed=None):
+    if allowed is not None:
+        per_draw = np.where(np.asarray(allowed)[:, None, :], per_draw, -np.inf)
     selected = per_draw.argmax(axis=2)
     rows = np.arange(len(selected))
     crossed = np.stack([per_draw[rows, 1 - draw, selected[:, draw]] for draw in DRAWS], axis=1)
@@ -31,30 +40,33 @@ def choose(per_draw, margin, agreement=True):
 
 def fold_predictions(rows, targets, leaf, splits):
     predicted = np.zeros((len(rows), len(DRAWS), targets.shape[2]))
+    evidence = np.zeros((len(rows), targets.shape[2]), dtype=bool)
     for train, valid in splits:
         transform = Features(text=True).fit([rows[i] for i in train])
         train_x = transform.transform([rows[i] for i in train])
         valid_x = transform.transform([rows[i] for i in valid])
         for draw in DRAWS:
             predicted[valid, draw] = forest(train_x, targets[train, draw], leaf).predict(valid_x)
-    return predicted
+        evidence[np.ix_(valid, admissible(targets[train]))] = True
+    return predicted, evidence
 
 
 def grid_scores(rows, targets, utility, splits):
     scored = []
     for leaf in LEAVES:
-        predicted = fold_predictions(rows, targets, leaf, splits)
+        predicted, evidence = fold_predictions(rows, targets, leaf, splits)
         for margin in MARGINS:
             for agreement in (True, False):
-                p = choose(predicted, margin, agreement)
-                scored.append({'leaf': leaf, 'threshold': margin, 'agreement': agreement,
-                               'oof_utility': float((p * utility).sum(axis=1).mean()),
-                               'oof_firing_rate': float(1 - p[:, 0].mean())})
+                for candidates in CANDIDATE_SETS:
+                    p = choose(predicted, margin, agreement, None if candidates == 'all' else evidence)
+                    scored.append({'leaf': leaf, 'threshold': margin, 'agreement': agreement, 'candidates': candidates,
+                                   'oof_utility': float((p * utility).sum(axis=1).mean()),
+                                   'oof_firing_rate': float(1 - p[:, 0].mean())})
     return scored
 
 
 def select_candidate(candidates):
-    return max(candidates, key=lambda c: (round(c['oof_utility'], 12), -c['oof_firing_rate'], c['agreement'], c['leaf'], c['threshold']))
+    return max(candidates, key=lambda c: (round(c['oof_utility'], 12), -c['oof_firing_rate'], c['candidates'] == 'all', c['agreement'], c['leaf'], c['threshold']))
 
 
 def fit_stratum(rows):
@@ -73,7 +85,8 @@ def fit_stratum(rows):
     transform = Features(text=True).fit(rows)
     matrix = transform.transform(rows)
     models = [forest(matrix, targets[:, draw], selected['leaf']) for draw in DRAWS]
-    fitted = {'forests': models, 'transform': transform, 'contrasts': list(range(1, y.shape[2])), **selected}
+    fitted = {'forests': models, 'transform': transform, 'contrasts': list(range(1, y.shape[2])),
+              'admissible': admissible(targets), **selected}
     receipt = {'candidates': candidates, 'selected': selected, 'nested_selection': nested,
                'nested_honest_utility': float(np.mean([row['oof_utility'] for row in nested])),
                'target_sha256': digest(targets.tolist()), 'feature_schema': transform.schema()}
@@ -120,6 +133,10 @@ def predict(bundle, rows):
         matrix = model['transform'].transform([safe[i] for i in indices])
         for draw in DRAWS:
             estimates[indices, draw] = model['forests'][draw].predict(matrix)
-        p[indices] = choose(estimates[indices], model['threshold'], model['agreement'])
+        allowed = None
+        if model['candidates'] != 'all':
+            allowed = np.zeros((len(indices), width), dtype=bool)
+            allowed[:, model['admissible']] = True
+        p[indices] = choose(estimates[indices], model['threshold'], model['agreement'], allowed)
     return {'rows': [{k: r[k] for k in ROW_KEYS} for r in safe], 'probabilities': p.tolist(),
             'predicted_draw_advantages': estimates.tolist(), 'training_data_sha256': bundle['training_data_sha256']}
