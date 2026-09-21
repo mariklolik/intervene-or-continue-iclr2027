@@ -17,6 +17,7 @@ POLICY_LABELS = {
     "SAFE_SELECTED": "Safe selected",
 }
 RULE_LABELS = {"event": "Event-triggered", "scheduled": "Scheduled"}
+MENU_FALLBACK = "the first confirmation's four-message menu"
 ARM_LABELS = ["continuation", "the warning", "replanning", "the one-step rollback", "the three-step rollback", "the relocation message"]
 
 

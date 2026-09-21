@@ -13,18 +13,27 @@ from asset_text import digest, validate
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--event", type=Path, required=True)
-    parser.add_argument("--scheduled", type=Path, required=True)
+    parser.add_argument("--scheduled", type=Path)
     parser.add_argument("--first", type=Path, default=ROOT / "artifacts" / "confirmation" / "results.json")
     parser.add_argument("--temperature-hot", type=Path)
     parser.add_argument("--temperature-cold", type=Path)
     parser.add_argument("--out", type=Path, default=ROOT / "paper")
     args = parser.parse_args()
-    paths = {"event": args.event.resolve(), "scheduled": args.scheduled.resolve()}
+    paths = {"event": args.event.resolve()}
+    if args.scheduled and args.scheduled.exists():
+        paths["scheduled"] = args.scheduled.resolve()
+    else:
+        paths["scheduled"] = args.first.resolve()
     reports = {rule: json.loads(path.read_text()) for rule, path in paths.items()}
-    freezes = {rule: json.loads((path.parent.with_name(path.parent.name + "-freeze") / "prediction-freeze.json").read_text()) for rule, path in paths.items()}
+    freezes = {}
+    for rule, path in paths.items():
+        candidate = path.parent.with_name(path.parent.name + "-freeze") / "prediction-freeze.json"
+        if not candidate.exists():
+            candidate = ROOT / "artifacts" / "prediction-freeze" / "prediction-freeze.json"
+        freezes[rule] = json.loads(candidate.read_text())
     for report in reports.values():
         block = report["domains"]["alfworld"]
-        validate(report, domains={"alfworld"}, policies=set(block["policies"]), contrasts=set(block["contrasts"]))
+        validate(report, domains=set(report["domains"]), policies=set(block["policies"]), contrasts=set(block["contrasts"]))
     generated = args.out / "generated"
     figures = args.out / "figures"
     generated.mkdir(parents=True, exist_ok=True)
