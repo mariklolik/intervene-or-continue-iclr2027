@@ -28,6 +28,11 @@ def adjusted(record: dict) -> str:
     return p_value(value) if value is not None else "--"
 
 
+def probability(record: dict) -> str:
+    value = record.get("holm_p_primary_family")
+    return p_claim(value) if value is not None else p_claim(record["group_sign_flip_p"]) + r"\text{ (unadjusted)}"
+
+
 def claim(record: dict, positive: str, neutral: str) -> str:
     value = record.get("holm_p_primary_family")
     return positive if record["mean"] > 0 and value is not None and value < .05 else neutral
@@ -105,7 +110,7 @@ def write_results(reports: dict, out: Path) -> None:
     fixed = event["policies"]["BEST_FIXED"]
     verdict = claim(cc, "improves on continuation", "does not separate from continuation")
     fixed_verdict = claim(cb, "and on the best fixed repair", "while the fixed-repair comparison remains unresolved")
-    text = f"""On the event-triggered panel the denominator contains all {event['planned_tasks']} planned tasks: {event['eligible_tasks']} reached a triggered checkpoint and {event['early_terminal_tasks']} produced no trigger before termination. Cross-draw control reaches {pct(cross['planned_mean'])}\\% success against {pct(continue_policy['planned_mean'])}\\% for continuation and {pct(fixed['planned_mean'])}\\% for the best fixed repair. It therefore {verdict} by {pct(cc['mean'])} percentage points (floorplan-bootstrap 95\\% interval {interval(cc, 'group_bootstrap_95')}; group sign-flip ${p_claim(cc['group_sign_flip_p'])}$; Holm-adjusted ${p_claim(cc['holm_p_primary_family'])}$) {fixed_verdict} by {pct(cb['mean'])} points ({interval(cb, 'group_bootstrap_95')}; adjusted ${p_claim(cb['holm_p_primary_family'])}$).
+    text = f"""On the event-triggered panel the denominator contains all {event['planned_tasks']} planned tasks: {event['eligible_tasks']} reached a triggered checkpoint and {event['early_terminal_tasks']} produced no trigger before termination. Cross-draw control reaches {pct(cross['planned_mean'])}\\% success against {pct(continue_policy['planned_mean'])}\\% for continuation and {pct(fixed['planned_mean'])}\\% for the best fixed repair. It therefore {verdict} by {pct(cc['mean'])} percentage points (floorplan-bootstrap 95\\% interval {interval(cc, 'group_bootstrap_95')}; group sign-flip ${p_claim(cc['group_sign_flip_p'])}$; Holm-adjusted ${probability(cc)}$) {fixed_verdict} by {pct(cb['mean'])} points ({interval(cb, 'group_bootstrap_95')}; adjusted ${probability(cb)}$).
 
 Cross-draw control fires on {pct(cross['firing_rate_eligible'], 1)}\\% of triggered prefixes and records {cross['recovered_rounds']:.0f} draw-level recoveries against {cross['harmful_rounds']:.0f} disruptions, versus {fixed['recovered_rounds']:.0f} and {fixed['harmful_rounds']:.0f} for the unconditional repair. Table~\\ref{{tab:r2-policies}} reports every frozen policy under both checkpoint rules, including the comparison-only and failure-risk learners that instantiate the two closest external objectives inside this interface, and Table~\\ref{{tab:r2-contrasts}} the complete contrast census.
 """
