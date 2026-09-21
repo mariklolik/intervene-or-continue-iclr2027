@@ -31,7 +31,7 @@ The `p2-event` primary family has two hypotheses:
 1. cross-draw control improves utility relative to `CONTINUE`;
 2. cross-draw control improves utility relative to the development-best fixed arm.
 
-Two-sided group sign-flip probabilities are Holm-adjusted across the two hypotheses at familywise alpha 0.05. Same-draw optimism is reported as an estimation diagnostic with task and floorplan bootstrap intervals and a within-task exchangeable-label reference distribution; it is not a member of the tested family, because the diagnostic is pathwise non-negative and a sign-flip null is degenerate for it.
+Two-sided group sign-flip probabilities are Holm-adjusted across the two hypotheses at familywise alpha 0.05. The development-best fixed arm is the unconditional action with the highest development utility, continuation included. If that arm is continuation, the two hypotheses coincide and the confirmatory family reduces to the single test of cross-draw control against continuation. Same-draw optimism is reported as an estimation diagnostic with task and floorplan bootstrap intervals and a within-task exchangeable-label reference distribution; it is not a member of the tested family, because the diagnostic is pathwise non-negative and a sign-flip null is degenerate for it.
 
 `p2-scheduled`, the contrast between checkpoint rules, direct-versus-cross-draw, direct-versus-continue, arm counts, firing rates, recoveries, disruptions, and costs are secondary or descriptive.
 
