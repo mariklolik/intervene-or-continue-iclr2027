@@ -22,7 +22,8 @@ def digest(path: Path) -> str:
 
 
 def pct(value: float, digits: int = 2) -> str:
-    return f"{100 * value:.{digits}f}"
+    text = f"{100 * value:.{digits}f}"
+    return text.replace("-", "$-$", 1) if text.startswith("-") else text
 
 
 def p_value(value: float) -> str:
