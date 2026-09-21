@@ -1,6 +1,6 @@
 {
   "builder_sha256": "38fe192c1e3229aae8e4a6b9d3f39f9edc4cacd5200f19aa53a3524e7d393bf1",
-  "figure_builder_sha256": "2ffda37be649808a937f74c81865da68500419f31244194490895cd81b47070d",
+  "figure_builder_sha256": "f0656ba2b83458c93e1220276c05eaf848b9bc4aaac1afabc6ca1c2870b51927",
   "outputs": [
     {
       "path": "paper/generated/numbers.tex",
@@ -8,27 +8,27 @@
     },
     {
       "path": "paper/generated/abstract.tex",
-      "sha256": "71ba7416da80ef1c4caf1a72a9713447cf9098a283e58108c7e449ed0d6c9ac7"
+      "sha256": "28b98e2fd5a7c5c06fa01efa53ba0b4e2a83716dfb6838c7fd9473e215648dd1"
     },
     {
       "path": "paper/generated/results.tex",
-      "sha256": "374e8513b977cce9a37c17820d6e2d465cedcb6e6796896b4e7ac577b5e0a2ad"
+      "sha256": "c7ef58ebbb265110906f9a5741ecab1da26c9ce54df0b8630504646ebb18fc25"
     },
     {
       "path": "paper/generated/analysis.tex",
-      "sha256": "bee98fd7135f217c2c7f523ea45392903d38ac8effd55497b92f15472f2c49a3"
+      "sha256": "bffa337b315caa4a12df7859d86fcee8299e69359099a0b633a1c8ea896c7a6e"
     },
     {
       "path": "paper/generated/conclusion.tex",
-      "sha256": "9948114de5b02ce7c8565303704dc7709161e5fc8cca23d073823aec5eb8eea8"
+      "sha256": "844fd08f8ba8c72ee7ff67af02dd00af79bcfa0aa0695c5045bf04083d948765"
     },
     {
       "path": "paper/generated/appendix_results.tex",
-      "sha256": "b37975785b52adfc6297f2174c2774e5a7cb79839ba1b5b2d8360f3e60f0a0a1"
+      "sha256": "86d558854f3476f657e55dcd8aafda7ac1431673154e752d5bb19392de786112"
     },
     {
       "path": "paper/figures/design.pdf",
-      "sha256": "d49d00c927f8fd1e82ea63b701718077a32a4094bc9a427d39f772552573f935"
+      "sha256": "cd78193b2af0751bf646689a456708129c70f522336bd93580ded3dd20f7e26b"
     },
     {
       "path": "paper/figures/policy-effects.pdf",
@@ -40,5 +40,5 @@
     }
   ],
   "results_sha256": "d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d",
-  "text_builder_sha256": "d4bfa99929bb8a30eff0d8407a69dfd33afc579ba4fe955962fbfb56eeb66869"
+  "text_builder_sha256": "1ba4c3665aab03585d506eddb12dc6d7e2bc4a4cf3d6c9b017a9d578c84f23f7"
 }
