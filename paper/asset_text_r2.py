@@ -158,7 +158,16 @@ def write_abstract(first: dict, reports: dict, out: Path) -> None:
     out.write_text(text + "\n")
 
 
-def write_appendix(reports: dict, out: Path) -> None:
+def lineage_rows(freezes: dict) -> str:
+    rows = []
+    for rule, freeze in freezes.items():
+        rows.append(f"{RULE_LABELS[rule]} eligible prefixes & {freeze['eligible_prefixes']} \\\\")
+        rows.append(f"{RULE_LABELS[rule]} prefix digest & \\texttt{{{freeze['prefixes_sha256'][:8]}\\ldots{freeze['prefixes_sha256'][-6:]}}} \\\\")
+        rows.append(f"{RULE_LABELS[rule]} prediction digest & \\texttt{{{freeze['predictions_sha256'][:8]}\\ldots{freeze['predictions_sha256'][-6:]}}} \\\\")
+    return "\n".join(rows)
+
+
+def write_appendix(reports: dict, freezes: dict, out: Path) -> None:
     text = f"""\\begin{{table}}[ht]
 \\caption{{Complete policy census under both checkpoint rules. Success uses every planned task; firing is over eligible prefixes; recoveries and disruptions count draw-level comparisons with continuation.}}
 \\label{{tab:r2-policies}}
@@ -183,6 +192,20 @@ Rule & Policy & Success (\\%) & Fire (\\%) & Recover & Disrupt \\\\
 Contrast & Estimate (pp) & Task 95\\% & Group 95\\% & Raw $p$ & Adjusted $p$ \\\\
 \\midrule
 {contrast_table(reports['event'], CONTRAST_ORDER)}
+\\bottomrule
+\\end{{tabular}}
+\\end{{table}}
+
+\\begin{{table}}[ht]
+\\caption{{Pre-outcome lineage for the event-triggered study. Both checkpoint rules run the same 288 identities; predictions were frozen after baselines and before any arm outcome.}}
+\\label{{tab:r2-lineage}}
+\\centering
+\\small
+\\begin{{tabular}}{{@{{}}lp{{0.55\\linewidth}}@{{}}}}
+\\toprule
+Object & Frozen identifier \\\\
+\\midrule
+{lineage_rows(freezes)}
 \\bottomrule
 \\end{{tabular}}
 \\end{{table}}

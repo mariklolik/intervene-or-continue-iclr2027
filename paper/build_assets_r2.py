@@ -19,6 +19,7 @@ def main() -> None:
     args = parser.parse_args()
     paths = {"event": args.event.resolve(), "scheduled": args.scheduled.resolve()}
     reports = {rule: json.loads(path.read_text()) for rule, path in paths.items()}
+    freezes = {rule: json.loads((path.parent.with_name(path.parent.name + "-freeze") / "prediction-freeze.json").read_text()) for rule, path in paths.items()}
     for report in reports.values():
         block = report["domains"]["alfworld"]
         validate(report, domains={"alfworld"}, policies=set(block["policies"]), contrasts=set(block["contrasts"]))
@@ -31,7 +32,7 @@ def main() -> None:
     r2.write_results(reports, outputs[1])
     r2.write_analysis(reports, outputs[2])
     r2.write_abstract(json.loads(args.first.read_text()), reports, outputs[4])
-    r2.write_appendix(reports, outputs[5])
+    r2.write_appendix(reports, freezes, outputs[5])
     setup_plotting()
     draw_headroom({r2.RULE_LABELS[rule]: report for rule, report in reports.items()}, outputs[3])
     manifest = {
