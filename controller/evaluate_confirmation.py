@@ -84,6 +84,23 @@ def cross_draw_oracle(y: np.ndarray) -> np.ndarray:
     return total / (replicas * (replicas - 1))
 
 
+def variance_profile(y: np.ndarray, edges=(0.0, 1e-9, 0.15, 0.31)) -> dict:
+    if not len(y):
+        return {"bins": [], "correlation": None}
+    gap = optimism(y)
+    rate = y.reshape(len(y), -1).mean(axis=1)
+    spread = rate * (1 - rate)
+    bins = []
+    for low, high in zip(edges[:-1], edges[1:]):
+        mask = (spread >= low) & (spread < high) if high < edges[-1] else (spread >= low)
+        if mask.sum():
+            bins.append({"lower": float(low), "upper": float(high), "n_tasks": int(mask.sum()),
+                         "mean_success": float(rate[mask].mean()), "mean_optimism": float(gap[mask].mean())})
+    return {"bins": bins, "correlation": float(np.corrcoef(spread, gap)[0, 1]),
+            "zero_variance_tasks": int((spread <= 1e-9).sum()),
+            "definition": "Tasks binned by the variance of a Bernoulli with their pooled arm-by-draw success rate; the diagnostic is a function of that variance"}
+
+
 def label_exchange_floor(y: np.ndarray, seed: int, draws: int = 20000) -> dict:
     if not len(y):
         return {"mean": None, "interval_95": None, "one_sided_p": None, "draws": draws}
@@ -225,6 +242,7 @@ def main() -> None:
         gap_groups = groups + [task_meta[(env, task_id)]["group_id"] for task_id in sorted(early_ids)]
         measurement = bootstrap(gap_values, gap_groups, 271014 + domain_index)
         measurement["exchangeable_label_floor"] = label_exchange_floor(y, 271014 + domain_index)
+        measurement["variance_profile"] = variance_profile(y)
         if len(y):
             arm_means = y.mean(axis=(0, 1))
             oracle = cross_draw_oracle(y)
