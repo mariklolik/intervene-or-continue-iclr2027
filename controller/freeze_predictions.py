@@ -39,10 +39,19 @@ def candidate_selection(direct_manifest: dict, arm_manifest: dict, model: str, e
     return {"candidates": candidates, "selected": selected, "strongest_matched_comparator": strongest_name, "arm_outcome_parameterization_control": "REPEATED"}
 
 
-def load_prefixes(config_paths: list[Path], raw: Path) -> list[dict]:
+def raw_roots(config_paths: list[Path], raws: list[Path]) -> list[Path]:
+    if len(raws) == 1:
+        return [raws[0]] * len(config_paths)
+    if len(raws) != len(config_paths):
+        raise ValueError("Supply one raw root, or one per config")
+    return raws
+
+
+def load_prefixes(config_paths: list[Path], raw, roots: list[Path] | None = None) -> list[dict]:
+    roots = roots or [raw] * len(config_paths)
     rows = []
     seen = set()
-    for config_path in config_paths:
+    for config_path, raw in zip(config_paths, roots):
         content = config_path.read_bytes()
         config_hash = hashlib.sha256(content).hexdigest()
         config = json.loads(content)
@@ -81,7 +90,7 @@ def load_prefixes(config_paths: list[Path], raw: Path) -> list[dict]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, action="append", required=True)
-    parser.add_argument("--raw", type=Path, required=True)
+    parser.add_argument("--raw", type=Path, action="append", required=True)
     parser.add_argument("--direct-model", type=Path, required=True)
     parser.add_argument("--direct-manifest", type=Path, required=True)
     parser.add_argument("--arm-model", type=Path, required=True)
@@ -92,7 +101,7 @@ def main() -> None:
     args = parser.parse_args()
     if args.out.exists():
         raise FileExistsError(args.out)
-    rows = load_prefixes(args.config, args.raw)
+    rows = load_prefixes(args.config, args.raw[0], raw_roots(args.config, args.raw))
     direct_manifest = json.loads(args.direct_manifest.read_text())
     cross_manifest = json.loads(args.cross_draw_manifest.read_text()) if args.cross_draw_manifest else None
     arm_manifest = json.loads(args.arm_manifest.read_text())

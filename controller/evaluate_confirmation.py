@@ -120,7 +120,7 @@ def label_exchange_floor(y: np.ndarray, seed: int, draws: int = 20000) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, action="append", required=True)
-    parser.add_argument("--raw", type=Path, required=True)
+    parser.add_argument("--raw", type=Path, action="append", required=True)
     parser.add_argument("--predictions", type=Path, required=True)
     parser.add_argument("--prediction-freeze", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
@@ -138,9 +138,12 @@ def main() -> None:
     rows, audits = [], []
     task_meta = {}
     early = {}
-    for config_path in args.config:
+    roots = args.raw if len(args.raw) == len(args.config) else [args.raw[0]] * len(args.config)
+    if len(args.raw) not in (1, len(args.config)):
+        raise ValueError("Supply one raw root, or one per config")
+    for config_path, raw_root in zip(args.config, roots):
         config = json.loads(config_path.read_text())
-        accepted, audit = load_blocks(config_path, args.raw / config_path.stem)
+        accepted, audit = load_blocks(config_path, raw_root / config_path.stem)
         rows.extend(accepted)
         audits.append(audit)
         for task in config["tasks"]:
