@@ -166,8 +166,9 @@ def main() -> None:
             "ARM_OUTCOME": probability["ARM_OUTCOME"][indices],
             "MATCHED_COMPARATOR": probability[f"MATCHED_{env.upper()}"][indices],
         }
-        if "CROSS_DRAW" in probability:
-            policies["CROSS_DRAW"] = probability["CROSS_DRAW"][indices]
+        for extra in ["CROSS_DRAW", "PAIRWISE", "FAILURE_RISK", "RF_LCB"]:
+            if extra in probability:
+                policies[extra] = probability[extra][indices]
         selected_name = predictions["selection"][env]["selected"]["name"]
         if selected_name in policies:
             policies["SAFE_SELECTED"] = policies[selected_name]
@@ -209,6 +210,8 @@ def main() -> None:
         if "CROSS_DRAW" in policies:
             pairs = [("CROSS_DRAW", "CONTINUE"), ("CROSS_DRAW", "BEST_FIXED"), ("CROSS_DRAW", "MATCHED_COMPARATOR"),
                      ("CROSS_DRAW", "DIRECT_ADVANTAGE"), ("CROSS_DRAW", "ARM_OUTCOME")] + pairs
+            pairs += [(name, "CONTINUE") for name in ["PAIRWISE", "FAILURE_RISK", "RF_LCB"] if name in policies]
+            pairs += [("CROSS_DRAW", name) for name in ["PAIRWISE", "FAILURE_RISK", "RF_LCB"] if name in policies]
         contrasts = {}
         for left, right in pairs:
             contrast_values = np.r_[values[left] - values[right], np.zeros(len(early_values))]

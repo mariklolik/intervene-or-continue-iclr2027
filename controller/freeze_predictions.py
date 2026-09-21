@@ -104,6 +104,9 @@ def main() -> None:
         "BEST_FIXED": arm["policies"]["BEST_FIXED"]["probabilities"],
         "DIRECT_ADVANTAGE": direct["probabilities"],
         "ARM_OUTCOME": arm["policies"]["REPEATED"]["probabilities"],
+        "PAIRWISE": arm["policies"]["PAIRWISE"]["probabilities"],
+        "FAILURE_RISK": arm["policies"]["FAILURE_RISK"]["probabilities"],
+        "RF_LCB": arm["policies"]["RF_LCB"]["probabilities"],
     }
     if args.cross_draw_model is not None:
         cross = predict_cross_draw(joblib.load(args.cross_draw_model), rows)
