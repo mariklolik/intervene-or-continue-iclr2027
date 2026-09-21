@@ -10,6 +10,7 @@ import joblib
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "extension"), str(ROOT / "controller"), str(ROOT)]
 from analysis import prefix_metadata
+from arms import checkpoint_index
 from cross_draw import predict as predict_cross_draw
 from direct_advantage import predict as predict_direct
 from policies import predict as predict_arm_outcome
@@ -60,8 +61,8 @@ def load_prefixes(config_paths: list[Path], raw: Path) -> list[dict]:
             episode = record["episode"]
             if episode.get("failure") or episode.get("suspended") or episode.get("task_spec") != task["task_spec"] or episode.get("env") != task["env"]:
                 raise ValueError(f"Invalid baseline: {task['task_id']}")
-            step = task["checkpoint_step"]
-            if step < 1 or len(episode["steps"]) < step or episode["steps"][step - 1]["done"]:
+            step = checkpoint_index(task, episode)
+            if step is None or step < 1 or len(episode["steps"]) < step or episode["steps"][step - 1]["done"]:
                 continue
             rows.append({
                 "model": config["model"],
