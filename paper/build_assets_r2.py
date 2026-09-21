@@ -27,12 +27,13 @@ def main() -> None:
     figures = args.out / "figures"
     generated.mkdir(parents=True, exist_ok=True)
     figures.mkdir(parents=True, exist_ok=True)
-    outputs = [generated / "r2_numbers.tex", generated / "r2_results.tex", generated / "r2_analysis.tex", figures / "headroom.pdf", generated / "abstract.tex", generated / "r2_appendix.tex"]
+    outputs = [generated / "r2_numbers.tex", generated / "r2_results.tex", generated / "r2_analysis.tex", figures / "headroom.pdf", generated / "abstract.tex", generated / "r2_appendix.tex", generated / "conclusion.tex"]
     r2.write_numbers(reports, paths, outputs[0])
     r2.write_results(reports, outputs[1])
     r2.write_analysis(reports, outputs[2])
     r2.write_abstract(json.loads(args.first.read_text()), reports, outputs[4])
     r2.write_appendix(reports, freezes, outputs[5])
+    r2.write_conclusion(json.loads(args.first.read_text()), reports, outputs[6])
     setup_plotting()
     draw_headroom({r2.RULE_LABELS[rule]: report for rule, report in reports.items()}, outputs[3])
     manifest = {

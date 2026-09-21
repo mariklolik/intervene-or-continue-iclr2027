@@ -211,3 +211,26 @@ Object & Frozen identifier \\\\
 \\end{{table}}
 """
     out.write_text(text)
+
+
+def write_conclusion(first: dict, reports: dict, out: Path) -> None:
+    alf = first["domains"]["alfworld"]
+    gap = alf["same_draw_selection_optimism"]
+    floor = gap["exchangeable_label_floor"]
+    event = domain(reports["event"])
+    head = event["headroom"]
+    cc = event["contrasts"]["CROSS_DRAW_vs_CONTINUE"]
+    cb = event["contrasts"]["CROSS_DRAW_vs_BEST_FIXED"]
+    verdict = claim(cc, f"raises success by {pct(cc['mean'])} points over continuation",
+                    f"changes success by {pct(cc['mean'])} points against continuation")
+    fixed = claim(cb, f" and by {pct(cb['mean'])} points over the best unconditional repair",
+                  f" and by {pct(cb['mean'])} points against the best unconditional repair")
+    text = (
+        f"Independent continuation evaluation establishes a {pct(gap['mean'])}-point gap relative to same-draw maximization on the first frozen panel, "
+        f"and a within-task exchangeable-label reference places {pct(floor['mean'])} points of it in continuation noise rather than in action advantage. "
+        "The same draws read the design before any controller is fitted: where a complete independent draw of the menu cannot beat the best unconditional repair, no prefix-conditional rule will. "
+        f"Moving the decision to the first public failure signal and separating repair depth from repair content lifts that reference to {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%, "
+        f"and a controller that chooses its action on one development draw and values it on another {verdict}{fixed}. "
+        "Runtime controllers should include no action, freeze their choices before outcomes, value them on continuation draws not used for selection, and check what the decision point and the menu can reach before attributing a null result to the learner."
+    )
+    out.write_text(text + "\n")
