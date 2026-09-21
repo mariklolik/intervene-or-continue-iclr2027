@@ -83,6 +83,8 @@ The repeated arm-outcome control, \textsc{Repeated}, predicts all four outcomes 
 
 The ALFWorld source inventory was grouped by its six task types. We removed every goal directory found in the 59 supplied prior configuration and outcome files, ranked the remaining identities by SHA-256 with seed 270914, and retained the first 64 identities per type. The resulting 384 tasks occupy 96 floorplan groups. ScienceWorld began from a 57-variation reserved official-test frame. We verified that none of its variations occurred among the 227 variations in the supplied exposure packet; the panel occupies 25 task families. These exclusions establish independence from the supplied research record, not from model pretraining or all work by other parties.
 
+The second study draws from the same inventory after removing, in addition, every goal directory used by the first confirmation panel. Its confirmation panel holds 288 identities balanced across the six task types; its development panel holds 424 further identities and is disjoint from both confirmation panels. The two checkpoint rules run the same 288 confirmation identities, so the rule contrast is paired at the task level; because the frozen configuration hash differs between the rules, each rule generates its own baseline episode under the same task specification, seed, actor revision, and decoding parameters.
+
 \begin{table}[ht]
 \caption{Pre-outcome lineage. Full digests are machine-checked in the supplement.}
 \label{tab:lineage}
