@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from asset_text import command, digest, interval, p_value, pct
+from asset_text import command, digest, interval, p_claim, p_value, pct
 
 POLICY_LABELS = {
     "CONTINUE": "Continue",
@@ -105,7 +105,7 @@ def write_results(reports: dict, out: Path) -> None:
     fixed = event["policies"]["BEST_FIXED"]
     verdict = claim(cc, "improves on continuation", "does not separate from continuation")
     fixed_verdict = claim(cb, "and on the best fixed repair", "while the fixed-repair comparison remains unresolved")
-    text = f"""On the event-triggered panel the denominator contains all {event['planned_tasks']} planned tasks: {event['eligible_tasks']} reached a triggered checkpoint and {event['early_terminal_tasks']} produced no trigger before termination. Cross-draw control reaches {pct(cross['planned_mean'])}\\% success against {pct(continue_policy['planned_mean'])}\\% for continuation and {pct(fixed['planned_mean'])}\\% for the best fixed repair. It therefore {verdict} by {pct(cc['mean'])} percentage points (floorplan-bootstrap 95\\% interval {interval(cc, 'group_bootstrap_95')}; group sign-flip $p={p_value(cc['group_sign_flip_p']).replace('$', '')}$; Holm-adjusted $p={adjusted(cc).replace('$', '')}$) {fixed_verdict} by {pct(cb['mean'])} points ({interval(cb, 'group_bootstrap_95')}; adjusted $p={adjusted(cb).replace('$', '')}$).
+    text = f"""On the event-triggered panel the denominator contains all {event['planned_tasks']} planned tasks: {event['eligible_tasks']} reached a triggered checkpoint and {event['early_terminal_tasks']} produced no trigger before termination. Cross-draw control reaches {pct(cross['planned_mean'])}\\% success against {pct(continue_policy['planned_mean'])}\\% for continuation and {pct(fixed['planned_mean'])}\\% for the best fixed repair. It therefore {verdict} by {pct(cc['mean'])} percentage points (floorplan-bootstrap 95\\% interval {interval(cc, 'group_bootstrap_95')}; group sign-flip ${p_claim(cc['group_sign_flip_p'])}$; Holm-adjusted ${p_claim(cc['holm_p_primary_family'])}$) {fixed_verdict} by {pct(cb['mean'])} points ({interval(cb, 'group_bootstrap_95')}; adjusted ${p_claim(cb['holm_p_primary_family'])}$).
 
 Cross-draw control fires on {pct(cross['firing_rate_eligible'], 1)}\\% of triggered prefixes and records {cross['recovered_rounds']:.0f} draw-level recoveries against {cross['harmful_rounds']:.0f} disruptions, versus {fixed['recovered_rounds']:.0f} and {fixed['harmful_rounds']:.0f} for the unconditional repair. Table~\\ref{{tab:r2-policies}} reports every frozen policy under both checkpoint rules, including the comparison-only and failure-risk learners that instantiate the two closest external objectives inside this interface, and Table~\\ref{{tab:r2-contrasts}} the complete contrast census.
 """

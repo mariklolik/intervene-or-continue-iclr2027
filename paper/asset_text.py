@@ -30,6 +30,10 @@ def p_value(value: float) -> str:
     return "$<10^{-4}$" if value < 1e-4 else f"{value:.4f}"
 
 
+def p_claim(value: float) -> str:
+    return "p<10^{-4}" if value < 1e-4 else f"p={value:.4f}"
+
+
 def interval(record: dict, key: str) -> str:
     low, high = record[key]
     return f"[{pct(low)}, {pct(high)}]"
@@ -103,7 +107,7 @@ def write_abstract(report: dict, out: Path) -> None:
         "We test this problem with four actions, including no intervention, and two independent continuations from each shared prefix. "
         f"The confirmation covers {alf['planned_tasks']} identity-disjoint ALFWorld tasks ({alf['groups']} floorplan groups), with predictions frozen before arm outcomes. "
         f"{gap_claim}: the planned-task gap is {pct(gap['mean'])} percentage points "
-        f"(group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}, Holm-adjusted $p={p_value(gap['holm_p_primary_family']).replace('$', '')}$). "
+        f"(group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}, Holm-adjusted ${p_claim(gap['holm_p_primary_family'])}$). "
         "Holding features, whole-task folds, forest capacity, and action support fixed, direct signed-benefit prediction changes success by "
         f"{pct(direct_continue['mean'])} points versus continuation and {pct(direct_matched['mean'])} points versus the strongest runnable matched controller. "
         "Neither controller contrast reaches significance before or after multiplicity correction. We retain the complete ScienceWorld boundary panel and adverse historical results, and make no cross-harness state-of-the-art claim. "
@@ -156,7 +160,7 @@ def write_results(report: dict, out: Path) -> None:
     safe = alf["contrasts"]["SAFE_SELECTED_vs_CONTINUE"]
     direct = alf["policies"]["DIRECT_ADVANTAGE"]
     matched = alf["policies"]["MATCHED_COMPARATOR"]
-    text = f"""The ALFWorld denominator contains all {alf['planned_tasks']} planned tasks: {alf['eligible_tasks']} reached the frozen checkpoint and {alf['early_terminal_tasks']} ended earlier. Table~\\ref{{tab:confirmation-policies}} reports the full policy census. Direct signed-benefit prediction achieves {pct(direct['planned_mean'])}\\% success and the matched controller achieves {pct(matched['planned_mean'])}\\%. Relative to continuation, the direct effect is {pct(dc['mean'])} percentage points (group-bootstrap 95\\% interval {interval(dc, 'group_bootstrap_95')}; group sign-flip $p={p_value(dc['group_sign_flip_p']).replace('$', '')}$; Holm-adjusted $p={p_value(dc['holm_p_primary_family']).replace('$', '')}$). Relative to the matched controller it is {pct(dm['mean'])} points ({interval(dm, 'group_bootstrap_95')}; adjusted $p={p_value(dm['holm_p_primary_family']).replace('$', '')}$). Neither primary controller comparison reaches significance at the unadjusted level, so neither is eliminated by the multiplicity correction alone. The development-selected safe policy changes success by {pct(safe['mean'])} points relative to continuation. These tests answer the frozen comparisons; a favorable unadjusted subset is not substituted for them.
+    text = f"""The ALFWorld denominator contains all {alf['planned_tasks']} planned tasks: {alf['eligible_tasks']} reached the frozen checkpoint and {alf['early_terminal_tasks']} ended earlier. Table~\\ref{{tab:confirmation-policies}} reports the full policy census. Direct signed-benefit prediction achieves {pct(direct['planned_mean'])}\\% success and the matched controller achieves {pct(matched['planned_mean'])}\\%. Relative to continuation, the direct effect is {pct(dc['mean'])} percentage points (group-bootstrap 95\\% interval {interval(dc, 'group_bootstrap_95')}; group sign-flip ${p_claim(dc['group_sign_flip_p'])}$; Holm-adjusted ${p_claim(dc['holm_p_primary_family'])}$). Relative to the matched controller it is {pct(dm['mean'])} points ({interval(dm, 'group_bootstrap_95')}; adjusted ${p_claim(dm['holm_p_primary_family'])}$). Neither primary controller comparison reaches significance at the unadjusted level, so neither is eliminated by the multiplicity correction alone. The development-selected safe policy changes success by {pct(safe['mean'])} points relative to continuation. These tests answer the frozen comparisons; a favorable unadjusted subset is not substituted for them.
 
 Direct selects continuation on {direct['action_counts_eligible'][0]:.0f}/{alf['eligible_tasks']} eligible prefixes, warning on {direct['action_counts_eligible'][1]:.0f}, replanning on {direct['action_counts_eligible'][2]:.0f}, and rollback on {direct['action_counts_eligible'][3]:.0f}; it records {direct['recovered_rounds']:.0f} draw-level recoveries and {direct['harmful_rounds']:.0f} disruptions. Matched intervenes on {pct(matched['firing_rate_eligible'], 1)}\\% of prefixes, with {matched['recovered_rounds']:.0f} recoveries and {matched['harmful_rounds']:.0f} disruptions. The unconditional repair reaches {pct(alf['policies']['BEST_FIXED']['planned_mean'])}\\% with {alf['policies']['BEST_FIXED']['recovered_rounds']:.0f} recoveries against {alf['policies']['BEST_FIXED']['harmful_rounds']:.0f} disruptions: Direct is the more precise rule and the unconditional rule is the more productive one, because firing on {pct(direct['firing_rate_eligible'], 1)}\\% of prefixes forgoes the net recoveries that firing everywhere collects. Direct uses {direct['suffix_cost']['requests']['planned_mean']:.1f} calls, {direct['suffix_cost']['input_tokens']['planned_mean']:.0f} input tokens, and {direct['suffix_cost']['wall_s']['planned_mean']:.1f} client-seconds per planned task, versus {alf['policies']['CONTINUE']['suffix_cost']['requests']['planned_mean']:.1f}, {alf['policies']['CONTINUE']['suffix_cost']['input_tokens']['planned_mean']:.0f}, and {alf['policies']['CONTINUE']['suffix_cost']['wall_s']['planned_mean']:.1f} for continuation. These summaries are descriptive.
 
@@ -192,7 +196,7 @@ def write_analysis(report: dict, out: Path) -> None:
     gap = alf["same_draw_selection_optimism"]
     sw_gap = sw["same_draw_selection_optimism"]
     sw_dc = sw["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
-    text = f"""The same-draw action maximum exceeds independent-draw evaluation by {pct(gap['mean'])} percentage points over all ALFWorld tasks (task-bootstrap 95\\% interval {interval(gap, 'task_bootstrap_95')}; floorplan-bootstrap {interval(gap, 'group_bootstrap_95')}; Holm-adjusted $p={p_value(gap['holm_p_primary_family']).replace('$', '')}$). The gap is pathwise nonnegative, but its magnitude depends on how often stochastic branch outcomes disagree. It should not be read as an intervention gain or the regret of the learned controller.
+    text = f"""The same-draw action maximum exceeds independent-draw evaluation by {pct(gap['mean'])} percentage points over all ALFWorld tasks (task-bootstrap 95\\% interval {interval(gap, 'task_bootstrap_95')}; floorplan-bootstrap {interval(gap, 'group_bootstrap_95')}; Holm-adjusted ${p_claim(gap['holm_p_primary_family'])}$). The gap is pathwise nonnegative, but its magnitude depends on how often stochastic branch outcomes disagree. It should not be read as an intervention gain or the regret of the learned controller.
 
 Figure~\\ref{{fig:groups}} keeps the complete group distribution visible. Groups in the upper-left quadrant exhibit a positive selection/evaluation gap while direct intervention underperforms continuation. This is precisely the case in which a realized rescue can look compelling even though the deployable policy loses utility. Groups with zero gap are retained.
 
