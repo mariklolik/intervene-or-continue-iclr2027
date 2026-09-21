@@ -2,8 +2,7 @@ import hashlib
 import json
 
 BASE_ARMS = ["A0", "A1", "A2", "A3"]
-FIXED_ROLLBACK = {"A3": 1}
-PROGRESS_ROLLBACK = {"A4"}
+FIXED_ROLLBACK = {"A3": 1, "A4": 3}
 SCHEDULED = "scheduled"
 EVENT = "event"
 
@@ -16,20 +15,8 @@ def rounds(config: dict) -> int:
     return int(config["rounds"])
 
 
-def observation_hashes(baseline: dict, step: int) -> list[str]:
-    return [entry.get("obs_hash") for entry in baseline["steps"][:step]]
-
-
 def restore_index(baseline: dict, step: int, arm: str) -> int:
-    if arm in FIXED_ROLLBACK:
-        return max(0, step - FIXED_ROLLBACK[arm])
-    if arm in PROGRESS_ROLLBACK:
-        hashes = observation_hashes(baseline, step)
-        for index in range(len(hashes) - 1, 0, -1):
-            if hashes[index] != hashes[index - 1]:
-                return index
-        return max(0, step - 1)
-    return step
+    return max(0, step - FIXED_ROLLBACK.get(arm, 0))
 
 
 def event_step(baseline: dict, floor: int, ceiling: int) -> int | None:

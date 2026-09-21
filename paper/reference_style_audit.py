@@ -6,10 +6,11 @@ from pathlib import Path, PurePosixPath
 
 
 PAPERS = {
+    "1810.08272": "main.tex",
+    "2010.03768": "main.tex",
+    "2203.11171": "main.tex",
+    "2205.10625": "main.tex",
     "2210.03629": "iclr2023 2_arXiv/iclr2023_conference.tex",
-    "2203.07540": "acl_latex.tex",
-    "2303.11366": "main.tex",
-    "2303.17651": "main_arxiv.tex",
 }
 
 
