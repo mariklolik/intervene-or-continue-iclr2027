@@ -43,18 +43,19 @@ The paper makes three contributions. It gives a repeated-branch protocol and a s
 
 \subsection{Policy value after a shared prefix}
 
-Let $X_i$ be the observable prefix for task $i$ at a fixed checkpoint. The action set is $\mathcal{A}=\{0,1,2,3\}$, where $0$ means continue without an injected message. A stochastic continuation under action $a$ produces binary task success $Y_{ia}\in\{0,1\}$ with conditional mean $\mu_a(x)=\mathbb{E}[Y_{ia}\mid X_i=x]$. For a prefix-only policy $\pi(a\mid x)$, the target value is
+Let $X_i$ be the observable prefix for task $i$ at its assigned checkpoint and let $E_i=1$ when the episode ends before that checkpoint. The action set is $\mathcal{A}=\{0,\ldots,K\}$, where $0$ means continue without an injected message. A stochastic continuation under action $a$ produces binary task success $Y_{ia}\in\{0,1\}$ with conditional mean $\mu_a(x)=\mathbb{E}[Y_{ia}\mid X_i=x]$. A prefix-only policy $\pi(a\mid x)$ acts only on eligible prefixes, so the reported task-level value is a mixture,
 \begin{equation}
-V(\pi)=\mathbb{E}_X\!\left[\sum_{a\in\mathcal{A}}\pi(a\mid X)\mu_a(X)\right].
+V(\pi)=\mathbb{P}(E=1)\,\mathbb{E}\!\left[Y^{\mathrm{early}}\mid E=1\right]
++\mathbb{P}(E=0)\,\mathbb{E}_{X\mid E=0}\!\left[\sum_{a\in\mathcal{A}}\pi(a\mid X)\mu_a(X)\right].
 \label{eq:policy-value}
 \end{equation}
-The expectation includes continuation randomness. A controller that always intervenes can have lower value than continuation even when it correctly detects a difficult prefix. Detection quality and treatment choice are different estimands \citep{vasudev2026failure}.
+Early-terminal tasks contribute their observed terminal outcome to every policy, so they cancel from every contrast and enter only the denominator. The expectation includes continuation randomness. A single fresh draw per task is already an unbiased estimate of $V(\pi)$ for a policy committed before that draw; the bias studied next arises only when the action is chosen using the outcome that then scores it. A controller that always intervenes can have lower value than continuation even when it correctly detects a difficult prefix. Detection quality and treatment choice are different estimands \citep{vasudev2026failure}.
 
 Our simulated environments permit a repeated-branch design. From the same serialized state, we generate two draws $Y_{ia}^{(0)}$ and $Y_{ia}^{(1)}$ for every action. The request seeds are independent deterministic hashes of task, draw, action, and request index. Full-state hashes validate restoration before the first suffix call. The actor sees only the common public prefix, the assigned message, and subsequent observations.
 
 \subsection{The same-draw optimism diagnostic}
 
-Define $\widehat a_i^{(r)}=\arg\max_a Y_{ia}^{(r)}$ with continuation-first tie breaking. A same-draw analysis scores this outcome-informed choice as $\max_aY_{ia}^{(r)}$. Cross-draw evaluation instead scores the selected action on the other draw. We use the symmetric gap
+Define $\widehat a_i^{(r)}=\arg\max_a Y_{ia}^{(r)}$, resolving ties by the lowest action index, so continuation wins every tie it enters and the lowest-indexed successful intervention wins otherwise. A same-draw analysis scores this outcome-informed choice as $\max_aY_{ia}^{(r)}$. Cross-draw evaluation instead scores the selected action on the other draw. We use the symmetric gap
 \begin{equation}
 G_i=\frac{1}{2}\!\left[
 \max_aY_{ia}^{(0)}-Y_{i,\widehat a_i^{(1)}}^{(0)}+
@@ -63,9 +64,9 @@ G_i=\frac{1}{2}\!\left[
 \label{eq:gap}
 \end{equation}
 
-\textbf{Proposition 1.} $G_i\geq0$ for every realized pair of action-outcome vectors. If the two draws are identically distributed conditional on $X_i$, then $\mathbb{E}[G_i\mid X_i]$ equals the expected same-draw maximum minus the independent-draw value of the action chosen on that draw.
+\textbf{Proposition 1.} $G_i\geq0$ for every realized pair of action-outcome vectors. If the two action-outcome vectors are independent and identically distributed conditional on $X_i$, then $\mathbb{E}[G_i\mid X_i]$ equals the expected same-draw maximum minus the independent-draw value of the action chosen on that draw.
 
-The pathwise statement follows because each maximum is at least the outcome of the action selected on the other draw. Conditional exchangeability supplies the expectation identity. Independence is needed to interpret the cross-draw score as fresh policy evaluation, but not for nonnegativity. A positive $G_i$ can arise from unstable binary outcomes even when all actions have the same conditional mean. We therefore treat $G$ as an evaluation diagnostic, not as treatment benefit, action heterogeneity, or controller regret. Appendix~\ref{app:proof} gives the derivation and tie cases.
+The pathwise statement follows because each maximum is at least the outcome of the action selected on the other draw; it needs no distributional assumption. Conditional independence is what factors the cross-draw term into the value of the selection rule on a fresh continuation, and identical distribution is what makes the two orderings interchangeable. Without independence the identity fails: two perfectly dependent draws give $G_i\equiv0$ while the expected same-draw maximum still exceeds the independent-draw value whenever continuation outcomes are stochastic. With $R>2$ draws the same statement holds for the average of $G$ over ordered draw pairs. A positive $G_i$ can arise from unstable binary outcomes even when all actions have the same conditional mean. Because $G_i\geq0$ pathwise, a sign-flip null is degenerate for it: every group sum is non-negative, so the test can only reject the sharp null of deterministic continuations. We therefore treat $G$ as an estimation diagnostic and read it against a within-task reference distribution that permutes the action and draw labels of the eight recorded outcomes, which fixes the continuation noise level and removes any action structure. Appendix~\ref{app:proof} gives the derivation and tie cases.
 
 Figure~\ref{fig:design} shows the information boundary. Frozen policies use the prefix only. The outcome-informed selector exists solely to quantify same-draw optimism; it is not a deployable method or a training label for the confirmation policies.
 
@@ -178,7 +179,7 @@ The study uses simulated household and elementary-science tasks and contains no 
 \input{generated/conclusion.tex}
 
 \paragraph{Reproducibility statement.}
-Appendix~\ref{app:repro} specifies task construction, prompts, seeds, software, model revision, container digest, controller grids, inference procedures, and exact commands. The anonymous supplement includes the frozen configurations and predictions, raw result hashes, failure records, evaluator, figure builder, environment lock, and a script that verifies and regenerates every reported number. The main repository commit and every derived artifact are linked by SHA-256 manifests.
+Appendix~\ref{app:actions} gives the frozen prompts, Appendix~\ref{app:controller} the controller grids and selection protocol, and Appendix~\ref{app:repro} the task construction, seeds, software, model revision, container digest, inference procedure, and exact commands. The anonymous supplement includes the frozen configurations and predictions, raw result hashes, failure records, evaluator, figure builder, environment lock, and a script that verifies and regenerates every reported number. The main repository commit and every derived artifact are linked by SHA-256 manifests.
 
 \paragraph{AI use statement.}
 AI tools assisted literature search through alphaXiv, experiment and analysis code, manuscript drafting, copyediting, and format checks. Procedural research skills influenced the evidence and review workflow \citep{kassis2026skills}. The confirmation hypotheses, panel, inference, stopping rule, and controller predictions were frozen before their corresponding outcomes. Quantitative claims were regenerated from stored artifacts, citations were checked against source papers, and adverse results were retained. The authors remain responsible for the manuscript and submission.
