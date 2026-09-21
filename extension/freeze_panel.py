@@ -58,9 +58,9 @@ def exposure(paths: list[Path]) -> tuple[set[str], set[tuple[str, int]], list[di
     return goals, science, records
 
 
-def alf_candidates(data_root: Path, excluded_goals: set[str], count: int, seed: int) -> list[dict]:
+def alf_candidates(data_root: Path, excluded_goals: set[str], count, seed: int, split: str = "holdout", source: str = "train") -> list[dict]:
     by_type = defaultdict(list)
-    root = data_root / "json_2.1.1" / "train"
+    root = data_root / "json_2.1.1" / source
     for path in sorted(root.glob("*/*/game.tw-pddl")):
         goal = path.parts[-3]
         if goal in excluded_goals or "movable" in goal or "Sliced" in goal:
@@ -81,26 +81,29 @@ def alf_candidates(data_root: Path, excluded_goals: set[str], count: int, seed: 
         task_id = digest({"env": "alfworld", "identity": identity})[:16]
         by_type[task_type].append({
             "task_id": task_id,
-            "split": "holdout",
+            "split": split,
             "env": "alfworld",
             "task_spec": {"game_file": str(path), "task_type": task_type},
             "identity": identity,
-            "source_split": "train",
+            "source_split": source,
             "group_id": f"alf-floorplan-{floorplan.group(1)}",
         })
-    if count % len(TASK_TYPES):
-        raise ValueError("ALFWorld count must divide evenly across task types")
-    per_type = count // len(TASK_TYPES)
+    if isinstance(count, dict):
+        quota = {task_type: int(count.get(task_type, 0)) for task_type in TASK_TYPES}
+    else:
+        if count % len(TASK_TYPES):
+            raise ValueError("ALFWorld count must divide evenly across task types")
+        quota = dict.fromkeys(TASK_TYPES, count // len(TASK_TYPES))
     selected = []
     for task_type in TASK_TYPES:
         ranked = sorted(by_type[task_type], key=lambda row: digest([seed, task_type, row["identity"]]))
-        if len(ranked) < per_type:
-            raise ValueError(f"ALFWorld shortfall for {task_type}")
-        selected.extend(ranked[:per_type])
+        if len(ranked) < quota[task_type]:
+            raise ValueError(f"ALFWorld shortfall for {task_type}: {len(ranked)} < {quota[task_type]}")
+        selected.extend(ranked[:quota[task_type]])
     return selected
 
 
-def science_candidates(reserved: dict, excluded: set[tuple[str, int]], count: int, seed: int) -> list[dict]:
+def science_candidates(reserved: dict, excluded: set[tuple[str, int]], count: int, seed: int, split: str = "holdout") -> list[dict]:
     candidates = []
     for source in reserved["tasks"]:
         if source.get("env") != "scienceworld":
@@ -109,7 +112,7 @@ def science_candidates(reserved: dict, excluded: set[tuple[str, int]], count: in
         key = (spec["task_name"], int(spec["variation"]))
         if key in excluded:
             continue
-        task = {**source, "split": "holdout", "group_id": f"science-family-{spec['task_name']}"}
+        task = {**source, "split": split, "group_id": f"science-family-{spec['task_name']}"}
         task["source_split"] = "test"
         candidates.append(task)
     ranked = sorted(candidates, key=lambda row: digest([seed, row["task_spec"]]))
@@ -139,6 +142,9 @@ def main() -> None:
     parser.add_argument("--exclude-config", type=Path, action="append", default=[])
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--alfworld", type=int, default=384)
+    parser.add_argument("--alfworld-per-type", type=json.loads, default=None)
+    parser.add_argument("--split", default="holdout")
+    parser.add_argument("--source-split", default="train")
     parser.add_argument("--scienceworld", type=int, default=57)
     parser.add_argument("--shards", type=int, default=8)
     parser.add_argument("--seed", type=int, default=270914)
@@ -149,17 +155,17 @@ def main() -> None:
     reserved_bytes = args.prior_reserved_frame.read_bytes()
     reserved = json.loads(reserved_bytes)
     tasks = finalize(
-        alf_candidates(args.data_root, excluded_goals, args.alfworld, args.seed)
-        + science_candidates(reserved, excluded_science, args.scienceworld, args.seed),
+        alf_candidates(args.data_root, excluded_goals, args.alfworld_per_type or args.alfworld, args.seed, args.split, args.source_split)
+        + science_candidates(reserved, excluded_science, args.scienceworld, args.seed, args.split),
         args.seed,
         args.shards,
     )
     template_bytes = args.template.read_bytes()
     template = json.loads(template_bytes)
     config = {key: template[key] for key in ["schema_version", "model", "model_path", "model_revision", "temperature", "scaffold", "max_tokens", "system_prompt", "arms", "datasets"]}
-    config.update(phase="holdout", rounds=2, tasks=tasks, worker_shards=args.shards, sampling={
+    config.update(phase=args.split, rounds=2, tasks=tasks, worker_shards=args.shards, sampling={
         "seed": args.seed,
-        "counts": {"alfworld": args.alfworld, "scienceworld": args.scienceworld},
+        "counts": {"alfworld": args.alfworld_per_type or args.alfworld, "scienceworld": args.scienceworld},
         "task_set_sha256": digest(tasks),
         "exclusion_scope": "Prior configured or recorded task identities and ALFWorld goal directories from the supplied exposure packet",
     })
@@ -175,7 +181,7 @@ def main() -> None:
     manifest = {
         "status": "FROZEN_BEFORE_BASELINE_OR_ARM_GENERATION",
         "seed": args.seed,
-        "counts": {"alfworld": args.alfworld, "scienceworld": args.scienceworld},
+        "counts": {"alfworld": args.alfworld_per_type or args.alfworld, "scienceworld": args.scienceworld},
         "tasks_sha256": digest(tasks),
         "groups": {env: len({task["group_id"] for task in tasks if task["env"] == env}) for env in ["alfworld", "scienceworld"]},
         "template_sha256": hashlib.sha256(template_bytes).hexdigest(),

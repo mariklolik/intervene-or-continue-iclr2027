@@ -6,7 +6,11 @@ from pathlib import Path
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--phase", choices=["baseline", "baseline-resume", "arms", "arms-resume"], required=True)
+    parser.add_argument("--phase", required=True)
+    parser.add_argument("--panel", default="independent-panel")
+    parser.add_argument("--prefix", default="ioc27")
+    parser.add_argument("--gpus", default="0,1,2,3,4,5,6,7")
+    parser.add_argument("--raw", default="raw")
     parser.add_argument("--seconds", type=int, required=True)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--cap-gpu-seconds", type=int, default=72000)
@@ -17,12 +21,13 @@ def main() -> None:
         raise FileExistsError(args.out)
     template = json.loads((args.root / "configs/qwen3-template.json").read_text())
     args.out.mkdir(parents=True)
-    for shard in range(8):
+    gpus = [int(value) for value in args.gpus.split(",") if value != ""]
+    for shard, gpu in enumerate(gpus):
         stem = f"panel-shard{shard}"
         plan = {
             "root": str(args.root),
-            "name": f"ioc27-{args.phase}-s{shard}",
-            "gpu": shard,
+            "name": f"{args.prefix}-{args.phase}-s{shard}",
+            "gpu": gpu,
             "port": args.port_base + shard,
             "model_path": template["model_path"],
             "model": template["model"],
@@ -30,10 +35,10 @@ def main() -> None:
             "image": template["image"],
             "context_length": template["runtime_contract"]["context_length"],
             "cap_gpu_seconds": args.cap_gpu_seconds,
-            "config": str(args.root / f"configs/independent-panel/{stem}.json"),
-            "out": str(args.root / f"raw/{stem}"),
+            "config": str(args.root / f"configs/{args.panel}/{stem}.json"),
+            "out": str(args.root / f"{args.raw}/{stem}"),
             "workers": args.workers,
-            "baseline_only": not args.phase.startswith("arms"),
+            "baseline_only": args.phase.startswith("baseline"),
         }
         (args.out / f"{stem}.json").write_text(json.dumps(plan, indent=2, sort_keys=True) + "\n")
 
