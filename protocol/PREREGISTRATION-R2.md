@@ -22,7 +22,7 @@ Arms `A0`-`A3` are the frozen four-message contract, unchanged. `A4` reverts the
 
 ## Frozen policies
 
-`CONTINUE`, the development-best fixed arm, the direct signed-benefit forest, the repeated arm-outcome forest, the strongest runnable arm-outcome comparator, and the cross-draw forest are frozen before any arm outcome. The cross-draw forest fits one signed-benefit forest per development draw, selects the arm on one draw, values it on the other, and intervenes only when both draws select the same arm and the cross-draw value exceeds the margin. Features, folds, capacity, margin grid, seed, and development records are identical across learners.
+`CONTINUE`, the development-best fixed arm, the direct signed-benefit forest, the repeated arm-outcome forest, the strongest runnable arm-outcome comparator, and the cross-draw forest are frozen before any arm outcome. The cross-draw forest fits one signed-benefit forest per development draw, selects the arm on one draw and values it on the other. Its development grid adds one binary choice to the shared leaf and margin grid: whether to require that both draws select the same arm before intervening. That choice is made on development out-of-fold utility like every other grid entry, before any arm outcome. Features, folds, capacity, margin grid, seed, and development records are identical across learners.
 
 ## Primary family
 

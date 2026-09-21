@@ -18,13 +18,15 @@ def draw_targets(outcomes):
     return y[:, :, 1:] - y[:, :, :1]
 
 
-def choose(per_draw, margin):
+def choose(per_draw, margin, agreement=True):
     selected = per_draw.argmax(axis=2)
-    agreed = selected[:, 0] == selected[:, 1]
-    index = selected[:, 0]
-    rows = np.arange(len(index))
-    valued = .5 * (per_draw[rows, 1, index] + per_draw[rows, 0, selected[:, 1]])
-    return np.eye(per_draw.shape[2] + 1)[np.where(agreed & (valued > margin + 1e-12), index + 1, 0)]
+    rows = np.arange(len(selected))
+    crossed = np.stack([per_draw[rows, 1 - draw, selected[:, draw]] for draw in DRAWS], axis=1)
+    winner = crossed.argmax(axis=1)
+    index = selected[rows, winner]
+    valued = np.where(selected[:, 0] == selected[:, 1], crossed.mean(axis=1), crossed[rows, winner])
+    eligible = (selected[:, 0] == selected[:, 1]) if agreement else np.ones(len(rows), bool)
+    return np.eye(per_draw.shape[2] + 1)[np.where(eligible & (valued > margin + 1e-12), index + 1, 0)]
 
 
 def fold_predictions(rows, targets, leaf, splits):
@@ -43,15 +45,16 @@ def grid_scores(rows, targets, utility, splits):
     for leaf in LEAVES:
         predicted = fold_predictions(rows, targets, leaf, splits)
         for margin in MARGINS:
-            p = choose(predicted, margin)
-            scored.append({'leaf': leaf, 'threshold': margin,
-                           'oof_utility': float((p * utility).sum(axis=1).mean()),
-                           'oof_firing_rate': float(1 - p[:, 0].mean())})
+            for agreement in (True, False):
+                p = choose(predicted, margin, agreement)
+                scored.append({'leaf': leaf, 'threshold': margin, 'agreement': agreement,
+                               'oof_utility': float((p * utility).sum(axis=1).mean()),
+                               'oof_firing_rate': float(1 - p[:, 0].mean())})
     return scored
 
 
 def select_candidate(candidates):
-    return max(candidates, key=lambda c: (round(c['oof_utility'], 12), -c['oof_firing_rate'], c['leaf'], c['threshold']))
+    return max(candidates, key=lambda c: (round(c['oof_utility'], 12), -c['oof_firing_rate'], c['agreement'], c['leaf'], c['threshold']))
 
 
 def fit_stratum(rows):
@@ -117,6 +120,6 @@ def predict(bundle, rows):
         matrix = model['transform'].transform([safe[i] for i in indices])
         for draw in DRAWS:
             estimates[indices, draw] = model['forests'][draw].predict(matrix)
-        p[indices] = choose(estimates[indices], model['threshold'])
+        p[indices] = choose(estimates[indices], model['threshold'], model['agreement'])
     return {'rows': [{k: r[k] for k in ROW_KEYS} for r in safe], 'probabilities': p.tolist(),
             'predicted_draw_advantages': estimates.tolist(), 'training_data_sha256': bundle['training_data_sha256']}

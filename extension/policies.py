@@ -92,7 +92,8 @@ def values(model: dict, x: np.ndarray, method: str) -> tuple[np.ndarray, np.ndar
     forest = model["forest"]
     if method == "PAIRWISE":
         preferences = [p @ classes for p, classes in zip(forest.predict_proba(x), forest.classes_)]
-        return np.column_stack([np.zeros(len(x)), *preferences]), np.zeros((len(x), 4))
+        scores = np.column_stack([np.zeros(len(x)), *preferences])
+        return scores, np.zeros_like(scores)
     predicted = forest.predict(x)
     if method == "FAILURE_RISK":
         mean = np.tile(model["mean"], (len(x), 1))
