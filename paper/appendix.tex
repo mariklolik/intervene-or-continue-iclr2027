@@ -49,7 +49,7 @@ Every arm receives the same task instruction, public action history, public obse
 The 50 numeric features are action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. Environment and checkpoint identity enter through the stratum: a separate forest is fitted for each actor and environment, and the checkpoint index is one of the 50 numeric fields. No categorical task identifier is encoded. The text field concatenates the recent public observations and actions. Word TF--IDF uses a vocabulary of at most 512 terms, and the resulting representation is reduced to at most 16 truncated-SVD components. All text fitting occurs inside each task-group fold during development selection. The final transform is refit on all admitted development tasks only.
 
 \begin{table}[ht]
-\caption{Development-only policy selection. Utilities average the two saved continuation draws within each complete task row. The strongest matched comparator and the operational selection were fixed before confirmation outcomes.}
+\caption{Development-only policy selection for the first confirmation; the admitted development task count per environment is given in parentheses. Utilities average the two saved continuation draws within each complete task row. The strongest matched comparator and the operational selection were fixed before confirmation outcomes.}
 \label{tab:development}
 \centering
 \small
@@ -57,16 +57,18 @@ The 50 numeric features are action-class fractions; counts and rates of admissib
 \toprule
 Environment & Candidate & OOF utility (\%) & Intervention rate (\%) \\
 \midrule
-\multirow{4}{*}{ALFWorld}
+\multirow{5}{*}{ALFWorld (129)}
 & \textsc{Continue} & 45.35 & 0.00 \\
 & \textsc{Best fixed} (arm 2) & 50.39 & 100.00 \\
 & \textsc{Direct} & 47.67 & 34.11 \\
+& \textsc{Arm outcome} (\textsc{Repeated}) & 47.29 & 96.90 \\
 & \textsc{Single-1} & \textbf{51.16} & 79.84 \\
 \midrule
-\multirow{4}{*}{ScienceWorld}
+\multirow{5}{*}{ScienceWorld (55)}
 & \textsc{Continue} & 20.91 & 0.00 \\
 & \textsc{Best fixed} (arm 2) & 24.55 & 100.00 \\
 & \textsc{Direct} & 23.64 & 21.82 \\
+& \textsc{Arm outcome} (\textsc{Repeated}) & 23.64 & 89.09 \\
 & \textsc{Single-1} & \textbf{27.27} & 100.00 \\
 \bottomrule
 \end{tabular}
@@ -93,7 +95,7 @@ Prediction-freeze commit & \texttt{f0f26bf}, pushed before arm generation \\
 Eligible prefixes & 406: 355 ALFWorld and 51 ScienceWorld \\
 Prefix digest & \texttt{0f5a80d1...46e863} \\
 Prediction digest & \texttt{78380914...f6911b} \\
-Arm-outcome model digest & \texttt{759b9d02...7d612b} \\
+Arm-outcome family bundle digest & \texttt{759b9d02...7d612b}; it holds every arm-outcome learner, including \textsc{Repeated} and the selected \textsc{Single-1} \\
 Direct model digest & \texttt{4ad68910...fe16db} \\
 \bottomrule
 \end{tabular}
