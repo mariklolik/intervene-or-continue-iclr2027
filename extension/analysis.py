@@ -205,15 +205,17 @@ def load_blocks(config_path: Path, raw_dir: Path, split: str | None = None) -> t
 
 
 def summarize_blocks(rows: list[dict], seed: int = 42) -> dict:
-    y = np.array([row["Y"] for row in rows], dtype=int).reshape(-1, 2, 4)
+    arms = rows[0]["arms"] if rows else list(ARMS)
+    replicas = len(rows[0]["Y"]) if rows else 2
+    y = np.array([row["Y"] for row in rows], dtype=int).reshape(-1, replicas, len(arms))
     d = diagnostics(y)
     summaries = {key: summarize_tasks(d[key], bounds, seed) for key, bounds in {"gap": (0, 1), "same_round_opportunity": (0, 1), "same_round_value": (0, 1), "cross_selected_value": (0, 1), "cross_selected_uplift": (-1, 1), "selection_firing_rate": (0, 1)}.items()}
     per_arm = {}
-    for index, arm in enumerate(ARMS):
+    for index, arm in enumerate(arms):
         harm = ((y[:, :, index] == 0) & (y[:, :, 0] == 1)).sum(axis=1)
         recovery = ((y[:, :, index] == 1) & (y[:, :, 0] == 0)).sum(axis=1)
         per_arm[arm] = {key: summarize_tasks(d[key][:, index], (0, 1) if key in ["flips", "success"] else (-1, 1), seed) for key in ["fixed_arm_uplift", "products", "flips", "success"]}
-        per_arm[arm].update(round_observations=2 * len(rows), independent_tasks=len(rows), harm_count=int(harm.sum()), at_risk_rounds=int((y[:, :, 0] == 1).sum()), recovery_count=int(recovery.sum()), baseline_failure_rounds=int((y[:, :, 0] == 0).sum()), per_task_harm=harm.tolist(), per_task_recovery=recovery.tolist())
+        per_arm[arm].update(round_observations=y.shape[1] * len(rows), independent_tasks=len(rows), harm_count=int(harm.sum()), at_risk_rounds=int((y[:, :, 0] == 1).sum()), recovery_count=int(recovery.sum()), baseline_failure_rounds=int((y[:, :, 0] == 0).sum()), per_task_harm=harm.tolist(), per_task_recovery=recovery.tolist())
     return {"n_tasks": len(rows), "task_ids": [r["task_id"] for r in rows], "diagnostics": summaries, "per_arm": per_arm, "selected_actions": d["selected_actions"].tolist(), "raw_Y": y.tolist(), "primary_identity": "gap = 0.5 * [(max(Y0)-Y0[argmax(Y1)]) + (max(Y1)-Y1[argmax(Y0)])] >= 0 pathwise", "causal_boundary": "Selection instability is not causal benefit or uniquely diagnosed winner's curse; products are signed uncentered squared-effect moments conditional on independent rounds and separate fresh A0.", "multiplicity": "Intervals are marginal; secondary-stratum and learned-policy confirmatory claims require the separately declared Holm family."}
 
 
