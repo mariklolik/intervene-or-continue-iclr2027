@@ -25,3 +25,4 @@ This ledger supports the mandatory ICLR 2027 manuscript and submission-form disc
 - No detector-evasion objective is used.
 - No unfavorable planned result or required comparison is removed.
 - No author, affiliation, conflict, sanction status, or submission-form answer is inferred or altered.
+- The alphaXiv reader was unavailable for the second round; added literature entries were read from the arXiv HTML and abstract endpoints, and the ledger records that substitution.
