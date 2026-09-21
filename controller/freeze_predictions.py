@@ -10,6 +10,7 @@ import joblib
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "extension"), str(ROOT / "controller"), str(ROOT)]
 from analysis import prefix_metadata
+from cross_draw import predict as predict_cross_draw
 from direct_advantage import predict as predict_direct
 from policies import predict as predict_arm_outcome
 
@@ -18,7 +19,7 @@ def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def candidate_selection(direct_manifest: dict, arm_manifest: dict, model: str, env: str) -> dict:
+def candidate_selection(direct_manifest: dict, arm_manifest: dict, model: str, env: str, cross_manifest: dict | None = None) -> dict:
     direct = next(row for row in direct_manifest["strata"] if (row["model"], row["env"]) == (model, env))
     arm = next(row for row in arm_manifest["strata"] if (row["model"], row["env"]) == (model, env))
     strongest_name, strongest = max(arm["policies"].items(), key=lambda item: (round(item[1]["oof_utility"], 12), -item[1]["oof_firing_rate"], item[0]))
@@ -29,6 +30,10 @@ def candidate_selection(direct_manifest: dict, arm_manifest: dict, model: str, e
         {"name": "DIRECT_ADVANTAGE", **{key: direct["selected"][key] for key in ["oof_utility", "oof_firing_rate"]}},
         {"name": strongest_name, **{key: strongest[key] for key in ["oof_utility", "oof_firing_rate"]}},
     ]
+    if cross_manifest is not None:
+        cross = next(row for row in cross_manifest["strata"] if (row["model"], row["env"]) == (model, env))
+        candidates.append({"name": "CROSS_DRAW", "nested_honest_utility": cross["nested_honest_utility"],
+                           **{key: cross["selected"][key] for key in ["oof_utility", "oof_firing_rate"]}})
     selected = max(candidates, key=lambda row: (round(row["oof_utility"], 12), -row["oof_firing_rate"], row["name"] == "CONTINUE", row["name"]))
     return {"candidates": candidates, "selected": selected, "strongest_matched_comparator": strongest_name, "arm_outcome_parameterization_control": "REPEATED"}
 
@@ -80,12 +85,15 @@ def main() -> None:
     parser.add_argument("--direct-manifest", type=Path, required=True)
     parser.add_argument("--arm-model", type=Path, required=True)
     parser.add_argument("--arm-manifest", type=Path, required=True)
+    parser.add_argument("--cross-draw-model", type=Path)
+    parser.add_argument("--cross-draw-manifest", type=Path)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     if args.out.exists():
         raise FileExistsError(args.out)
     rows = load_prefixes(args.config, args.raw)
     direct_manifest = json.loads(args.direct_manifest.read_text())
+    cross_manifest = json.loads(args.cross_draw_manifest.read_text()) if args.cross_draw_manifest else None
     arm_manifest = json.loads(args.arm_manifest.read_text())
     direct = predict_direct(joblib.load(args.direct_model), rows)
     arm = predict_arm_outcome(joblib.load(args.arm_model), rows)
@@ -97,9 +105,14 @@ def main() -> None:
         "DIRECT_ADVANTAGE": direct["probabilities"],
         "ARM_OUTCOME": arm["policies"]["REPEATED"]["probabilities"],
     }
+    if args.cross_draw_model is not None:
+        cross = predict_cross_draw(joblib.load(args.cross_draw_model), rows)
+        if cross["rows"] != direct["rows"]:
+            raise ValueError("Prediction row mismatch")
+        policies["CROSS_DRAW"] = cross["probabilities"]
     selections = {}
     for env in sorted({row["env"] for row in rows}):
-        selection = candidate_selection(direct_manifest, arm_manifest, rows[0]["model"], env)
+        selection = candidate_selection(direct_manifest, arm_manifest, rows[0]["model"], env, cross_manifest)
         selections[env] = selection
         comparator = selection["strongest_matched_comparator"]
         policies[f"MATCHED_{env.upper()}"] = arm["policies"][comparator]["probabilities"]
@@ -113,6 +126,8 @@ def main() -> None:
     (args.out / "prefixes.json").write_text(json.dumps(rows, indent=2, sort_keys=True) + "\n")
     (args.out / "predictions.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     paths = args.config + [args.direct_model, args.direct_manifest, args.arm_model, args.arm_manifest, Path(__file__), ROOT / "controller/direct_advantage.py", ROOT / "extension/policies.py"]
+    if args.cross_draw_model is not None:
+        paths = paths + [args.cross_draw_model, args.cross_draw_manifest, ROOT / "controller/cross_draw.py"]
     freeze = {
         "status": "FROZEN_AFTER_BASELINES_BEFORE_ANY_ARM_OUTCOME_GENERATION",
         "eligible_prefixes": len(rows),

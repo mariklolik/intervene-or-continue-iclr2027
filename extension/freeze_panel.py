@@ -144,6 +144,9 @@ def main() -> None:
     parser.add_argument("--alfworld", type=int, default=384)
     parser.add_argument("--alfworld-per-type", type=json.loads, default=None)
     parser.add_argument("--split", default="holdout")
+    parser.add_argument("--rounds", type=int, default=2)
+    parser.add_argument("--checkpoint-rule", default="scheduled", choices=["scheduled", "event"])
+    parser.add_argument("--event-window", type=int, default=24)
     parser.add_argument("--source-split", default="train")
     parser.add_argument("--scienceworld", type=int, default=57)
     parser.add_argument("--shards", type=int, default=8)
@@ -163,8 +166,14 @@ def main() -> None:
     template_bytes = args.template.read_bytes()
     template = json.loads(template_bytes)
     config = {key: template[key] for key in ["schema_version", "model", "model_path", "model_revision", "temperature", "scaffold", "max_tokens", "system_prompt", "arms", "datasets"]}
-    config.update(phase=args.split, rounds=2, tasks=tasks, worker_shards=args.shards, sampling={
+    for task in tasks:
+        task["checkpoint_rule"] = args.checkpoint_rule
+        if args.checkpoint_rule == "event":
+            task["checkpoint_window"] = [2, args.event_window]
+    config.update(phase=args.split, rounds=args.rounds, tasks=tasks, worker_shards=args.shards, sampling={
         "seed": args.seed,
+        "rounds": args.rounds,
+        "checkpoint_rule": args.checkpoint_rule,
         "counts": {"alfworld": args.alfworld_per_type or args.alfworld, "scienceworld": args.scienceworld},
         "task_set_sha256": digest(tasks),
         "exclusion_scope": "Prior configured or recorded task identities and ALFWorld goal directories from the supplied exposure packet",
@@ -181,6 +190,8 @@ def main() -> None:
     manifest = {
         "status": "FROZEN_BEFORE_BASELINE_OR_ARM_GENERATION",
         "seed": args.seed,
+        "rounds": args.rounds,
+        "checkpoint_rule": args.checkpoint_rule,
         "counts": {"alfworld": args.alfworld_per_type or args.alfworld, "scienceworld": args.scienceworld},
         "tasks_sha256": digest(tasks),
         "groups": {env: len({task["group_id"] for task in tasks if task["env"] == env}) for env in ["alfworld", "scienceworld"]},

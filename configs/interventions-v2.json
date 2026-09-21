@@ -1,0 +1,17 @@
+{
+  "frozen": true,
+  "note": "Menu v2 keeps arms A0-A3 verbatim from the frozen four-arm contract and adds two arms whose operations target failure modes that are visible in the public prefix: a restoration to the last observation change and a goal-relocation message.",
+  "arms": {
+    "A0": {"name": "CONTINUE", "text": null, "modifies_dialogue": false, "modifies_environment": false},
+    "A1": {"name": "WARNING", "text": "Re-check the goal, the latest observation, and your previous action. Continue only after correcting any inconsistency you notice.", "modifies_dialogue": true, "modifies_environment": false},
+    "A2": {"name": "REPLAN", "text": "Construct a fresh, concise plan from the current goal and observable state. Then execute that plan.", "modifies_dialogue": true, "modifies_environment": false},
+    "A3": {"name": "ROLLBACK_REPLAN", "text": "The previous attempted action has been reverted. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan.", "modifies_dialogue": true, "modifies_environment": true, "environment_operation": "Restore environment and dialogue to before the most recent reversible action."},
+    "A4": {"name": "RECOVER_TO_PROGRESS", "text": "Execution has been restored to the last point at which one of your actions changed the observation. Every step after that point has been undone because it changed nothing. Name what blocked those steps, then choose a different action.", "modifies_dialogue": true, "modifies_environment": true, "environment_operation": "Restore environment and dialogue to the latest step whose observation differed from the preceding one; the suffix budget is reduced by the number of undone decisions."},
+    "A5": {"name": "LOCATE", "text": "Before acting again, name the objects this task still requires and the places you have not yet inspected. Then inspect the most promising place.", "modifies_dialogue": true, "modifies_environment": false}
+  },
+  "injection_protocol": {
+    "position": "The overseer text is appended to the observable transcript as an [OVERSEER] entry immediately before the agent's next action decision at the checkpoint step.",
+    "persistence": "The overseer entry remains in the transcript for the remainder of the episode.",
+    "one_shot": true
+  }
+}
