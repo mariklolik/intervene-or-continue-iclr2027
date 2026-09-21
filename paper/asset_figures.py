@@ -110,7 +110,7 @@ def draw_headroom(reports: dict, out: Path) -> None:
         values = [100 * domain["headroom"][key] for key in keys]
         axes[0].bar(positions + index * width, values, width * .9, label=label, color=colors[index % len(colors)])
     axes[0].set_xticks(positions + width * (len(panels) - 1) / 2, labels, fontsize=7.5)
-    axes[0].set_ylabel("Success on eligible prefixes (\%)")
+    axes[0].set_ylabel("Success on eligible prefixes (%)")
     axes[0].legend(frameon=False, fontsize=7.5)
     axes[0].grid(axis="y", color="#E7E9EC", linewidth=.5)
     axes[0].set_axisbelow(True)
