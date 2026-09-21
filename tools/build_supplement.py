@@ -14,6 +14,8 @@ DIRECTORIES = ["controller", "extension", "src", "configs", "models", "protocol"
 FILES = ["README.md", "SUBMISSION_CHECKLIST.md", "pyproject.toml", "uv.lock", "gpu_budget.jsonl"]
 TEXT_SUFFIXES = {".bib", ".bst", ".json", ".jsonl", ".lock", ".log", ".md", ".py", ".sty", ".tex", ".txt", ".toml"}
 BANNED = ["mekashirskiy", "mariklolik", "AlekseiSDev", "avi-gn-fsk", "/Users/", "/home/"]
+PANELS = {"independent-panel": "raw", "p2-event": "raw/p2-event", "p2-scheduled": "raw/p2-scheduled", "d2-event": "raw/d2-event"}
+STUDIES = [("p2-event", "p2event"), ("p2-scheduled", "p2sched")]
 
 
 def digest(path: Path) -> str:
@@ -27,7 +29,9 @@ def copy_inputs(target: Path) -> None:
             shutil.copytree(source, target / name, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     shutil.copytree(ROOT / "artifacts" / "historical", target / "artifacts" / "historical")
     shutil.copytree(ROOT / "artifacts" / "literature", target / "artifacts" / "literature")
-    shutil.copytree(ROOT / "artifacts" / "prediction-freeze", target / "artifacts" / "prediction-freeze")
+    for source in sorted((ROOT / "artifacts").iterdir()):
+        if source.is_dir() and source.name not in {"historical", "literature", "confirmation"} and not (target / "artifacts" / source.name).exists():
+            shutil.copytree(source, target / "artifacts" / source.name)
     shutil.copytree(ROOT / "paper", target / "paper", ignore=shutil.ignore_patterns("build", "__pycache__", "*.aux", "*.bbl", "*.blg", "*.log", "*.out"))
     for name in FILES:
         source = ROOT / name
@@ -60,35 +64,52 @@ def sanitize_text_files(target: Path) -> None:
 
 def rewrite_config_lineage(target: Path) -> None:
     changes = {}
-    for config_path in sorted((target / "configs" / "independent-panel").glob("panel-shard*.json")):
-        original = ROOT / config_path.relative_to(target)
-        old_hash = digest(original)
-        new_hash = digest(config_path)
-        changes[old_hash] = new_hash
-        raw_dir = target / "raw" / config_path.stem
+    for panel, raw_root in PANELS.items():
+        directory = target / "configs" / panel
+        if not directory.exists():
+            continue
+        for config_path in sorted(directory.glob("panel-shard*.json")):
+            original = ROOT / config_path.relative_to(target)
+            if not original.exists():
+                continue
+            changes[digest(original)] = digest(config_path)
+            rewrite_records(target / raw_root / config_path.stem, changes)
+    rewrite_freezes(target, changes)
+
+
+def rewrite_records(raw_dir: Path, changes: dict) -> None:
+    if raw_dir.exists():
         for record_path in raw_dir.rglob("*.json"):
             record = json.loads(record_path.read_text())
-            if record.get("config_sha256") == old_hash:
-                record["config_sha256"] = new_hash
+            if record.get("config_sha256") in changes:
+                record["config_sha256"] = changes[record["config_sha256"]]
                 record_path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
-    prediction_path = target / "artifacts" / "prediction-freeze" / "predictions.json"
+
+
+def rewrite_freezes(target: Path, changes: dict) -> None:
+    for freeze_dir in sorted((target / "artifacts").glob("*freeze*")):
+        rewrite_freeze(target, freeze_dir, changes)
+
+
+def rewrite_freeze(target: Path, freeze_dir: Path, changes: dict) -> None:
+    prediction_path = freeze_dir / "predictions.json"
     predictions = json.loads(prediction_path.read_text())
     for row in predictions["rows"]:
         row["config_sha256"] = changes.get(row["config_sha256"], row["config_sha256"])
     prediction_path.write_text(json.dumps(predictions, indent=2, sort_keys=True) + "\n")
-    prefix_path = target / "artifacts" / "prediction-freeze" / "prefixes.json"
+    prefix_path = freeze_dir / "prefixes.json"
     prefixes = json.loads(prefix_path.read_text())
     for row in prefixes:
         row["config_sha256"] = changes.get(row["config_sha256"], row["config_sha256"])
     prefix_path.write_text(json.dumps(prefixes, indent=2, sort_keys=True) + "\n")
-    freeze_path = target / "artifacts" / "prediction-freeze" / "prediction-freeze.json"
+    freeze_path = freeze_dir / "prediction-freeze.json"
     freeze = json.loads(freeze_path.read_text())
     freeze["predictions_sha256"] = digest(prediction_path)
     freeze["prefixes_sha256"] = digest(prefix_path)
     for row in freeze["inputs"]:
         value = Path(row["path"])
-        if "configs/independent-panel" in row["path"]:
-            value = Path(row["path"][row["path"].index("configs/independent-panel"):])
+        if "configs/" in row["path"]:
+            value = Path(row["path"][row["path"].index("configs/"):])
         elif "controller/" in row["path"]:
             value = Path(row["path"][row["path"].index("controller/"):])
         elif "extension/" in row["path"]:
@@ -117,6 +138,28 @@ def regenerate(target: Path, python: Path) -> None:
         command.extend(["--config", str(config.relative_to(target))])
     subprocess.run(command, cwd=target, check=True)
     subprocess.run([str(python), "paper/build_assets.py"], cwd=target, check=True)
+    produced = []
+    for panel, tag in STUDIES:
+        directory = target / "configs" / panel
+        results = target / "artifacts" / tag / "results.json"
+        if not directory.exists() or not (target / "artifacts" / f"{tag}-freeze").exists() or not results.exists():
+            continue
+        family = json.loads(results.read_text())["primary_family"]
+        shutil.rmtree(target / "artifacts" / tag, ignore_errors=True)
+        second = [str(python), "controller/evaluate_confirmation.py", "--raw", f"raw/{panel}",
+                  "--predictions", f"artifacts/{tag}-freeze/predictions.json",
+                  "--prediction-freeze", f"artifacts/{tag}-freeze/prediction-freeze.json",
+                  "--out", f"artifacts/{tag}"]
+        for key in family:
+            second.extend(["--primary", key])
+        for config in sorted(directory.glob("panel-shard*.json")):
+            second.extend(["--config", str(config.relative_to(target))])
+        subprocess.run(second, cwd=target, check=True)
+        produced.append(tag)
+    if len(produced) == len(STUDIES):
+        subprocess.run([str(python), "paper/build_assets_r2.py",
+                        "--event", f"artifacts/{STUDIES[0][1]}/results.json",
+                        "--scheduled", f"artifacts/{STUDIES[1][1]}/results.json"], cwd=target, check=True)
 
 
 def write_manifest(target: Path, source_commit: str) -> None:
