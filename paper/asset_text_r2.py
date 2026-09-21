@@ -107,21 +107,7 @@ def write_results(reports: dict, out: Path) -> None:
     fixed_verdict = claim(cb, "and on the best fixed repair", "while the fixed-repair comparison remains unresolved")
     text = f"""On the event-triggered panel the denominator contains all {event['planned_tasks']} planned tasks: {event['eligible_tasks']} reached a triggered checkpoint and {event['early_terminal_tasks']} produced no trigger before termination. Cross-draw control reaches {pct(cross['planned_mean'])}\\% success against {pct(continue_policy['planned_mean'])}\\% for continuation and {pct(fixed['planned_mean'])}\\% for the best fixed repair. It therefore {verdict} by {pct(cc['mean'])} percentage points (floorplan-bootstrap 95\\% interval {interval(cc, 'group_bootstrap_95')}; group sign-flip $p={p_value(cc['group_sign_flip_p']).replace('$', '')}$; Holm-adjusted $p={adjusted(cc).replace('$', '')}$) {fixed_verdict} by {pct(cb['mean'])} points ({interval(cb, 'group_bootstrap_95')}; adjusted $p={adjusted(cb).replace('$', '')}$).
 
-Cross-draw control fires on {pct(cross['firing_rate_eligible'], 1)}\\% of triggered prefixes and records {cross['recovered_rounds']:.0f} draw-level recoveries against {cross['harmful_rounds']:.0f} disruptions, versus {fixed['recovered_rounds']:.0f} and {fixed['harmful_rounds']:.0f} for the unconditional repair. Table~\\ref{{tab:r2-policies}} reports every frozen policy under both checkpoint rules, including the comparison-only and failure-risk learners that instantiate the two closest external objectives inside this interface.
-
-\\begin{{table}}[t]
-\\caption{{Complete policy census under both checkpoint rules. Success uses every planned task; firing is over eligible prefixes; recoveries and disruptions count draw-level comparisons with continuation.}}
-\\label{{tab:r2-policies}}
-\\centering
-\\small
-\\begin{{tabular}}{{@{{}}llrrrr@{{}}}}
-\\toprule
-Rule & Policy & Success (\\%) & Fire (\\%) & Recover & Disrupt \\\\
-\\midrule
-{policy_table(reports)}
-\\bottomrule
-\\end{{tabular}}
-\\end{{table}}
+Cross-draw control fires on {pct(cross['firing_rate_eligible'], 1)}\\% of triggered prefixes and records {cross['recovered_rounds']:.0f} draw-level recoveries against {cross['harmful_rounds']:.0f} disruptions, versus {fixed['recovered_rounds']:.0f} and {fixed['harmful_rounds']:.0f} for the unconditional repair. Table~\\ref{{tab:r2-policies}} reports every frozen policy under both checkpoint rules, including the comparison-only and failure-risk learners that instantiate the two closest external objectives inside this interface, and Table~\\ref{{tab:r2-contrasts}} the complete contrast census.
 """
     out.write_text(text)
 
@@ -142,21 +128,6 @@ The second is how much of the same-draw gap is mechanical. Within-task permutati
 \\label{{fig:headroom}}
 \\end{{figure}}
 
-Table~\\ref{{tab:r2-contrasts}} lists every frozen contrast on the event-triggered panel.
-
-\\begin{{table}}[t]
-\\caption{{Complete contrast census on the event-triggered panel. Intervals are 95\\% task and floorplan bootstraps; adjusted values apply Holm correction within the pre-registered family.}}
-\\label{{tab:r2-contrasts}}
-\\centering
-\\small
-\\begin{{tabular}}{{@{{}}lrrrrr@{{}}}}
-\\toprule
-Contrast & Estimate (pp) & Task 95\\% & Group 95\\% & Raw $p$ & Adjusted $p$ \\\\
-\\midrule
-{contrast_table(reports['event'], CONTRAST_ORDER)}
-\\bottomrule
-\\end{{tabular}}
-\\end{{table}}
 """
     out.write_text(text)
 
@@ -185,3 +156,35 @@ def write_abstract(first: dict, reports: dict, out: Path) -> None:
         "We release the pre-outcome freeze, the complete result census, and the adverse historical evidence."
     )
     out.write_text(text + "\n")
+
+
+def write_appendix(reports: dict, out: Path) -> None:
+    text = f"""\\begin{{table}}[ht]
+\\caption{{Complete policy census under both checkpoint rules. Success uses every planned task; firing is over eligible prefixes; recoveries and disruptions count draw-level comparisons with continuation.}}
+\\label{{tab:r2-policies}}
+\\centering
+\\small
+\\begin{{tabular}}{{@{{}}llrrrr@{{}}}}
+\\toprule
+Rule & Policy & Success (\\%) & Fire (\\%) & Recover & Disrupt \\\\
+\\midrule
+{policy_table(reports)}
+\\bottomrule
+\\end{{tabular}}
+\\end{{table}}
+
+\\begin{{table}}[ht]
+\\caption{{Complete contrast census on the event-triggered panel. Intervals are 95\\% task and floorplan bootstraps; adjusted values apply Holm correction within the pre-registered family.}}
+\\label{{tab:r2-contrasts}}
+\\centering
+\\small
+\\begin{{tabular}}{{@{{}}lrrrrr@{{}}}}
+\\toprule
+Contrast & Estimate (pp) & Task 95\\% & Group 95\\% & Raw $p$ & Adjusted $p$ \\\\
+\\midrule
+{contrast_table(reports['event'], CONTRAST_ORDER)}
+\\bottomrule
+\\end{{tabular}}
+\\end{{table}}
+"""
+    out.write_text(text)
