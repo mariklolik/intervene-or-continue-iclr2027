@@ -97,6 +97,20 @@ Both learners receive public information available at the fork: environment iden
 
 Model selection uses four shuffled whole-task folds with seed 260908. Each candidate has 200 trees, minimum leaf size 5 or 10, and a continuation margin in $\{0,0.05,0.10\}$. Vocabulary and projection fitting occur inside each fold. Out-of-fold utility selects the configuration, and lower intervention rate breaks utility ties. The final forests are refit on all admitted development tasks. Source and target hashes, fold identities, feature schemas, library versions, and every candidate score are stored in the model manifests.
 
+\subsection{Cross-draw selection inside the controller}
+\label{sec:crossdraw}
+
+A deployed controller also maximizes. It compares estimates $\widehat\Delta_a(x)$ and fires the arm attaining their maximum, so the score that the margin test sees is a realized maximum over noisy estimates and inherits the bias of Section~\ref{sec:estimand} at the estimation level rather than the outcome level. The repeated-branch design already supplies the remedy it needs. We fit one signed-benefit forest per development draw, $\widehat\Delta^{(0)}$ and $\widehat\Delta^{(1)}$, on identical features, folds, and capacity. The arm is chosen on one draw and valued on the other,
+\begin{equation}
+\widehat a^{(r)}(x)=\arg\max_a\widehat\Delta^{(r)}_a(x),
+\qquad
+S(x)=\tfrac12\!\left[\widehat\Delta^{(1)}_{\widehat a^{(0)}(x)}(x)+\widehat\Delta^{(0)}_{\widehat a^{(1)}(x)}(x)\right],
+\label{eq:crossdraw}
+\end{equation}
+and the controller intervenes only when the two draws agree on the arm and $S(x)$ exceeds the continuation margin. Equation~\ref{eq:crossdraw} is Equation~\ref{eq:gap} moved from the evaluator to the controller: the same symmetric construction, applied to estimates rather than outcomes, and the same requirement that the quantity used to choose never be the quantity used to value. Agreement is a stability requirement, not a confidence statement; it declines to act when the two draws disagree about which repair the prefix calls for.
+
+Model selection faces the same problem once more, because the development grid is scored and then maximized on the same folds. We therefore report a nested out-of-fold utility that selects the leaf and margin inside each training fold and scores the resulting rule on the held-out fold, alongside the plain out-of-fold utility used by the frozen candidate rule.
+
 \subsection{Fallbacks and the comparator}
 
 The policy set contains five distinct decisions at confirmation time. \textsc{Continue} always chooses $a=0$. \textsc{Best fixed} chooses the development-best arm, which is replanning ($a=2$) in both environments. \textsc{Direct} uses the signed-benefit learner. \textsc{Arm outcome} uses the two-draw outcome forest and isolates response parameterization. \textsc{Matched comparator} is the strongest runnable member of the existing arm-outcome family by development out-of-fold utility. It is \textsc{Single-1}, an otherwise matched forest fitted to one predesignated outcome draw.
