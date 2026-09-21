@@ -87,7 +87,8 @@ def main() -> None:
         raise ValueError("Confirmation result hash mismatch")
     output = {
         "confirmation_result_sha256": digest(results),
-        "generated_files_checked": verify_hashes(ROOT / "paper" / "generated" / "manifest.json"),
+        "generated_files_checked": verify_hashes(ROOT / "paper" / "generated" / "manifest.json")
+        + (verify_hashes(ROOT / "paper" / "generated" / "r2_manifest.json") if (ROOT / "paper" / "generated" / "r2_manifest.json").exists() else 0),
         "pdf": verify_pdf(args.pdf),
         "supplement": verify_supplement(args.supplement),
     }
