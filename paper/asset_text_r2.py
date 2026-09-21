@@ -141,23 +141,31 @@ def write_abstract(first: dict, reports: dict, out: Path) -> None:
     alf = first["domains"]["alfworld"]
     gap = alf["same_draw_selection_optimism"]
     floor = gap["exchangeable_label_floor"]
-    shead = domain(reports["scheduled"])["headroom"]
+    first_head = alf["headroom"]
     event = domain(reports["event"])
     head = event["headroom"]
     cc = event["contrasts"]["CROSS_DRAW_vs_CONTINUE"]
-    cb = event["contrasts"]["CROSS_DRAW_vs_BEST_FIXED"]
+    cb = event["contrasts"].get("CROSS_DRAW_vs_BEST_FIXED")
+    noise = ("does not exceed a within-task exchangeable-label reference of "
+             f"{pct(floor['mean'])} points, so it is attributable to continuation noise rather than to action advantage"
+             if floor["mean"] >= floor["observed_eligible_mean"] else
+             f"exceeds a within-task exchangeable-label reference of {pct(floor['mean'])} points")
+    bound = ("below" if first_head["oracle_minus_best_fixed"] < 0 else "above")
     verdict = claim(cc, f"raises success by {pct(cc['mean'])} points over continuation",
                     f"changes success by {pct(cc['mean'])} points against continuation")
-    fixed = claim(cb, f" and by {pct(cb['mean'])} points over the best unconditional repair",
-                  f" and by {pct(cb['mean'])} points against the best unconditional repair")
+    fixed = ""
+    if cb is not None:
+        fixed = claim(cb, f" and by {pct(cb['mean'])} points over the best unconditional repair",
+                      f" and by {pct(cb['mean'])} points against the best unconditional repair")
     text = (
         "Selecting a runtime intervention and evaluating it on the same stochastic continuation credits favorable branch noise. "
-        "We generate two independently seeded continuations for every action from a shared prefix. The same draws separate the action that is chosen from the outcome that scores it and, before any controller is fitted, bound what a decision point and an action menu can reach. "
+        "We generate two independently seeded continuations for every action from a shared prefix. The same draws separate the action that is chosen from the outcome that scores it and, before any controller is fitted, read how much room the decision point and the action menu leave. "
         f"On {alf['planned_tasks']} identity-disjoint ALFWorld tasks the same-draw maximum overstates cross-draw value by {pct(gap['mean'])} percentage points "
-        f"(floorplan-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}), and a within-task exchangeable-label reference places {pct(floor['mean'])} points of that gap in continuation noise alone. "
-        f"At a hash-assigned early step with four fixed messages, an oracle given a complete independent draw of every action reaches {pct(shead['cross_draw_oracle_eligible'])}\\% against "
-        f"{pct(shead['best_fixed_eligible'])}\\% for unconditional replanning, so no prefix-conditional controller can win there. "
-        f"Taking the decision at the first public failure signal and separating repair depth from repair content restores that room: on {event['planned_tasks']} further tasks, a controller that chooses its action on one development draw and values it on another {verdict}{fixed}. "
+        f"(floorplan-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}); on eligible prefixes the gap {noise}. "
+        f"At a hash-assigned early step with four fixed messages, a per-task selector given a complete independent draw of every action reaches {pct(first_head['cross_draw_oracle_eligible'])}\\% against "
+        f"{pct(first_head['best_fixed_eligible'])}\\% for unconditional replanning, {bound} the best unconditional action, and no learned controller separates from continuation. "
+        f"Taking the decision at the first public failure signal and separating repair depth from repair content lifts that reference to {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%: "
+        f"on {event['planned_tasks']} further tasks, a controller that chooses its action on one development draw and values it on another {verdict}{fixed}. "
         "We release the pre-outcome freeze, the complete result census, and the adverse historical evidence."
     )
     out.write_text(text + "\n")
@@ -167,8 +175,8 @@ def lineage_rows(freezes: dict) -> str:
     rows = []
     for rule, freeze in freezes.items():
         rows.append(f"{RULE_LABELS[rule]} eligible prefixes & {freeze['eligible_prefixes']} \\\\")
-        rows.append(f"{RULE_LABELS[rule]} prefix digest & \\texttt{{{freeze['prefixes_sha256'][:8]}\\ldots{freeze['prefixes_sha256'][-6:]}}} \\\\")
-        rows.append(f"{RULE_LABELS[rule]} prediction digest & \\texttt{{{freeze['predictions_sha256'][:8]}\\ldots{freeze['predictions_sha256'][-6:]}}} \\\\")
+        rows.append(f"{RULE_LABELS[rule]} prefix digest & \\texttt{{{freeze['prefixes_sha256'][:8]}...{freeze['prefixes_sha256'][-6:]}}} \\\\")
+        rows.append(f"{RULE_LABELS[rule]} prediction digest & \\texttt{{{freeze['predictions_sha256'][:8]}...{freeze['predictions_sha256'][-6:]}}} \\\\")
     return "\n".join(rows)
 
 
