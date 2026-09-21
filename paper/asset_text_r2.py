@@ -159,3 +159,29 @@ Contrast & Estimate (pp) & Task 95\\% & Group 95\\% & Raw $p$ & Adjusted $p$ \\\
 \\end{{table}}
 """
     out.write_text(text)
+
+
+def write_abstract(first: dict, reports: dict, out: Path) -> None:
+    alf = first["domains"]["alfworld"]
+    gap = alf["same_draw_selection_optimism"]
+    floor = gap["exchangeable_label_floor"]
+    shead = domain(reports["scheduled"])["headroom"]
+    event = domain(reports["event"])
+    head = event["headroom"]
+    cc = event["contrasts"]["CROSS_DRAW_vs_CONTINUE"]
+    cb = event["contrasts"]["CROSS_DRAW_vs_BEST_FIXED"]
+    verdict = claim(cc, f"raises success by {pct(cc['mean'])} points over continuation",
+                    f"changes success by {pct(cc['mean'])} points against continuation")
+    fixed = claim(cb, f" and by {pct(cb['mean'])} points over the best unconditional repair",
+                  f" and by {pct(cb['mean'])} points against the best unconditional repair")
+    text = (
+        "Selecting a runtime intervention and evaluating it on the same stochastic continuation credits favorable branch noise. "
+        "We generate two independently seeded continuations for every action from a shared prefix. The same draws separate the action that is chosen from the outcome that scores it and, before any controller is fitted, bound what a decision point and an action menu can reach. "
+        f"On {alf['planned_tasks']} identity-disjoint ALFWorld tasks the same-draw maximum overstates cross-draw value by {pct(gap['mean'])} percentage points "
+        f"(floorplan-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}), and a within-task exchangeable-label reference places {pct(floor['mean'])} points of that gap in continuation noise alone. "
+        f"At a hash-assigned early step with four fixed messages, an oracle given a complete independent draw of every action reaches {pct(shead['cross_draw_oracle_eligible'])}\\% against "
+        f"{pct(shead['best_fixed_eligible'])}\\% for unconditional replanning, so no prefix-conditional controller can win there. "
+        f"Taking the decision at the first public failure signal and separating repair depth from repair content restores that room: on {event['planned_tasks']} further tasks, a controller that chooses its action on one development draw and values it on another {verdict}{fixed}. "
+        "We release the pre-outcome freeze, the complete result census, and the adverse historical evidence."
+    )
+    out.write_text(text + "\n")

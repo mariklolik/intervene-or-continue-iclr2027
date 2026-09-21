@@ -14,6 +14,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--event", type=Path, required=True)
     parser.add_argument("--scheduled", type=Path, required=True)
+    parser.add_argument("--first", type=Path, default=ROOT / "artifacts" / "confirmation" / "results.json")
     parser.add_argument("--out", type=Path, default=ROOT / "paper")
     args = parser.parse_args()
     paths = {"event": args.event.resolve(), "scheduled": args.scheduled.resolve()}
@@ -25,10 +26,11 @@ def main() -> None:
     figures = args.out / "figures"
     generated.mkdir(parents=True, exist_ok=True)
     figures.mkdir(parents=True, exist_ok=True)
-    outputs = [generated / "r2_numbers.tex", generated / "r2_results.tex", generated / "r2_analysis.tex", figures / "headroom.pdf"]
+    outputs = [generated / "r2_numbers.tex", generated / "r2_results.tex", generated / "r2_analysis.tex", figures / "headroom.pdf", generated / "abstract.tex"]
     r2.write_numbers(reports, paths, outputs[0])
     r2.write_results(reports, outputs[1])
     r2.write_analysis(reports, outputs[2])
+    r2.write_abstract(json.loads(args.first.read_text()), reports, outputs[4])
     setup_plotting()
     draw_headroom({r2.RULE_LABELS[rule]: report for rule, report in reports.items()}, outputs[3])
     manifest = {
