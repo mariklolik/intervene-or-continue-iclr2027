@@ -164,7 +164,12 @@ def write_results(report: dict, out: Path) -> None:
 
 Direct selects continuation on {direct['action_counts_eligible'][0]:.0f}/{alf['eligible_tasks']} eligible prefixes, warning on {direct['action_counts_eligible'][1]:.0f}, replanning on {direct['action_counts_eligible'][2]:.0f}, and rollback on {direct['action_counts_eligible'][3]:.0f}; it records {direct['recovered_rounds']:.0f} draw-level recoveries and {direct['harmful_rounds']:.0f} disruptions. Matched intervenes on {pct(matched['firing_rate_eligible'], 1)}\\% of prefixes, with {matched['recovered_rounds']:.0f} recoveries and {matched['harmful_rounds']:.0f} disruptions. The unconditional repair reaches {pct(alf['policies']['BEST_FIXED']['planned_mean'])}\\% with {alf['policies']['BEST_FIXED']['recovered_rounds']:.0f} recoveries against {alf['policies']['BEST_FIXED']['harmful_rounds']:.0f} disruptions: Direct is the more precise rule and the unconditional rule is the more productive one, because firing on {pct(direct['firing_rate_eligible'], 1)}\\% of prefixes forgoes the net recoveries that firing everywhere collects. Direct uses {direct['suffix_cost']['requests']['planned_mean']:.1f} calls, {direct['suffix_cost']['input_tokens']['planned_mean']:.0f} input tokens, and {direct['suffix_cost']['wall_s']['planned_mean']:.1f} client-seconds per planned task, versus {alf['policies']['CONTINUE']['suffix_cost']['requests']['planned_mean']:.1f}, {alf['policies']['CONTINUE']['suffix_cost']['input_tokens']['planned_mean']:.0f}, and {alf['policies']['CONTINUE']['suffix_cost']['wall_s']['planned_mean']:.1f} for continuation. These summaries are descriptive.
 
-\\begin{{table}}[t]
+"""
+    out.write_text(text)
+
+
+def write_results_floats(report: dict, out: Path) -> None:
+    text = f"""\\begin{{table}}[ht]
 \\caption{{Complete confirmation policy census. Success uses every planned task. Firing is over eligible prefixes; recoveries and disruptions count the two draw-level comparisons with continuation.}}
 \\label{{tab:confirmation-policies}}
 \\centering
@@ -180,7 +185,7 @@ Domain & Policy & Success (\\%) & Fire (\\%) & Recover & Disrupt \\\\
 
 Figure~\\ref{{fig:effects}} shows both marginal task and grouped uncertainty for the primary family and the selected deployment rule. The group intervals are wider whenever shared floorplans induce material composition sensitivity. Statistical significance is determined only by the frozen group sign-flip family, not by whether a plotted interval excludes zero.
 
-\\begin{{figure}}[t]
+\\begin{{figure}}[ht]
 \\centering
 \\includegraphics[width=\\linewidth]{{figures/policy-effects.pdf}}
 \\caption{{Confirmation effects on ALFWorld. Dots show planned-task means; thick and thin intervals show task- and floorplan-bootstrap 95\\% intervals. Reported adjusted $p$ values use the prespecified group sign-flip tests and Holm correction.}}
@@ -200,14 +205,19 @@ def write_analysis(report: dict, out: Path) -> None:
 
 Figure~\\ref{{fig:groups}} keeps the complete group distribution visible. Groups in the upper-left quadrant exhibit a positive selection/evaluation gap while direct intervention underperforms continuation. This is precisely the case in which a realized rescue can look compelling even though the deployable policy loses utility. Groups with zero gap are retained.
 
-\\begin{{figure}}[t]
+ScienceWorld provides a prespecified boundary rather than a second opportunity to claim success. Its continuation success rate is {pct(sw['policies']['CONTINUE']['planned_mean'])}\\%, so most tasks fail under every action and contribute zero to both the gap and every contrast; the panel therefore compresses effects mechanically rather than showing greater branch stability. Its same-draw gap is {pct(sw_gap['mean'])} points ({interval(sw_gap, 'group_bootstrap_95')} by task-family bootstrap), and Direct minus Continue is {pct(sw_dc['mean'])} points; its {interval(sw_dc, 'group_bootstrap_95')} interval is degenerate because the controller fired on {pct(sw['policies']['DIRECT_ADVANTAGE']['firing_rate_eligible'], 1)}\\% of prefixes and produced no recovery or disruption, which is an absence of observed differences rather than an exact null. All {sw['planned_tasks']} tasks, {sw['groups']} families, six policies, costs, recoveries, and disruptions appear in Table~\\ref{{tab:scienceworld-contrasts}} and the released result JSON. Differences in direction across environments narrow the empirical scope instead of motivating post hoc domain selection.
+"""
+    out.write_text(text)
+
+
+def write_analysis_floats(report: dict, out: Path) -> None:
+    text = f"""\\begin{{figure}}[ht]
 \\centering
 \\includegraphics[width=\\linewidth]{{figures/group-results.pdf}}
 \\caption{{Group-level measurement and policy effects. Each point is a complete floorplan or task-family group; area is proportional to its task count. Vertical position is same-draw optimism and horizontal position is Direct minus Continue. Dashed lines mark zero.}}
 \\label{{fig:groups}}
 \\end{{figure}}
 
-ScienceWorld provides a prespecified boundary rather than a second opportunity to claim success. Its continuation success rate is {pct(sw['policies']['CONTINUE']['planned_mean'])}\\%, so most tasks fail under every action and contribute zero to both the gap and every contrast; the panel therefore compresses effects mechanically rather than showing greater branch stability. Its same-draw gap is {pct(sw_gap['mean'])} points ({interval(sw_gap, 'group_bootstrap_95')} by task-family bootstrap), and Direct minus Continue is {pct(sw_dc['mean'])} points; its {interval(sw_dc, 'group_bootstrap_95')} interval is degenerate because the controller fired on {pct(sw['policies']['DIRECT_ADVANTAGE']['firing_rate_eligible'], 1)}\\% of prefixes and produced no recovery or disruption, which is an absence of observed differences rather than an exact null. All {sw['planned_tasks']} tasks, {sw['groups']} families, six policies, costs, recoveries, and disruptions appear in Table~\\ref{{tab:scienceworld-contrasts}} and the released result JSON. Differences in direction across environments narrow the empirical scope instead of motivating post hoc domain selection.
 """
     out.write_text(text)
 

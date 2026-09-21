@@ -16,7 +16,9 @@ from asset_text import (
     validate,
     write_abstract,
     write_analysis,
+    write_analysis_floats,
     write_appendix_results,
+    write_results_floats,
     write_conclusion,
     write_numbers,
     write_results,
@@ -54,6 +56,8 @@ def main() -> None:
         generated / "analysis.tex",
         generated / "conclusion.tex",
         generated / "appendix_results.tex",
+        generated / "results_floats.tex",
+        generated / "analysis_floats.tex",
         figures / "design.pdf",
         figures / "policy-effects.pdf",
         figures / "group-results.pdf",
@@ -64,10 +68,12 @@ def main() -> None:
     write_analysis(report, outputs[3])
     write_conclusion(report, outputs[4])
     write_appendix_results(report, outputs[5])
+    write_results_floats(report, outputs[6])
+    write_analysis_floats(report, outputs[7])
     setup_plotting()
-    draw_design(outputs[6])
-    draw_policy_effects(report, outputs[7])
-    draw_group_results(report, outputs[8])
+    draw_design(outputs[8])
+    draw_policy_effects(report, outputs[9])
+    draw_group_results(report, outputs[10])
     write_manifest(args.results, outputs, generated / "manifest.json")
 
 
