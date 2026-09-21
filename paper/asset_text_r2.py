@@ -257,3 +257,30 @@ def write_conclusion(first: dict, reports: dict, out: Path) -> None:
         "Runtime controllers should include no action, freeze their choices before outcomes, value them on continuation draws not used for selection, and check what the decision point and the menu can reach before attributing a null result to the learner."
     )
     out.write_text(text + "\n")
+
+
+def noise_scaling(rows: list[dict], reference: dict, out: Path) -> None:
+    import numpy as np
+
+    y = np.asarray([row["Y"] for row in rows], float)
+    n, replicas, arms = y.shape
+    index = np.arange(n)
+    gap = np.zeros(n)
+    for left in range(replicas):
+        for right in range(replicas):
+            if left != right:
+                gap += y[:, left].max(axis=1) - y[index, left, y[:, right].argmax(axis=1)]
+    gap /= replicas * (replicas - 1)
+    flips = (y[:, 0] != y[:, 1]).mean()
+    floor = domain(reference)["same_draw_selection_optimism"]["exchangeable_label_floor"]
+    observed = domain(reference)["same_draw_selection_optimism"]
+    text = (
+        f"A temperature ablation runs the same checkpoint rule, menu, and draw count on {n} further identity-disjoint ALFWorld tasks "
+        f"with the actor's sampling temperature raised from 0.7 to 1.0. Raising the temperature raises continuation instability: "
+        f"{pct(flips)}\\% of arm-by-task cells disagree across the two draws, and the same-draw gap is {pct(gap.mean())} percentage points on eligible prefixes "
+        f"against {pct(observed['exchangeable_label_floor']['observed_eligible_mean'])} points at temperature 0.7 under the same rule, "
+        f"with exchangeable-label floors of {pct(floor['mean'])} points for the frozen panel. "
+        "The diagnostic therefore tracks the randomness of the continuation rather than a property of one benchmark, which is why an environment whose tools and simulated users add their own randomness should be expected to show a larger gap than the ones measured here. "
+        "This ablation is exploratory: it was generated after the confirmation panels and enters no confirmatory family.\n"
+    )
+    out.write_text(text)

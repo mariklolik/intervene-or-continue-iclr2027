@@ -15,6 +15,7 @@ def main() -> None:
     parser.add_argument("--event", type=Path, required=True)
     parser.add_argument("--scheduled", type=Path, required=True)
     parser.add_argument("--first", type=Path, default=ROOT / "artifacts" / "confirmation" / "results.json")
+    parser.add_argument("--temperature-rows", type=Path)
     parser.add_argument("--out", type=Path, default=ROOT / "paper")
     args = parser.parse_args()
     paths = {"event": args.event.resolve(), "scheduled": args.scheduled.resolve()}
@@ -38,6 +39,10 @@ def main() -> None:
     panels = {"First study": json.loads(args.first.read_text())}
     panels.update({r2.RULE_LABELS[rule]: report for rule, report in reports.items()})
     draw_headroom(panels, outputs[3])
+    if args.temperature_rows and args.temperature_rows.exists():
+        target = generated / "r2_temperature.tex"
+        r2.noise_scaling(json.loads(args.temperature_rows.read_text()), reports["event"], target)
+        outputs.append(target)
     manifest = {
         "inputs": {rule: digest(path) for rule, path in paths.items()},
         "builder_sha256": digest(Path(__file__)),
