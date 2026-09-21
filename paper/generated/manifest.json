@@ -16,7 +16,7 @@
     },
     {
       "path": "paper/generated/analysis.tex",
-      "sha256": "7dabb043e8a12348d234a55924f15e89fd610d426dff56869761dff4bfd2ee06"
+      "sha256": "bc3d87d161bea3a2951660eeea2abe4a2ba34ef0507c40f49a70f299599b8e17"
     },
     {
       "path": "paper/generated/conclusion.tex",
@@ -48,5 +48,5 @@
     }
   ],
   "results_sha256": "d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d",
-  "text_builder_sha256": "2de1549450d7d65324308ca629771435fe6c27cd32c39fcad75a3a50bab2c405"
+  "text_builder_sha256": "9fb722fa1ef6de1496351103a8043882b4238e3abbfd0caa6e8cab70aa649782"
 }
