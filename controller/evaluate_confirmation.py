@@ -107,6 +107,9 @@ def main() -> None:
     parser.add_argument("--predictions", type=Path, required=True)
     parser.add_argument("--prediction-freeze", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--primary", action="append", default=None,
+                        help="Contrast key in the confirmatory family; repeat once per hypothesis. "
+                             "Omitted, the first study's family of optimism and two direct contrasts is used.")
     args = parser.parse_args()
     if args.out.exists():
         raise FileExistsError(args.out)
@@ -239,9 +242,15 @@ def main() -> None:
         else:
             headroom = None
         if env == "alfworld":
-            primary = [measurement, contrasts["DIRECT_ADVANTAGE_vs_CONTINUE"], contrasts["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]]
+            if args.primary is None:
+                primary = [measurement, contrasts["DIRECT_ADVANTAGE_vs_CONTINUE"], contrasts["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]]
+                family = ["same_draw_selection_optimism", "DIRECT_ADVANTAGE_vs_CONTINUE", "DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]
+            else:
+                family = list(args.primary)
+                primary = [measurement if key == "same_draw_selection_optimism" else contrasts[key] for key in family]
             for item, adjusted in zip(primary, holm([item["group_sign_flip_p"] for item in primary])):
                 item["holm_p_primary_family"] = adjusted
+            report["primary_family"] = family
         group_rows = []
         for group in sorted(set(gap_groups)):
             complete_indices = [index for index, value in enumerate(groups) if value == group]
