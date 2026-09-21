@@ -266,11 +266,11 @@ def write_conclusion(first: dict, reports: dict, out: Path) -> None:
     out.write_text(text + "\n")
 
 
-def noise_scaling(rows: list[dict], reference: dict, out: Path) -> None:
+def branch_statistics(rows: list[dict]) -> dict:
     import numpy as np
 
     y = np.asarray([row["Y"] for row in rows], float)
-    n, replicas, arms = y.shape
+    n, replicas, _ = y.shape
     index = np.arange(n)
     gap = np.zeros(n)
     for left in range(replicas):
@@ -278,16 +278,22 @@ def noise_scaling(rows: list[dict], reference: dict, out: Path) -> None:
             if left != right:
                 gap += y[:, left].max(axis=1) - y[index, left, y[:, right].argmax(axis=1)]
     gap /= replicas * (replicas - 1)
-    flips = (y[:, 0] != y[:, 1]).mean()
-    floor = domain(reference)["same_draw_selection_optimism"]["exchangeable_label_floor"]
-    observed = domain(reference)["same_draw_selection_optimism"]
+    rate = y.reshape(n, -1).mean(axis=1)
+    return {"n": n, "continue": float(y[:, :, 0].mean()), "flips": float((y[:, 0] != y[:, 1]).mean()),
+            "gap": float(gap.mean()), "variance": float((rate * (1 - rate)).mean())}
+
+
+def noise_scaling(hot: list[dict], cold: list[dict], out: Path) -> None:
+    shared = sorted({row["task_id"] for row in hot} & {row["task_id"] for row in cold})
+    a = branch_statistics([row for row in hot if row["task_id"] in shared])
+    b = branch_statistics([row for row in cold if row["task_id"] in shared])
+    direction = "raises" if a["gap"] > b["gap"] else "lowers"
     text = (
-        f"A temperature ablation runs the same checkpoint rule, menu, and draw count on {n} further identity-disjoint ALFWorld tasks "
-        f"with the actor's sampling temperature raised from 0.7 to 1.0. Raising the temperature raises continuation instability: "
-        f"{pct(flips)}\\% of arm-by-task cells disagree across the two draws, and the same-draw gap is {pct(gap.mean())} percentage points on eligible prefixes "
-        f"against {pct(observed['exchangeable_label_floor']['observed_eligible_mean'])} points at temperature 0.7 under the same rule, "
-        f"with exchangeable-label floors of {pct(floor['mean'])} points for the frozen panel. "
-        "The diagnostic therefore tracks the randomness of the continuation rather than a property of one benchmark, which is why an environment whose tools and simulated users add their own randomness should be expected to show a larger gap than the ones measured here. "
+        f"A temperature ablation runs the same checkpoint rule, menu, and draw count twice on {len(shared)} shared identity-disjoint ALFWorld tasks, "
+        "once with the actor's sampling temperature at the frozen 0.7 and once at 1.0. "
+        f"Raising it lowers continuation success from {pct(b['continue'])}\\% to {pct(a['continue'])}\\%, moves the mean per-task outcome variance from {b['variance']:.3f} to {a['variance']:.3f}, "
+        f"and {direction} the same-draw gap from {pct(b['gap'])} to {pct(a['gap'])} percentage points on the same tasks. "
+        "The diagnostic therefore follows the randomness of the continuation rather than a property of one benchmark, which is what the variance profile in the main text measures within a single panel. "
         "This ablation is exploratory: it was generated after the confirmation panels and enters no confirmatory family.\n"
     )
     out.write_text(text)
