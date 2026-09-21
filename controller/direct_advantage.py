@@ -59,7 +59,7 @@ def fit_stratum(rows):
     selected = select_candidate(candidates)
     transform = Features(text=True).fit(rows)
     model = None if selected['mode'] == 'CONTINUE' else forest(transform.transform(rows), target, selected['leaf'])
-    fitted = {'forest': model, 'transform': transform, **selected}
+    fitted = {'forest': model, 'transform': transform, 'contrasts': list(range(1, y.shape[2])), **selected}
     receipt = {'folds': folds, 'candidates': candidates, 'selected': selected,
                'target_sha256': digest(target.tolist()), 'feature_schema': transform.schema()}
     return fitted, receipt
@@ -98,7 +98,8 @@ def predict(bundle, rows):
             raise ValueError('Holdout/dev task overlap or invalid split')
         if (row['model'], row['env']) not in bundle['strata']:
             raise ValueError('Untrained actor/environment stratum')
-    p, estimates = np.zeros((len(safe), 4)), np.zeros((len(safe), 3))
+    width = len(next(iter(bundle['strata'].values()))['contrasts']) + 1
+    p, estimates = np.zeros((len(safe), width)), np.zeros((len(safe), width - 1))
     for key in sorted({(r['model'], r['env']) for r in safe}):
         indices = [i for i, r in enumerate(safe) if (r['model'], r['env']) == key]
         model = bundle['strata'][key]

@@ -7,6 +7,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
+from arms import arm_names, cell_seed, checkpoint_index, restore_index
 from local_client import LocalClient
 from src import agent
 from src.agent import ALFWORLD_RULES, ENV_RULES, TranscriptEntry, run_episode
@@ -45,7 +46,7 @@ def fork_payload(baseline: dict, step: int, arm: str) -> dict | None:
     steps = baseline["steps"]
     if step < 1 or len(steps) < step or steps[step - 1]["done"]:
         return None
-    restored = step - int(arm == "A3")
+    restored = restore_index(baseline, step, arm)
     state = steps[restored - 1]["state_hash"] if restored else steps[0]["prev_state_hash"]
     end = steps[restored]["transcript_len_before"] if restored < len(steps) else len(baseline["transcript"])
     return {
@@ -100,12 +101,12 @@ def run_task(task: dict, config: dict, endpoint: str, output: str, deadline: flo
         record_episode(baseline_path, {**common, "arm": "BASELINE", "round": -1, "seed": seed}, baseline, cli)
     if baseline.get("failure") or baseline.get("suspended"):
         return {**common, "state": "baseline_incomplete"}
-    step = task["checkpoint_step"]
-    if fork_payload(baseline, step, "A0") is None:
+    step = checkpoint_index(task, baseline)
+    if step is None or fork_payload(baseline, step, "A0") is None:
         return {**common, "state": "terminal_before_checkpoint", "success": baseline["success"]}
     if baseline_only:
         return {**common, "state": "baseline_ready"}
-    cells = [(round_id, arm) for round_id in range(config["rounds"]) for arm in config["arms"]]
+    cells = [(round_id, arm) for round_id in range(config["rounds"]) for arm in arm_names(config)]
     random.Random(seed).shuffle(cells)
     completed = 0
     for round_id, arm in cells:
@@ -120,10 +121,10 @@ def run_task(task: dict, config: dict, endpoint: str, output: str, deadline: flo
         restored = payload["restore_from"]["step_index"]
         text = config["arms"][arm]
         interventions = {restored: text} if text else {}
-        cell_seed = int.from_bytes(hashlib.sha256(f"{seed}:{round_id}:{arm}".encode()).digest()[:4], "big")
-        cli = LocalClient(endpoint, config["model"], cell_seed, deadline, config["temperature"], **client_options)
-        episode = run_episode(task["env"], task["task_spec"], cli, max_steps=baseline["step_limit"] - int(arm == "A3"), interventions=interventions, deadline=deadline, **payload)
-        metadata = {**common, "arm": arm, "round": round_id, "seed": cell_seed, "checkpoint_step": step, "restored_step": restored}
+        seed_value = cell_seed(seed, round_id, arm)
+        cli = LocalClient(endpoint, config["model"], seed_value, deadline, config["temperature"], **client_options)
+        episode = run_episode(task["env"], task["task_spec"], cli, max_steps=baseline["step_limit"] - (step - restored), interventions=interventions, deadline=deadline, **payload)
+        metadata = {**common, "arm": arm, "round": round_id, "seed": seed_value, "checkpoint_step": step, "restored_step": restored}
         record_episode(path, metadata, episode, cli)
         completed += int(not episode.get("failure") and not episode.get("suspended") and episode.get("restore_hash_ok") is True)
     return {**common, "state": "complete" if completed == len(cells) else "incomplete", "completed_cells": completed, "planned_cells": len(cells)}

@@ -52,13 +52,41 @@ def holm(values: list[float]) -> list[float]:
     return adjusted.tolist()
 
 
-def cell_costs(rows: list[dict], field: str) -> np.ndarray:
-    values = np.zeros((len(rows), 2, len(ARMS)))
+def cell_costs(rows: list[dict], field: str, arms: list[str] | None = None, replicas: int = 2) -> np.ndarray:
+    arms = list(ARMS) if arms is None else arms
+    values = np.zeros((len(rows), replicas, len(arms)))
     for row_index, row in enumerate(rows):
         for cell in row["cells"]:
             events = cell["local_call_events"]
-            values[row_index, cell["round"], ARMS.index(cell["arm"])] = len(events) if field == "requests" else sum(event.get(field, 0) or 0 for event in events)
+            values[row_index, cell["round"], arms.index(cell["arm"])] = len(events) if field == "requests" else sum(event.get(field, 0) or 0 for event in events)
     return values
+
+
+def optimism(y: np.ndarray) -> np.ndarray:
+    replicas = y.shape[1]
+    rows = np.arange(len(y))
+    total = np.zeros(len(y))
+    for left in range(replicas):
+        for right in range(replicas):
+            if left != right:
+                total += y[:, left].max(axis=1) - y[rows, left, y[:, right].argmax(axis=1)]
+    return total / (replicas * (replicas - 1))
+
+
+def label_exchange_floor(y: np.ndarray, seed: int, draws: int = 20000) -> dict:
+    if not len(y):
+        return {"mean": None, "interval_95": None, "one_sided_p": None, "draws": draws}
+    rng = np.random.default_rng(seed)
+    flat = y.reshape(len(y), -1)
+    null = np.empty(draws)
+    for draw in range(draws):
+        null[draw] = optimism(rng.permuted(flat, axis=1).reshape(y.shape)).mean()
+    observed = optimism(y).mean()
+    return {"mean": float(null.mean()), "interval_95": np.quantile(null, [.025, .975]).tolist(),
+            "observed_eligible_mean": float(observed),
+            "one_sided_p": float((1 + np.sum(null <= observed + 1e-12)) / (draws + 1)),
+            "draws": draws,
+            "definition": "Within-task permutation of every arm/draw outcome; the sharp null of exchangeable arm and draw labels"}
 
 
 def main() -> None:
@@ -95,8 +123,10 @@ def main() -> None:
     expected_core = [{key: row[key] for key in ["model", "env", "split", "task_id", "config_sha256"]} for row in expected]
     if actual != expected_core:
         raise ValueError("Complete holdout rows differ from frozen prediction rows")
+    arms = audits[0]["arms"] if audits and "arms" in audits[0] else list(ARMS)
+    replicas = audits[0].get("rounds", 2) if audits else 2
     probability = {name: np.asarray(values, dtype=float) for name, values in predictions["policies"].items()}
-    if any(values.shape != (len(rows), len(ARMS)) for values in probability.values()):
+    if any(values.shape != (len(rows), len(arms)) for values in probability.values()):
         raise ValueError("Policy probability shape mismatch")
     report = {
         "status": "COMPLETE",
@@ -125,6 +155,8 @@ def main() -> None:
             "ARM_OUTCOME": probability["ARM_OUTCOME"][indices],
             "MATCHED_COMPARATOR": probability[f"MATCHED_{env.upper()}"][indices],
         }
+        if "CROSS_DRAW" in probability:
+            policies["CROSS_DRAW"] = probability["CROSS_DRAW"][indices]
         selected_name = predictions["selection"][env]["selected"]["name"]
         if selected_name in policies:
             policies["SAFE_SELECTED"] = policies[selected_name]
@@ -142,7 +174,7 @@ def main() -> None:
             recovered = float((chosen[:, None, :] * (y == 1) * (y[:, :, :1] == 0)).sum())
             costs = {}
             for field in ["requests", "input_tokens", "output_tokens", "wall_s"]:
-                per_task = (cell_costs(subset, field).mean(axis=1) * chosen).sum(axis=1)
+                per_task = (cell_costs(subset, field, arms, replicas).mean(axis=1) * chosen).sum(axis=1)
                 costs[field] = {
                     "eligible_mean": float(per_task.mean()),
                     "planned_mean": float(per_task.sum() / len(planned)),
@@ -156,26 +188,26 @@ def main() -> None:
                 "recovered_rounds": recovered,
                 "suffix_cost": costs,
             }
-        contrasts = {}
-        for left, right in [
+        pairs = [
             ("DIRECT_ADVANTAGE", "CONTINUE"),
             ("DIRECT_ADVANTAGE", "MATCHED_COMPARATOR"),
             ("DIRECT_ADVANTAGE", "ARM_OUTCOME"),
             ("DIRECT_ADVANTAGE", "BEST_FIXED"),
             ("SAFE_SELECTED", "CONTINUE"),
-        ]:
+        ]
+        if "CROSS_DRAW" in policies:
+            pairs = [("CROSS_DRAW", "CONTINUE"), ("CROSS_DRAW", "BEST_FIXED"), ("CROSS_DRAW", "MATCHED_COMPARATOR"),
+                     ("CROSS_DRAW", "DIRECT_ADVANTAGE"), ("CROSS_DRAW", "ARM_OUTCOME")] + pairs
+        contrasts = {}
+        for left, right in pairs:
             contrast_values = np.r_[values[left] - values[right], np.zeros(len(early_values))]
             contrast_groups = groups + [task_meta[(env, task_id)]["group_id"] for task_id in sorted(early_ids)]
             contrasts[f"{left}_vs_{right}"] = bootstrap(contrast_values, contrast_groups, 270914 + domain_index)
-        if len(y):
-            chosen0 = y[:, 0].argmax(axis=1)
-            chosen1 = y[:, 1].argmax(axis=1)
-            gap = .5 * ((y[:, 0].max(axis=1) - y[np.arange(len(y)), 0, chosen1]) + (y[:, 1].max(axis=1) - y[np.arange(len(y)), 1, chosen0]))
-        else:
-            gap = np.array([])
+        gap = optimism(y) if len(y) else np.array([])
         gap_values = np.r_[gap, np.zeros(len(early_values))]
         gap_groups = groups + [task_meta[(env, task_id)]["group_id"] for task_id in sorted(early_ids)]
         measurement = bootstrap(gap_values, gap_groups, 271014 + domain_index)
+        measurement["exchangeable_label_floor"] = label_exchange_floor(y, 271014 + domain_index)
         if env == "alfworld":
             primary = [measurement, contrasts["DIRECT_ADVANTAGE_vs_CONTINUE"], contrasts["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]]
             for item, adjusted in zip(primary, holm([item["group_sign_flip_p"] for item in primary])):

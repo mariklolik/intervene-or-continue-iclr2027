@@ -6,7 +6,9 @@ from pathlib import Path
 
 import numpy as np
 
-ARMS = ["A0", "A1", "A2", "A3"]
+from arms import BASE_ARMS, arm_names, cell_seed, checkpoint_index, restore_index, rounds as config_rounds
+
+ARMS = list(BASE_ARMS)
 sys.dont_write_bytecode = True
 SOURCE_ROOT = Path(__file__).resolve().parents[1] / "Holosophus/run-archives/intervene-or-continue-20260820T150100Z-foreground3-claude-opus-5/workspace"
 if SOURCE_ROOT.exists():
@@ -15,8 +17,8 @@ if SOURCE_ROOT.exists():
 
 def diagnostics(outcomes: np.ndarray) -> dict:
     y = np.asarray(outcomes, dtype=float)
-    if y.ndim != 3 or y.shape[1:] != (2, 4) or not np.isin(y, [0, 1]).all():
-        raise ValueError("Expected binary outcomes shaped [independent task, 2 rounds, 4 arms]")
+    if y.ndim != 3 or y.shape[1] < 2 or y.shape[2] < 2 or not np.isin(y, [0, 1]).all():
+        raise ValueError("Expected binary outcomes shaped [independent task, rounds, arms]")
     selected = np.argmax(y, axis=2)
     best = y.max(axis=2)
     cross = np.take_along_axis(y[:, ::-1, :], selected[:, :, None], axis=2)[:, :, 0]
@@ -104,10 +106,10 @@ def inventory(raw: Path) -> tuple[dict, dict]:
                      "usage_caveat": "Recorded local_call_events summed across every file and attempt; missing files/process-killed unsaved calls remain unknown. This is not allocated GPU time."}
 
 
-def validate_cell(record: dict, task: dict, config: dict, digest: str, baseline: dict, round_id: int, arm: str) -> list[str]:
-    restored = task["checkpoint_step"] - int(arm == "A3")
-    seed = int.from_bytes(hashlib.sha256(f"{task['seed']}:{round_id}:{arm}".encode()).digest()[:4], "big")
-    expected = {"task_id": task["task_id"], "split": task["split"], "model": config["model"], "config_sha256": digest, "round": round_id, "arm": arm, "seed": seed, "checkpoint_step": task["checkpoint_step"], "restored_step": restored}
+def validate_cell(record: dict, task: dict, config: dict, digest: str, baseline: dict, round_id: int, arm: str, checkpoint: int) -> list[str]:
+    restored = restore_index(baseline, checkpoint, arm)
+    seed = cell_seed(task["seed"], round_id, arm)
+    expected = {"task_id": task["task_id"], "split": task["split"], "model": config["model"], "config_sha256": digest, "round": round_id, "arm": arm, "seed": seed, "checkpoint_step": checkpoint, "restored_step": restored}
     reasons = [f"metadata_{key}" for key, value in expected.items() if record.get(key) != value]
     episode = record["episode"]
     for key in ["failure", "suspended", "censored", "excluded"]:
@@ -116,7 +118,7 @@ def validate_cell(record: dict, task: dict, config: dict, digest: str, baseline:
     if episode.get("env") != task["env"]: reasons.append("environment_mismatch")
     if episode.get("task_spec") != task["task_spec"]: reasons.append("task_spec_mismatch")
     if episode.get("segment_start_step") != restored: reasons.append("segment_start_mismatch")
-    if episode.get("step_limit") != baseline["step_limit"] - int(arm == "A3"): reasons.append("remaining_budget_mismatch")
+    if episode.get("step_limit") != baseline["step_limit"] - (checkpoint - restored): reasons.append("remaining_budget_mismatch")
     if not isinstance(episode.get("success"), bool): reasons.append("success_not_binary")
     state = baseline["steps"][restored - 1]["state_hash"] if restored else baseline["steps"][0]["prev_state_hash"]
     if not episode.get("steps") or episode["steps"][0].get("prev_state_hash") != state: reasons.append("initial_state_mismatch_or_no_execution")
@@ -138,22 +140,23 @@ def load_blocks(config_path: Path, raw_dir: Path, split: str | None = None) -> t
     config_bytes = Path(config_path).read_bytes()
     config = json.loads(config_bytes)
     digest = hashlib.sha256(config_bytes).hexdigest()
-    if config.get("rounds") != 2 or set(config.get("arms", {})) != set(ARMS) or config["arms"]["A0"]:
-        raise ValueError("The registered design requires two rounds and fresh A0,A1,A2,A3")
+    arms, replicas = arm_names(config), config_rounds(config)
+    if replicas < 2 or not set(BASE_ARMS) <= set(arms) or config["arms"]["A0"]:
+        raise ValueError("The registered design requires at least two rounds and a fresh no-message A0")
     tasks = config["tasks"]
     if len({t["task_id"] for t in tasks}) != len(tasks): raise ValueError("Duplicate task identifiers")
     records, audit = inventory(Path(raw_dir))
     accepted, task_audit = [], []
     for task in tasks:
-        task_id, checkpoint = task["task_id"], task["checkpoint_step"]
+        task_id = task["task_id"]
         item = {"task_id": task_id, "split": task["split"], "env": task["env"], "state": "not_started", "reasons": [], "missing_cells": [], "valid_cells": 0, "cells": [], "checkpoint_eligible": None}
         task_audit.append(item)
         if split is not None and task["split"] != split:
             item["state"] = "outside_requested_split"
             continue
         baseline_record = records.get(f"{task_id}/baseline.json")
-        for round_id in range(2):
-            for arm in ARMS:
+        for round_id in range(replicas):
+            for arm in arms:
                 if f"{task_id}/round{round_id}-{arm}.json" not in records: item["missing_cells"].append(f"round{round_id}-{arm}.json")
         if baseline_record is None:
             item["reasons"].append("baseline.json:missing")
@@ -166,17 +169,19 @@ def load_blocks(config_path: Path, raw_dir: Path, split: str | None = None) -> t
             item["state"] = "baseline_incomplete_or_invalid"
             item["reasons"].append("baseline_failure_or_suspension_or_provenance")
             continue
-        if checkpoint < 1 or len(baseline["steps"]) < checkpoint or baseline["steps"][checkpoint - 1]["done"]:
+        checkpoint = checkpoint_index(task, baseline)
+        item["checkpoint_step"] = checkpoint
+        if checkpoint is None or checkpoint < 1 or len(baseline["steps"]) < checkpoint or baseline["steps"][checkpoint - 1]["done"]:
             item.update(state="terminal_before_checkpoint", baseline_success=baseline.get("success"), checkpoint_eligible=False)
             continue
         item["checkpoint_eligible"] = True
         cells, y = [], []
-        for round_id in range(2):
+        for round_id in range(replicas):
             outcome_round = []
-            for arm in ARMS:
+            for arm in arms:
                 name = f"round{round_id}-{arm}.json"
                 record = records.get(f"{task_id}/{name}")
-                reasons = ["missing"] if record is None else validate_cell(record, task, config, digest, baseline, round_id, arm)
+                reasons = ["missing"] if record is None else validate_cell(record, task, config, digest, baseline, round_id, arm, checkpoint)
                 item["reasons"] += [f"{name}:{reason}" for reason in reasons]
                 item["cells"].append({"round": round_id, "arm": arm, "path": f"{task_id}/{name}", "present": record is not None, "valid": not reasons, "reasons": reasons})
                 if reasons: continue
@@ -185,17 +190,17 @@ def load_blocks(config_path: Path, raw_dir: Path, split: str | None = None) -> t
                 outcome_round.append(int(episode["success"]))
                 cells.append({"round": round_id, "arm": arm, "seed": record["seed"], "path": f"{task_id}/{name}", "local_call_events": episode["local_call_events"], "success": episode["success"], "interventions_injected": episode["interventions_injected"]})
             y.append(outcome_round)
-        item["state"] = "complete" if item["valid_cells"] == 8 and not item["reasons"] else "incomplete_or_invalid"
+        item["state"] = "complete" if item["valid_cells"] == replicas * len(arms) and not item["reasons"] else "incomplete_or_invalid"
         if item["state"] == "complete":
-            accepted.append({"task_id": task_id, "split": task["split"], "env": task["env"], "model": config["model"], "model_revision": config.get("model_revision"), "config_sha256": digest, "scaffold": config.get("scaffold", "legacy-action"), "arms": ARMS, "Y": y, "cells": cells, "prefix_only": prefix_metadata(baseline, checkpoint)})
+            accepted.append({"task_id": task_id, "split": task["split"], "env": task["env"], "model": config["model"], "model_revision": config.get("model_revision"), "config_sha256": digest, "scaffold": config.get("scaffold", "legacy-action"), "arms": arms, "Y": y, "cells": cells, "prefix_only": prefix_metadata(baseline, checkpoint)})
     selected_tasks = [t for t in task_audit if t["state"] != "outside_requested_split"]
     denominators = {}
-    for arm in ARMS:
+    for arm in arms:
         cells = [c for t in selected_tasks for c in t["cells"] if c["arm"] == arm]
-        denominators[arm] = {"potential_cells": 2 * len(selected_tasks), "confirmed_eligible_cells": 2 * sum(t["checkpoint_eligible"] is True for t in selected_tasks), "valid_cells": sum(c["valid"] for c in cells), "present_cells_at_eligible_checkpoints": sum(c["present"] for c in cells), "accepted_block_cells": 2 * len(accepted), "all_episode_attempt_records": sum(e["arm"] == arm for e in audit["episode_inventory"])}
-    expected_names = {"baseline.json"} | {f"round{r}-{a}.json" for r in range(2) for a in ARMS}
+        denominators[arm] = {"potential_cells": replicas * len(selected_tasks), "confirmed_eligible_cells": replicas * sum(t["checkpoint_eligible"] is True for t in selected_tasks), "valid_cells": sum(c["valid"] for c in cells), "present_cells_at_eligible_checkpoints": sum(c["present"] for c in cells), "accepted_block_cells": replicas * len(accepted), "all_episode_attempt_records": sum(e["arm"] == arm for e in audit["episode_inventory"])}
+    expected_names = {"baseline.json"} | {f"round{r}-{a}.json" for r in range(replicas) for a in arms}
     unexpected = [p for p in records if p.split("/")[0] not in {t["task_id"] for t in tasks} or (Path(p).name not in expected_names and ".attempt" not in Path(p).name)]
-    audit.update(tasks=task_audit, config_sha256=digest, config_path=str(config_path), phase=config.get("phase"), model=config["model"], model_revision=config.get("model_revision"), provenance_status="revision_declared_in_hashed_config" if config.get("model_revision") else "exact_model_revision_unavailable", provenance_caveat="Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence", unexpected_episode_paths=unexpected, arm_denominators=denominators, accepted_tasks=len(accepted), planned_tasks=len(tasks))
+    audit.update(arms=arms, rounds=replicas, tasks=task_audit, config_sha256=digest, config_path=str(config_path), phase=config.get("phase"), model=config["model"], model_revision=config.get("model_revision"), provenance_status="revision_declared_in_hashed_config" if config.get("model_revision") else "exact_model_revision_unavailable", provenance_caveat="Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence", unexpected_episode_paths=unexpected, arm_denominators=denominators, accepted_tasks=len(accepted), planned_tasks=len(tasks))
     return accepted, audit
 
 

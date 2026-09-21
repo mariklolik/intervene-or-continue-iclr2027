@@ -13,6 +13,8 @@ from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import GroupKFold
 
+from arms import BASE_ARMS
+
 SEED = 260908
 LEAVES = [10, 5]
 MARGINS = [0.10, 0.05, 0.0]
@@ -108,7 +110,7 @@ def decisions(mean: np.ndarray, std: np.ndarray, method: str, threshold: float, 
         scores[:, 0] = mean[:, 0] + std[:, 0] + threshold
         maximum = scores.max(axis=1, keepdims=True)
         chosen = (scores >= maximum - 1e-12).argmax(axis=1)
-    return np.eye(4)[chosen]
+    return np.eye(mean.shape[1])[chosen]
 
 
 def fit_learner(rows: list[dict], method: str, text: bool) -> tuple[dict, dict]:
@@ -126,7 +128,8 @@ def fit_learner(rows: list[dict], method: str, text: bool) -> tuple[dict, dict]:
                       "validation_task_ids": sorted({rows[i]["task_id"] for i in valid}), **transform.schema()})
     thresholds = RISK_THRESHOLDS if method == "FAILURE_RISK" else MARGINS
     for leaf in LEAVES:
-        means, stds, arms = np.zeros((len(rows), 4)), np.zeros((len(rows), 4)), np.zeros(len(rows), dtype=int)
+        width = y.shape[2]
+        means, stds, arms = np.zeros((len(rows), width)), np.zeros((len(rows), width)), np.zeros(len(rows), dtype=int)
         for train, valid, train_x, valid_x in prepared:
             model = estimator(method, train_x, y[train], leaf)
             means[valid], stds[valid] = values(model, valid_x, method)
@@ -155,8 +158,8 @@ def fit(rows: list[dict], text: bool = False) -> tuple[dict, dict]:
     if len(set(task_keys)) != len(task_keys):
         raise ValueError("One complete checkpoint row per task and stratum is required")
     y = np.asarray([r["Y"] for r in dev], dtype=float)
-    if y.shape != (len(dev), 2, 4) or not np.isin(y, [0, 1]).all():
-        raise ValueError("Development outcomes must be binary [N,2,4]")
+    if y.ndim != 3 or y.shape[0] != len(dev) or y.shape[1] < 2 or y.shape[2] < 2 or not np.isin(y, [0, 1]).all():
+        raise ValueError("Development outcomes must be binary [N,rounds,arms]")
     code_hash = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     bundle = {"strata": {}, "training_tasks": sorted({(r["env"], r["task_id"]) for r in dev}),
               "training_data_sha256": digest(dev), "policy_source_sha256": code_hash}
@@ -186,14 +189,15 @@ def predict(bundle: dict, rows: list[dict]) -> dict:
             raise ValueError("Prediction requires untouched holdout tasks")
         if (row["model"], row["env"]) not in bundle["strata"]:
             raise ValueError("Actor/environment stratum was not trained")
-    output = {m: {"probabilities": np.zeros((len(rows), 4)), "predicted_values": np.zeros((len(rows), 4)),
+    width = max((len(stratum["mean"]) for stratum in bundle["strata"].values()), default=len(BASE_ARMS))
+    output = {m: {"probabilities": np.zeros((len(rows), width)), "predicted_values": np.zeros((len(rows), width)),
                   "value_kind": "pairwise_preference" if m == "PAIRWISE" else "estimated_success"} for m in METHODS}
     for key in sorted({(r["model"], r["env"]) for r in safe}):
         indices = [i for i, r in enumerate(safe) if (r["model"], r["env"]) == key]
         subset, stratum = [safe[i] for i in indices], bundle["strata"][key]
         mean = np.tile(stratum["mean"], (len(subset), 1))
-        fixed = {"CONTINUE": np.eye(4)[0], "BEST_FIXED": np.eye(4)[stratum["fixed"]],
-                 "RATE_RANDOM": np.array([1 - stratum["random_rate"]] + [stratum["random_rate"] / 3] * 3)}
+        fixed = {"CONTINUE": np.eye(width)[0], "BEST_FIXED": np.eye(width)[stratum["fixed"]],
+                 "RATE_RANDOM": np.array([1 - stratum["random_rate"]] + [stratum["random_rate"] / (width - 1)] * (width - 1))}
         for method in METHODS:
             if method in fixed:
                 p, v = np.tile(fixed[method], (len(subset), 1)), mean
