@@ -139,16 +139,12 @@ def write_results(reports: dict, out: Path) -> None:
 def capacity_sentence(capacity: dict) -> str:
     if not capacity:
         return ""
-    labels = {"tabular_boosted": "gradient boosting on the same features",
-              "semantic_forest": "the forest with 0.6B language-model embeddings of the prefix appended",
-              "semantic_boosted": "gradient boosting with those embeddings"}
-    parts = []
-    for rule in ("scheduled", "event"):
-        block = capacity[rule]
-        richer = ", ".join(f"{labels[name]} {pct(block[name])}\\%" for name in labels)
-        parts.append(f"at the {RULE_LABELS[rule].lower()} point the frozen forest reaches {pct(block['tabular_forest'])}\\%, against {richer}")
-    return (" We also raised learner capacity directly, on development data and before any test prediction. Nested honest out-of-fold utility, "
-            + "; ".join(parts) + ". Neither a higher-variance learner nor semantic features recover more from the same prefixes, so the null is a property of what the prefix carries at that decision point rather than of the model class.")
+    richer = ("tabular_boosted", "semantic_forest", "semantic_boosted")
+    scores = {rule: ", ".join(pct(capacity[rule][name]) for name in richer) for rule in ("scheduled", "event")}
+    return (" We also raised learner capacity directly, on development data and before any test prediction. Nested honest out-of-fold utility is "
+            f"{pct(capacity['scheduled']['tabular_forest'])}\\% for the frozen forest at the scheduled point and {pct(capacity['event']['tabular_forest'])}\\% at the triggered one; "
+            f"gradient boosting, appended 0.6B language-model embeddings of the prefix, and their combination each score lower at both ({scores['scheduled']} and {scores['event']}). "
+            "What the prefix carries at a decision point, not the model class, sets the ceiling.")
 
 
 def write_analysis(reports: dict, out: Path, capacity: dict | None = None) -> None:

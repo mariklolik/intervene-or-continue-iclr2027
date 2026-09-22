@@ -1,5 +1,5 @@
 {
-  "builder_sha256": "f3e332db2d2ad89cea3bcb15199d68ffaaa15958a9539cc056574db27ff70102",
+  "builder_sha256": "6604c9253c70660e5d18174111fbec0df3b23bc33ee8b8c229a2cbf8b74b9880",
   "inputs": {
     "event": "666d9ba0de97b50b486efde0e794cec8fc61125907391868d9020810f0249158",
     "scheduled": "d993f18595730f39ba2ca77159a21e18ef294ea4d7e24e12b81a4164ba276d28"
@@ -15,11 +15,11 @@
     },
     {
       "path": "paper/generated/r2_analysis.tex",
-      "sha256": "9530a49bd9dac6f362dd500b9cf03efab89ca640d3f01a1099c7be82a825817f"
+      "sha256": "921b587226284904bf780b6f0e96e7d564a0f334fc892187684fae1b54647fa3"
     },
     {
       "path": "paper/figures/headroom.pdf",
-      "sha256": "ce2896deade2dcc75c8aa7945e6ab15bcaf8fd6a200e1a9035e10d0d9b84eaa2"
+      "sha256": "2ff6ef28321ada01f67b2a486fed1c50745954d5777967566aa3f05f30a8edd5"
     },
     {
       "path": "paper/generated/abstract.tex",
@@ -32,11 +32,7 @@
     {
       "path": "paper/generated/conclusion.tex",
       "sha256": "230507476492862b39bed22352db80c11391da17d1fe578987490f1d17ec019c"
-    },
-    {
-      "path": "paper/generated/r2_temperature.tex",
-      "sha256": "cfeff0597006c15fa06cd93a521147752df4055c49c89349cdf08e1f38798dc1"
     }
   ],
-  "text_builder_sha256": "97da9a7bbeb552b4a763a170f092f6d7a278287e08b41b874e672a017be6444e"
+  "text_builder_sha256": "cb793f91c37a610d2e64a0289f02fadd39a6193cbe0022af4aaa1f95aa2e49e9"
 }
