@@ -15,7 +15,7 @@
     },
     {
       "path": "paper/generated/r2_analysis.tex",
-      "sha256": "921b587226284904bf780b6f0e96e7d564a0f334fc892187684fae1b54647fa3"
+      "sha256": "0fe6b564f81402af87259470ccf53b81b8110898005978ef110efead2ff56391"
     },
     {
       "path": "paper/figures/headroom.pdf",
@@ -34,5 +34,5 @@
       "sha256": "230507476492862b39bed22352db80c11391da17d1fe578987490f1d17ec019c"
     }
   ],
-  "text_builder_sha256": "cb793f91c37a610d2e64a0289f02fadd39a6193cbe0022af4aaa1f95aa2e49e9"
+  "text_builder_sha256": "ffa39efb4f613897a3a020f8ccd6dfdcf8908fe7b1598950890420e1068c712a"
 }
