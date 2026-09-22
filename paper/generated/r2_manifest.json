@@ -15,7 +15,7 @@
     },
     {
       "path": "paper/generated/r2_analysis.tex",
-      "sha256": "ca2158a9ae7836ea583dacdea82d878abe7c4458617ac15681d66dba5ff18eca"
+      "sha256": "c19a51dc4886619e64ce503850fd8fcc129ae2defdec7bff77facf00cfb4554d"
     },
     {
       "path": "paper/figures/headroom.pdf",
@@ -23,7 +23,7 @@
     },
     {
       "path": "paper/generated/abstract.tex",
-      "sha256": "6d19e27f9153018622c8ddab8184bc1f7baed93a47fa23d0082f310809678703"
+      "sha256": "18f2b25c191642677f0b3b08230754837b36c54eb69cf0c75c6b045be240e031"
     },
     {
       "path": "paper/generated/r2_appendix.tex",
@@ -31,8 +31,8 @@
     },
     {
       "path": "paper/generated/conclusion.tex",
-      "sha256": "230507476492862b39bed22352db80c11391da17d1fe578987490f1d17ec019c"
+      "sha256": "90018065e8825828c2dfbaf5a0726280c7b78d097f81b045387fbf41d8528cc8"
     }
   ],
-  "text_builder_sha256": "7c4fa4add069721e4e59625b514d4c317a474f38183236b9391eee1b5536e6ab"
+  "text_builder_sha256": "967ac6bf5cfc875b927d4539d62ddb10f578ea01eb5a99c2978c8b8692cc8ed6"
 }
