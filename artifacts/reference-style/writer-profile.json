@@ -1,0 +1,1006 @@
+{
+ "1810.08272": [
+  {
+   "name": "Introduction",
+   "sentences": 26,
+   "median_words": 23,
+   "long_share": 0.077,
+   "hedge_per_100": 7.7,
+   "first_person_per_100": 65.4,
+   "paragraphs": 4,
+   "para_openings": [
+    "How can a human train an intelligent agent to understand natural language",
+    "In this work, we present the BabyAI research platform, whose purpose is",
+    "Arguably, the main obstacle to language learning with a human in the",
+    "The concrete contributions of this paper are two-fold. First, we contribute the"
+   ]
+  },
+  {
+   "name": "Related Work",
+   "sentences": 22,
+   "median_words": 21,
+   "long_share": 0.045,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 40.9,
+   "paragraphs": 6,
+   "para_openings": [
+    "There are numerous 2D and 3D environments for studying synthetic language acquistion.",
+    "Currently, most general-purpose simulation frameworks do not feature language, such as PycoLab",
+    "General-purpose RL testbeds such as the Arcade Learning Environment , DM-30 ,",
+    "Similar to BabyAI, studying sample efficiency of deep learning methods was a"
+   ]
+  },
+  {
+   "name": "BabyAI Platform",
+   "sentences": 83,
+   "median_words": 18,
+   "long_share": 0.072,
+   "hedge_per_100": 9.6,
+   "first_person_per_100": 16.9,
+   "paragraphs": 14,
+   "para_openings": [
+    "The BabyAI platform that we present in this work comprises an efficiently",
+    "0.38 [GoToObj: \"go to the blue ball\"] [scale=0.32] GoToObj [PutNextLocal: \"put the",
+    "Studies of sample efficiency are very computationally expensive given that multiple runs",
+    "The MiniGrid environment is fast and lightweight. Throughput of over 3000 frames"
+   ]
+  },
+  {
+   "name": "Experiments",
+   "sentences": 84,
+   "median_words": 18,
+   "long_share": 0.107,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 77.4,
+   "paragraphs": 17,
+   "para_openings": [
+    "We assess the difficulty of BabyAI levels by training a behavioral cloning",
+    "The BabyAI platform provides by default a 7x7x3 symbolic observation (a partial",
+    "We have used two versions of our model, to which we will",
+    "In all our experiments, we used the Adam optimizer with the hyperparameters"
+   ]
+  },
+  {
+   "name": "Conclusion \\& Future Work",
+   "sentences": 12,
+   "median_words": 20,
+   "long_share": 0.083,
+   "hedge_per_100": 41.7,
+   "first_person_per_100": 33.3,
+   "paragraphs": 3,
+   "para_openings": [
+    "We present the BabyAI research platform to study language learning with a",
+    "The results in Section suggest that current imitation learning and reinforcement learning",
+    "An obvious direction of future research to find strategies to improve sample"
+   ]
+  },
+  {
+   "name": "Acknowledgements",
+   "sentences": 4,
+   "median_words": 18,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 75.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "We thank Tristan Deleu, Saizheng Zhang for useful discussions. We also thank"
+   ]
+  },
+  {
+   "name": "Sample Efficiency Estimation",
+   "sentences": 34,
+   "median_words": 17,
+   "long_share": 0.088,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 70.6,
+   "paragraphs": 7,
+   "para_openings": [
+    "To estimate the number of episodes required for an RL agent to",
+    "Estimating how many demonstrations is required for imitation learning to achieve a",
+    "To make sample efficiency estimation practical, we designed a relatively cheap semi-automatic",
+    "Understanding if a training run has converged and if the model's performance"
+   ]
+  },
+  {
+   "name": "MiniGrid Environments for OpenAI Gym\\label{sec:minigrid",
+   "sentences": 28,
+   "median_words": 16,
+   "long_share": 0.071,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 0.0,
+   "paragraphs": 5,
+   "para_openings": [
+    "The environments used for this research are built on top of MiniGrid,",
+    "In MiniGrid, the world is a grid of size NxN. Each tile",
+    "Rewards are sparse for all MiniGrid environments. Each environment has an associated",
+    "There are seven actions in MiniGrid: turn left, turn right, move forward,"
+   ]
+  },
+  {
+   "name": "Bot Implementation Details",
+   "sentences": 17,
+   "median_words": 23,
+   "long_share": 0.059,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 17.6,
+   "paragraphs": 4,
+   "para_openings": [
+    "Translation of instructions into subgoals The bot has access to a representation",
+    "0.45 [GoToObj: \"go to the blue ball\"] [scale=0.6] stack1.pdf [PutNextLocal: \"put the",
+    "Once instructions for a task are translated into the initial stack of",
+    "The Close , Drop and Pickup subgoals are trivial, that is, they"
+   ]
+  }
+ ],
+ "2010.03768": [
+  {
+   "name": "Introduction",
+   "sentences": 23,
+   "median_words": 27,
+   "long_share": 0.304,
+   "hedge_per_100": 4.3,
+   "first_person_per_100": 56.5,
+   "paragraphs": 6,
+   "para_openings": [
+    "[24] r 7.3cm -1.35cm [width=7.3cm,clip, trim=0 0 0 0] figures/teaser_v3_5.pdf -0.6cm :",
+    "Consider helping a friend prepare dinner in an unfamiliar house: when your",
+    "To test this hypothesis, we have created the novel framework, the first",
+    "While fields such as robotic control use simulators like MuJoCo to provide"
+   ]
+  },
+  {
+   "name": "Aligning \\alfred and \\tw",
+   "sentences": 35,
+   "median_words": 22,
+   "long_share": 0.114,
+   "hedge_per_100": 8.6,
+   "first_person_per_100": 22.9,
+   "paragraphs": 10,
+   "para_openings": [
+    "[10] r 4.5cm -13pt @ l@ 7pt r@ 9pt r@ 9pt r@",
+    "The dataset also includes crowdsourced language instructions like ``turn around and walk",
+    "Our aligned framework adopts six task-types (Table ) of various difficulty levels.",
+    "Within each task category there is significant variation: the embodied environment includes"
+   ]
+  },
+  {
+   "name": "Introducing \\model: An Embodied Multi-task Agent",
+   "sentences": 38,
+   "median_words": 20,
+   "long_share": 0.079,
+   "hedge_per_100": 7.9,
+   "first_person_per_100": 23.7,
+   "paragraphs": 5,
+   "para_openings": [
+    "We investigate learning in the abstract language modality generalizing to the embodied",
+    "[10] r 0.5 -0.6cm [width=0.5 ] figures/daseq.pdf : The text agent takes",
+    "When solving a task, an agent might get stuck at certain states",
+    "At test time, agents in the embodied world must operate purely from"
+   ]
+  },
+  {
+   "name": "Experiments",
+   "sentences": 58,
+   "median_words": 18,
+   "long_share": 0.086,
+   "hedge_per_100": 5.2,
+   "first_person_per_100": 34.5,
+   "paragraphs": 12,
+   "para_openings": [
+    "We design experiments to answer the following questions: (1) How important is",
+    "The first question addresses our core hypothesis that training agents in interactive",
+    "Comparing to , we see improved performance on all types of seen",
+    "[t!] lcc||cccc|cc|cc & 2 c|| & 2 c & 2 c| &"
+   ]
+  },
+  {
+   "name": "Ablations",
+   "sentences": 44,
+   "median_words": 19,
+   "long_share": 0.091,
+   "hedge_per_100": 6.8,
+   "first_person_per_100": 31.8,
+   "paragraphs": 12,
+   "para_openings": [
+    "We conduct ablation studies to further investigate: (1) The generalization performance of",
+    "Generalization within We train and evaluate in abstract environments spanning the six",
+    "We first experimented with training through reinforcement learning (RL) where the agent",
+    "After concluding that current reinforcement learning approaches were not successful on our"
+   ]
+  },
+  {
+   "name": "Related Work",
+   "sentences": 16,
+   "median_words": 19,
+   "long_share": 0.0,
+   "hedge_per_100": 6.2,
+   "first_person_per_100": 6.2,
+   "paragraphs": 6,
+   "para_openings": [
+    "The longstanding goal of grounding language learning in embodied settings has lead",
+    ": We build on the work of text-based environments like and Jericho",
+    ": While substantial work exists on vision-language representation learning MAttNet , CMN",
+    ": To address language learning in embodied domains, a number of interactive"
+   ]
+  },
+  {
+   "name": "Conclusion",
+   "sentences": 9,
+   "median_words": 18,
+   "long_share": 0.0,
+   "hedge_per_100": 11.1,
+   "first_person_per_100": 44.4,
+   "paragraphs": 2,
+   "para_openings": [
+    "We introduced , the first interactive text environment with aligned embodied worlds.",
+    "is designed with modular components which can be upgraded in future work."
+   ]
+  },
+  {
+   "name": "Acknowledgments",
+   "sentences": 2,
+   "median_words": 23,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 0.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "The authors thank Cheng Zhang, Jesse Thomason, Karthik Desingh, Rishabh Joshi, Romain"
+   ]
+  },
+  {
+   "name": "Details of \\brain",
+   "sentences": 43,
+   "median_words": 18,
+   "long_share": 0.093,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 44.2,
+   "paragraphs": 15,
+   "para_openings": [
+    "In this section, we use to denote text observation at game step",
+    "We use to refer to a linear transformation and means it is",
+    "As mentioned in Section , we utilize an observation queue to cache",
+    "Encoder We use a transformer-based encoder, which consists of an embedding layer"
+   ]
+  },
+  {
+   "name": "Training and Implementation Details",
+   "sentences": 25,
+   "median_words": 15,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 72.0,
+   "paragraphs": 6,
+   "para_openings": [
+    "For all experiments, we use as the optimizer. The learning rate is",
+    "During training with , we use a batch size of 10 to",
+    "The agent is updated after every 5 steps of data collection. We",
+    "learns to generate actions token-by-token, where we set the max token length"
+   ]
+  },
+  {
+   "name": "\\twengine",
+   "sentences": 11,
+   "median_words": 18,
+   "long_share": 0.091,
+   "hedge_per_100": 9.1,
+   "first_person_per_100": 0.0,
+   "paragraphs": 3,
+   "para_openings": [
+    "Planner uses Fast Downward , a domain-independent classical planning system to maintain",
+    "For instance, here is a simple state representing a player standing next",
+    "Text generator The other component of the , the text generator, uses"
+   ]
+  },
+  {
+   "name": "\\mrcnn Detector",
+   "sentences": 5,
+   "median_words": 25,
+   "long_share": 0.2,
+   "hedge_per_100": 20.0,
+   "first_person_per_100": 80.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "We use a detector pre-trained on MSCOCO and fine-tune it with additional"
+   ]
+  },
+  {
+   "name": "Rule-based Expert",
+   "sentences": 3,
+   "median_words": 37,
+   "long_share": 0.667,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 66.7,
+   "paragraphs": 1,
+   "para_openings": [
+    "To train text agents in an imitation learning (IL) setting, we use"
+   ]
+  },
+  {
+   "name": "Benefits of Training in \\tw over Embodied World",
+   "sentences": 5,
+   "median_words": 12,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 40.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "-0.1cm Pre-training in offers several benefits over directly training in embodied environments."
+   ]
+  },
+  {
+   "name": "Observation Templates",
+   "sentences": 24,
+   "median_words": 8,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 0.0,
+   "paragraphs": 2,
+   "para_openings": [
+    "The following templates are used by the state-estimator to generate textual observations",
+    "[h!] 0.2cm cl & goto & [c] @ l@ (a) . On"
+   ]
+  },
+  {
+   "name": "Goal Descriptions",
+   "sentences": 19,
+   "median_words": 11,
+   "long_share": 0.105,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 0.0,
+   "paragraphs": 5,
+   "para_openings": [
+    "The goal instructions for training games are generated with following templates. Here",
+    "[h!] 0.2cm cl & Pick & Place & [c] @ l@ (a)",
+    "Human Annotated Goals The human goal descriptions used during evaluation contain 66",
+    "Unseen Verbs: acquire, arrange, can, carry, chill, choose, cleaning, clear, cook, cooked,"
+   ]
+  },
+  {
+   "name": "Action Candidates vs Action Generation",
+   "sentences": 5,
+   "median_words": 27,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 60.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "generates actions in a token-by-token fashion. Prior text-based agents typically use a"
+   ]
+  },
+  {
+   "name": "\\alfred Task Descriptions",
+   "sentences": 6,
+   "median_words": 52,
+   "long_share": 0.833,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 16.7,
+   "paragraphs": 1,
+   "para_openings": [
+    "Pick & Place ( put a plate on the coffee table )"
+   ]
+  },
+  {
+   "name": "\\env Text Game Examples",
+   "sentences": 1,
+   "median_words": 11,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 0.0,
+   "paragraphs": 0,
+   "para_openings": []
+  }
+ ],
+ "2203.11171": [
+  {
+   "name": "Introduction",
+   "sentences": 20,
+   "median_words": 27,
+   "long_share": 0.3,
+   "hedge_per_100": 15.0,
+   "first_person_per_100": 55.0,
+   "paragraphs": 6,
+   "para_openings": [
+    "Although language models have demonstrated remarkable success across a range of NLP",
+    "In this paper, we introduce a novel decoding strategy called to replace",
+    "fig:overview illustrates the self-consistency method with an example. We first prompt the",
+    "[h] -0.1in [width= ] figures/self_consistency_fig.pdf -0.2in The self-consistency method contains three steps:"
+   ]
+  },
+  {
+   "name": "Self-Consistency over Diverse Reasoning Paths",
+   "sentences": 28,
+   "median_words": 25,
+   "long_share": 0.25,
+   "hedge_per_100": 14.3,
+   "first_person_per_100": 60.7,
+   "paragraphs": 6,
+   "para_openings": [
+    "A salient aspect of humanity is that people think differently. It is",
+    "We leverage this intuition by proposing the following method. First, a language",
+    "In more detail, assume the generated answers are from a fixed answer",
+    "In Table , we show the test accuracy over a set of"
+   ]
+  },
+  {
+   "name": "Experiments",
+   "sentences": 113,
+   "median_words": 19,
+   "long_share": 0.195,
+   "hedge_per_100": 2.7,
+   "first_person_per_100": 55.8,
+   "paragraphs": 30,
+   "para_openings": [
+    "We conducted a series of experiments to compare the proposed self-consistency method",
+    "Tasks and datasets. We evaluate self-consistency on the following reasoning benchmarks. :",
+    "-0.1in Language models and prompts. We evaluate self-consistency over four transformer-based language",
+    "-0.1in We perform all experiments in the few-shot setting, without training or"
+   ]
+  },
+  {
+   "name": "Related work",
+   "sentences": 22,
+   "median_words": 18,
+   "long_share": 0.091,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 27.3,
+   "paragraphs": 5,
+   "para_openings": [
+    "Reasoning in language models. Language models are known to struggle in Type",
+    "-0.12in Sampling and re-ranking in language models. Multiple decoding strategies for language",
+    "Re-ranking is another common approach to improve generation quality in language models",
+    "-0.12in Extract reasoning paths. Some previous work has considered task-specific approaches for"
+   ]
+  },
+  {
+   "name": "Conclusion and Discussion",
+   "sentences": 6,
+   "median_words": 34,
+   "long_share": 0.333,
+   "hedge_per_100": 16.7,
+   "first_person_per_100": 50.0,
+   "paragraphs": 2,
+   "para_openings": [
+    "We introduced a simple yet effective method called self-consistency, and observed that",
+    "One limitation of self-consistency is that it incurs more computation cost. In"
+   ]
+  },
+  {
+   "name": "Reproducibility Statement",
+   "sentences": 4,
+   "median_words": 32,
+   "long_share": 0.25,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 150.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "In experiments, we included four different language models with varying scales. Two"
+   ]
+  },
+  {
+   "name": "Ethics Statement",
+   "sentences": 4,
+   "median_words": 28,
+   "long_share": 0.0,
+   "hedge_per_100": 25.0,
+   "first_person_per_100": 50.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "As we stated in the discussion, language models can sometimes generate nonsensical"
+   ]
+  },
+  {
+   "name": "Appendix",
+   "sentences": 177,
+   "median_words": 12,
+   "long_share": 0.073,
+   "hedge_per_100": 2.8,
+   "first_person_per_100": 25.4,
+   "paragraphs": 25,
+   "para_openings": [
+    "Robustness to Sampling Strategies and Parameters In Figure we ablate the results",
+    "[h] [width=0.6 ] figures/gsm_temp.pdf -0.15in GSM8K accuracy over LaMDA-137B. Self-consistency works under",
+    "In Figure and Figure , we show the results of self-consistency compared",
+    "[h] -0.1in -0.15in [width=0.25 ] figures/mawps_multiarith.pdf -0.1in [width=0.24 ] figures/asdiv.pdf -0.1in [width=0.24"
+   ]
+  }
+ ],
+ "2205.10625": [
+  {
+   "name": "Introduction",
+   "sentences": 15,
+   "median_words": 21,
+   "long_share": 0.267,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 13.3,
+   "paragraphs": 5,
+   "para_openings": [
+    "Despite the great success of deep learning in the past decade, there",
+    "The recently proposed chain-of-thought prompting approach has taken a significant step for",
+    "However, chain-of-thought prompting has a key limitation---it often performs poorly on tasks",
+    "The term least-to-most prompting is borrowed from educational psychology , where it"
+   ]
+  },
+  {
+   "name": "Least-to-Most Prompting",
+   "sentences": 15,
+   "median_words": 20,
+   "long_share": 0.2,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 20.0,
+   "paragraphs": 5,
+   "para_openings": [
+    "Least-to-most prompting teaches language models how to solve a complex problem by",
+    ". The prompt in this stage consists of three parts: (1) constant",
+    "In the example shown in Figure , the language model is first",
+    "In the next phase, we ask the language model to sequentially solve"
+   ]
+  },
+  {
+   "name": "Results",
+   "sentences": 161,
+   "median_words": 14,
+   "long_share": 0.056,
+   "hedge_per_100": 2.5,
+   "first_person_per_100": 26.7,
+   "paragraphs": 35,
+   "para_openings": [
+    "We present least-to-most prompting results for symbolic manipulation, compositional generalization, and math",
+    "Symbolic Manipulation We take the last-letter-concatenation task . In this task, each",
+    "[h!] 5pt Q: ``think, machine, learning\" A: ``think\", ``think, machine\", ``think, machine,",
+    "[h!] 5pt Q: ``think, machine\" A: The last letter of ``think\" is"
+   ]
+  },
+  {
+   "name": "Related Work",
+   "sentences": 29,
+   "median_words": 23,
+   "long_share": 0.172,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 17.2,
+   "paragraphs": 3,
+   "para_openings": [
+    ". SCAN is a widely used benchmark to evaluate compositional generalization. Among",
+    ". In addition to compositional generalization, there are many other tasks where",
+    ". decompose a multi-hop question into a number of independent single-hop subquestions,"
+   ]
+  },
+  {
+   "name": "Limitations",
+   "sentences": 8,
+   "median_words": 20,
+   "long_share": 0.125,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 62.5,
+   "paragraphs": 2,
+   "para_openings": [
+    "Decomposition prompts typically don't generalize well across different domains. For instance, a",
+    "Generalizing decomposition can even be difficult within the same domain. We've observed"
+   ]
+  },
+  {
+   "name": "Conclusion and Discussion",
+   "sentences": 7,
+   "median_words": 19,
+   "long_share": 0.0,
+   "hedge_per_100": 14.3,
+   "first_person_per_100": 42.9,
+   "paragraphs": 2,
+   "para_openings": [
+    "We introduced least-to-most prompting to enable language models to solve problems that",
+    "In general, prompting might not be the optimal method for teaching reasoning"
+   ]
+  },
+  {
+   "name": "Acknowledgement",
+   "sentences": 3,
+   "median_words": 24,
+   "long_share": 0.0,
+   "hedge_per_100": 33.3,
+   "first_person_per_100": 200.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "We sincerely thank Xinyun Chen, Xinying Song, Jeff Dean, Zoubin Ghahramani, Fernando"
+   ]
+  },
+  {
+   "name": "Last-letter-concatenation",
+   "sentences": 524,
+   "median_words": 7,
+   "long_share": 0.027,
+   "hedge_per_100": 3.2,
+   "first_person_per_100": 5.0,
+   "paragraphs": 52,
+   "para_openings": [
+    "Prompt context for decomposing a word list into subproblems In Section we",
+    "The following prompt context achieves 100 % accuracy on this task when",
+    "Q: ``machine, learning'' A: creating sequential sublists of the list ``machine, learning'':",
+    "Prompt contexts with more and different examples The last-letter-concatenation experiments presented in"
+   ]
+  },
+  {
+   "name": "SCAN",
+   "sentences": 445,
+   "median_words": 18,
+   "long_share": 0.112,
+   "hedge_per_100": 0.2,
+   "first_person_per_100": 7.2,
+   "paragraphs": 51,
+   "para_openings": [
+    "Prompt contexts In this section we present the prompt contexts used for",
+    "Standard prompting The context for standard prompting consist of a set of",
+    "Q: ``turn left'' A: ``TURN _LEFT'' Q: ``turn right'' A: ``TURN _RIGHT''",
+    "Least-to-most prompting For least-to-most prompting, we need 2 different prompt contexts: one"
+   ]
+  },
+  {
+   "name": "DROP",
+   "sentences": 400,
+   "median_words": 13,
+   "long_share": 0.06,
+   "hedge_per_100": 1.0,
+   "first_person_per_100": 18.0,
+   "paragraphs": 81,
+   "para_openings": [
+    "We reported the results using . Here, we report results using the",
+    "[h!] |c|c|c| 3 |c| Prompting method & Non-football (500 cases) & Football",
+    "[h!] |c|c|c| 3 |c| Prompting method & Non-football (3988 cases) & Football",
+    "Q: Since the 1970s, U.S. governments have negotiated managed-trade agreements, such as"
+   ]
+  },
+  {
+   "name": "GSM8K",
+   "sentences": 88,
+   "median_words": 18,
+   "long_share": 0.136,
+   "hedge_per_100": 2.3,
+   "first_person_per_100": 30.7,
+   "paragraphs": 21,
+   "para_openings": [
+    "We compare here the effectiveness on compositional generalization of least-to-most prompting vs.",
+    "The accuracy ( %) of the two prompting methods with the GPT-3",
+    "Accuracy numbers for all prompting methods are calculated after applying the same",
+    "While the least-to-most prompting accuracy is overall only moderately higher than that"
+   ]
+  }
+ ],
+ "2210.03629": [
+  {
+   "name": "Introduction",
+   "sentences": 29,
+   "median_words": 29,
+   "long_share": 0.31,
+   "hedge_per_100": 10.3,
+   "first_person_per_100": 51.7,
+   "paragraphs": 6,
+   "para_openings": [
+    "A unique feature of human intelligence is the ability to seamlessly combine",
+    "Recent results have hinted at the possibility of combining verbal reasoning with",
+    "[t] [width= ] iclr2023/figure/teaser-new.pdf (1) Comparison of 4 prompting methods, (a) ,",
+    "In this work, we present , a general paradigm to combine reasoning"
+   ]
+  },
+  {
+   "name": "\\model{",
+   "sentences": 24,
+   "median_words": 23,
+   "long_share": 0.167,
+   "hedge_per_100": 8.3,
+   "first_person_per_100": 50.0,
+   "paragraphs": 4,
+   "para_openings": [
+    "Consider a general setup of an agent interacting with an environment for",
+    "The idea of is simple: we augment the agent's action space to",
+    "However, as the language space is unlimited, learning in this augmented action",
+    "Since decision making and reasoning capabilities are integrated into a large language"
+   ]
+  },
+  {
+   "name": "Knowledge-Intensive Reasoning Tasks",
+   "sentences": 54,
+   "median_words": 21,
+   "long_share": 0.259,
+   "hedge_per_100": 13.0,
+   "first_person_per_100": 51.9,
+   "paragraphs": 19,
+   "para_openings": [
+    "We begin with knowledge-intensive reasoning tasks like multi-hop question answering and fact",
+    "Domains We consider two datasets challenging knowledge retrieval and reasoning: (1) HotPotQA",
+    "Action Space We design a simple Wikipedia web API with three types",
+    "Prompting For HotpotQA and Fever, we randomly select 6 and 3 cases"
+   ]
+  },
+  {
+   "name": "Decision Making Tasks",
+   "sentences": 48,
+   "median_words": 19,
+   "long_share": 0.104,
+   "hedge_per_100": 12.5,
+   "first_person_per_100": 35.4,
+   "paragraphs": 9,
+   "para_openings": [
+    "We also test on two language-based interactive decision-making tasks, ALFWorld and WebShop,",
+    "ALFWorld ALFWorld (Figure (2)) is a synthetic text-based game designed to align",
+    "WebShop Can also interact with noisy real-world language environments for practical applications?",
+    "! l | cccccc | c Method & Pick & Clean &"
+   ]
+  },
+  {
+   "name": "Related Work",
+   "sentences": 24,
+   "median_words": 23,
+   "long_share": 0.083,
+   "hedge_per_100": 8.3,
+   "first_person_per_100": 16.7,
+   "paragraphs": 3,
+   "para_openings": [
+    "Language model for reasoning Perhaps the most well-known work of using LLMs",
+    "Language model for decision making The strong capability of LLMs has enabled",
+    "LLMS have also been increasingly employed in interactive and embodied environments for"
+   ]
+  },
+  {
+   "name": "Conclusion",
+   "sentences": 17,
+   "median_words": 18,
+   "long_share": 0.0,
+   "hedge_per_100": 5.9,
+   "first_person_per_100": 64.7,
+   "paragraphs": 3,
+   "para_openings": [
+    "We have proposed -- a simple yet effective method for synergizing reasoning",
+    "Acknowledgments We thank the support and feedback of many people from Google",
+    "Reproducibility Statement Our main experiments are done on PaLM , which is"
+   ]
+  },
+  {
+   "name": "Additional Results",
+   "sentences": 24,
+   "median_words": 19,
+   "long_share": 0.125,
+   "hedge_per_100": 16.7,
+   "first_person_per_100": 37.5,
+   "paragraphs": 3,
+   "para_openings": [
+    "GPT-3 Experiments [ht] c | cc & PaLM-540B & GPT-3 HotpotQA (exact",
+    "During trajectory inspection, we also find that sometimes does not agree with",
+    "We also explore human-in-the-loop interaction with , to allow a human to"
+   ]
+  },
+  {
+   "name": "Experiment Details",
+   "sentences": 6,
+   "median_words": 21,
+   "long_share": 0.333,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 66.7,
+   "paragraphs": 2,
+   "para_openings": [
+    "HotpotQA Finetuning Details For all finetuning we use a batch size of",
+    "AlfWorld IM-Style Details For the IM-style ablation, the same expert trajectories used"
+   ]
+  },
+  {
+   "name": "Prompts",
+   "sentences": 170,
+   "median_words": 19,
+   "long_share": 0.088,
+   "hedge_per_100": 7.6,
+   "first_person_per_100": 9.4,
+   "paragraphs": 12,
+   "para_openings": [
+    "HotpotQA [H] 0.9 Hotpot QA Prompts l p 0.9 cyan Original &",
+    "red & Question & What is the elevation range for the area",
+    "[H] 0.9 Hotpot QA Prompts -- Continued from previous page l p",
+    "yellow & Question & What is the elevation range for the area"
+   ]
+  },
+  {
+   "name": "Trajectories",
+   "sentences": 140,
+   "median_words": 13,
+   "long_share": 0.071,
+   "hedge_per_100": 2.9,
+   "first_person_per_100": 3.6,
+   "paragraphs": 21,
+   "para_openings": [
+    "FEVER Trajectories We provide some trajectories produced by , and on several",
+    "Claim: & Bermuda Triangle is a loosely-defined region in the Pacific Ocean.",
+    "Claim: & Bermuda Triangle is a loosely-defined region in the Pacific Ocean.",
+    "Claim: & Bermuda Triangle is a loosely-defined region in the Pacific Ocean."
+   ]
+  },
+  {
+   "name": "More Analysis",
+   "sentences": 59,
+   "median_words": 12,
+   "long_share": 0.068,
+   "hedge_per_100": 6.8,
+   "first_person_per_100": 3.4,
+   "paragraphs": 11,
+   "para_openings": [
+    "Question: & Author David Chanoff has collaborated with a U.S. Navy admiral",
+    "Question: & What was the name of the team that represented an",
+    "Question: & Did the board game San Marco or About Time come",
+    "Question: & Was Vanderbilt University or Emory University founded first? Thought: &"
+   ]
+  }
+ ],
+ "manuscript": [
+  {
+   "name": "Introduction",
+   "sentences": 39,
+   "median_words": 20,
+   "long_share": 0.103,
+   "hedge_per_100": 2.6,
+   "first_person_per_100": 46.2,
+   "paragraphs": 9,
+   "para_openings": [
+    "A language agent can be warned, asked to replan, or rolled back",
+    "The evaluation is easy to bias. Suppose an experiment restores one prefix,",
+    "This distinction is separate from two established ideas: outcome regression and direct",
+    "For each action we generate two independently seeded continuations from a shared"
+   ]
+  },
+  {
+   "name": "Evaluating a runtime intervention",
+   "sentences": 37,
+   "median_words": 14,
+   "long_share": 0.027,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 16.2,
+   "paragraphs": 7,
+   "para_openings": [
+    "Let be the observable prefix for task at its assigned checkpoint and",
+    "Our simulated environments permit a repeated-branch design, and we build the estimand",
+    "Define , resolving ties by the lowest action index, so continuation wins",
+    "for every realized pair of action-outcome vectors. If the two action-outcome vectors"
+   ]
+  },
+  {
+   "name": "Controllers with a continuation option",
+   "sentences": 38,
+   "median_words": 18,
+   "long_share": 0.211,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 15.8,
+   "paragraphs": 8,
+   "para_openings": [
+    "The repeated arm-outcome learner fits a multi-output random forest to Y_ ia",
+    "Both learners receive public information available at the fork: environment identifier, checkpoint",
+    "Model selection uses four shuffled folds that keep every record of a",
+    "A deployed controller also maximizes. It compares estimates and fires the arm"
+   ]
+  },
+  {
+   "name": "Independent confirmation design",
+   "sentences": 44,
+   "median_words": 21,
+   "long_share": 0.159,
+   "hedge_per_100": 6.8,
+   "first_person_per_100": 20.5,
+   "paragraphs": 9,
+   "para_openings": [
+    "We design two frozen confirmations to answer four questions in the order",
+    "The actor is Qwen3-8B at revision under a grounded ReAct-style prompt :",
+    "ALFWorld episodes have a 50-action limit and scheduled checkpoints at step 4",
+    "The second confirmation keeps this actor, seeding, serving image, and restoration contract"
+   ]
+  },
+  {
+   "name": "Results",
+   "sentences": 1,
+   "median_words": 14,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 0.0,
+   "paragraphs": 0,
+   "para_openings": []
+  },
+  {
+   "name": "What repeated branches reveal",
+   "sentences": 0,
+   "median_words": 0,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 0.0,
+   "paragraphs": 0,
+   "para_openings": []
+  },
+  {
+   "name": "Closest methods and comparison boundary",
+   "sentences": 18,
+   "median_words": 25,
+   "long_share": 0.167,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 55.6,
+   "paragraphs": 4,
+   "para_openings": [
+    "Calibration Is Not Control fits random-forest intervention policies from same-prefix branches, but",
+    "The same discipline has been applied one level up. Selection-aware stress testing",
+    "This is a different cost class. Language agent tree search expands and",
+    "Outcome modeling estimates every response function; direct signed-benefit modeling estimates effects relative"
+   ]
+  },
+  {
+   "name": "Limitations, ethics, and conclusion",
+   "sentences": 13,
+   "median_words": 21,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 7.7,
+   "paragraphs": 4,
+   "para_openings": [
+    "Limitations. The confirmations cover one 8B actor, two text environments, six fixed",
+    "The study uses simulated household and elementary-science tasks and contains no human-subject",
+    "Reproducibility statement. Appendix gives the frozen prompts, Appendix the controller grids, and",
+    "AI use statement. AI tools assisted literature search through alphaXiv, experiment and"
+   ]
+  },
+  {
+   "name": "generated/results",
+   "sentences": 13,
+   "median_words": 19,
+   "long_share": 0.077,
+   "hedge_per_100": 7.7,
+   "first_person_per_100": 23.1,
+   "paragraphs": 2,
+   "para_openings": [
+    "We estimate the direct effect against continuation at 1.56 percentage points (group-bootstrap",
+    "Direct selects continuation on 245/355 eligible prefixes, warning on 4, replanning on"
+   ]
+  },
+  {
+   "name": "generated/r2_results",
+   "sentences": 7,
+   "median_words": 26,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 100.0,
+   "paragraphs": 2,
+   "para_openings": [
+    "We find that cross-draw control is the strongest policy on the event-triggered",
+    "The rule we deploy selects continuation on 298 of 497 triggered prefixes,"
+   ]
+  },
+  {
+   "name": "generated/analysis",
+   "sentences": 8,
+   "median_words": 23,
+   "long_share": 0.0,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 50.0,
+   "paragraphs": 1,
+   "para_openings": [
+    "We measure the same-draw action maximum against independent-draw evaluation. It exceeds it"
+   ]
+  },
+  {
+   "name": "generated/r2_analysis",
+   "sentences": 19,
+   "median_words": 22,
+   "long_share": 0.158,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 21.1,
+   "paragraphs": 3,
+   "para_openings": [
+    "We connect the two confirmations with two readings, and we take both",
+    "The second reading is how much of the same-draw gap is mechanical.",
+    "[t] [width=0.9 ] figures/headroom.pdf How much per-task signal the decision point and"
+   ]
+  },
+  {
+   "name": "generated/r2_transfer",
+   "sentences": 11,
+   "median_words": 23,
+   "long_share": 0.182,
+   "hedge_per_100": 0.0,
+   "first_person_per_100": 63.6,
+   "paragraphs": 2,
+   "para_openings": [
+    "We can also move a controller to where the room is. We",
+    "Two variants did not transfer, and we report both. Carrying the same"
+   ]
+  }
+ ]
+}

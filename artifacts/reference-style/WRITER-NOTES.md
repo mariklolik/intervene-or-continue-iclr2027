@@ -1,97 +1,69 @@
-# Writer-persona reading of the pre-2024 ICLR reference set
+# Writer-persona reading of the reference set
 
-Five papers accepted to ICLR before 2024, read from their arXiv sources rather than from memory: BabyAI (1810.08272, ICLR 2019), ALFWorld (2010.03768, ICLR 2021), self-consistency (2203.11171, ICLR 2023), least-to-most prompting (2205.10625, ICLR 2023), and ReAct (2210.03629, ICLR 2023). They are the topical neighbours of this manuscript: two build interactive text environments for grounded agents, three introduce a decoding or prompting protocol and defend it with a measurement design. Each is read section by section for its voice, its opening move, how it states a claim, how it hedges, and what vocabulary carries it. Section lengths, float conventions and a vocabulary comparison are in `AUDIT-ICLR.md`.
+Five pre-2024 ICLR papers, read from their arXiv LaTeX sources, not from summaries:
+BabyAI (ICLR 2019, 1810.08272), ALFWorld (ICLR 2021, 2010.03768), self-consistency
+(ICLR 2023, 2203.11171), least-to-most prompting (ICLR 2023, 2205.10625), ReAct
+(ICLR 2023, 2210.03629). `paper/writer_probe.py` measures each section; the raw
+profile is `writer-profile.json`.
 
-## ReAct (ICLR 2023)
+## What the sections do
 
-**Voice.** Expository and analogical. It explains before it measures, and it prefers a concrete scene to an abstract definition.
+**Introduction.** All five open on the phenomenon, not on the contribution, and
+reach the contribution in the last paragraph. Agency is explicit throughout:
+first-person markers run 51.9 (ReAct), 56.5 (ALFWorld), 57.9 (self-consistency)
+and 65.4 (BabyAI) per hundred sentences. Least-to-most is the outlier at 13.3 and
+is also the shortest introduction in the set. Median sentence length is 21 to 29
+words, with a long-sentence share between 0.27 and 0.32 for the three later
+papers. Hedging is present but light, 0 to 15.8 per hundred sentences.
 
-**Abstract.** Opens on a tension between two established capabilities, not on the contribution: reasoning and acting "have primarily been studied as separate topics." The proposal arrives in the third sentence.
+**Method.** The method sections name what the authors do to the data, in order,
+and carry the equation on a short lead-in. Median length drops to 20 to 25 words
+and first-person markers drop with it, to 20 to 60. ALFWorld and BabyAI describe
+the artifact impersonally; self-consistency and ReAct keep the first person.
 
-**Introduction.** Opens on human cognition and a kitchen, with the inner monologue quoted verbatim. The gap is reached only in the second paragraph.
+**Results.** Every results section leads with a finding and puts the denominator
+second. Sentences are the shortest in the paper, median 13 to 24 words, with a
+long-sentence share of 0.04 to 0.31. First-person markers stay high, 23.4 to 87.9,
+because the authors report what they ran rather than what was observed.
 
-**Method.** "Consider a general setup of an agent interacting with an environment for task solving." Notation is fixed in one paragraph and not hedged before it arrives.
+**Related work.** Topic-led paragraphs with a differentiator in the last clause.
+Lowest first-person density in the paper, 6.2 to 27.3, and no hedging in four of
+the five.
 
-**Experiments.** Signposting verbs carry the structure: "We begin with knowledge-intensive reasoning tasks", "We also test on two language-based interactive decision-making tasks."
+**Conclusion.** Six to seventeen sentences, median 18 to 34 words, and the highest
+hedging in the paper, 5.9 to 41.7, reserved for future work rather than for
+findings.
 
-**Related work.** Topic-lead sentences that name the line of work first.
+**Limitations.** Only least-to-most has one: 163 words, eight sentences, and a
+first-person density of 62.5. It names what the method does not do and does not
+re-argue the results.
 
-**Conclusion.** "We have proposed ReAct -- a simple yet effective method for..." followed by the results in one sentence, then a limitation folded in after "Despite the simplicity of our method."
+**Floats.** Captions state what the reader should take from the float. No paper in
+the set uses a double-column float except one figure in ALFWorld.
 
-**Adopted here.** The signposting verbs and the conclusion's opening move.
+## What this manuscript changed
 
-## ALFWorld (ICLR 2021)
+| Section | before | after | reference band |
+| --- | --- | --- | --- |
+| Introduction, first person | 19.5 | 46.2 | 51.9-65.4 |
+| Introduction, median words | 17 | 20 | 21-29 |
+| Study-1 results, first person | 0.0 | 23.1 | 23.4-87.9 |
+| Study-1 results, long share | 0.50 | 0.08 | 0.04-0.31 |
+| Study-1 analysis, median words | 34 | 23 | 13-24 |
+| Study-2 results, first person | 0.0 | 100.0 | 23.4-87.9 |
+| Study-2 analysis, first person | 0.0 | 21.1 | 23.4-87.9 |
+| Transfer section, long share | 0.38 | 0.18 | 0.04-0.31 |
 
-**Voice.** Scenario-first and infrastructural. It sells a capability by showing someone using it.
+Both results sections now lead with the finding and give the denominator second,
+which is the move every paper in the set makes. Hedging was left at its low level
+because the frozen tests already carry the uncertainty and the reference set
+reserves hedging for future work.
 
-**Abstract.** Opens on a request a person could make, in italics, then on what humans do with it, then on the gap: "existing work does not yet provide the infrastructure."
+Section 2 keeps a median of 14 words against a reference band of 18 to 27. It is
+the definitional section, and merging its sentences costs precision, so three
+merges were made and the rest were left.
 
-**Introduction.** A direct question to the reader: "Consider helping a friend prepare dinner in an unfamiliar house."
-
-**Experiments.** The dominant device in the set: "We design experiments to answer the following questions: (1)... (4)", answered in order. The ablation section repeats it.
-
-**Related work.** Enumerated differentiators: "First... Secondly... Thirdly."
-
-**Conclusion.** "We introduced ALFWorld, the first interactive text environment with aligned embodied worlds."
-
-**Adopted here.** The numbered question list now opens the confirmation design, and the results sections answer it in order.
-
-## Self-consistency (ICLR 2023)
-
-**Voice.** Hypothesis-driven and plain. It states what it believes, then tests it, and it never dresses a number.
-
-**Abstract.** Capability, then "In this paper, we propose a new decoding strategy", then the mechanism in two sentences, then results with margins in parentheses.
-
-**Introduction.** The limitation, the prior fix, then a worked example quoted in full.
-
-**Method.** Opens with an aphorism -- "A salient aspect of humanity is that people think differently" -- and then states the hypothesis in one testable sentence: "we hypothesize that correct reasoning processes, even if they are diverse, tend to have greater agreement in their final answer than incorrect processes."
-
-**Experiments.** The finding comes before the setup: "We find that self-consistency robustly improves reasoning accuracy for every language model considered."
-
-**Related work.** Each topic lead closes with an explicit differentiator: "Compared to prior work, self-consistency is applicable to a wide range of reasoning tasks without any additional supervision or fine-tuning."
-
-**Conclusion.** "We introduced a simple yet effective method called self-consistency, and observed that..." then one named limitation with a practical mitigation attached: it costs compute, so try five or ten paths.
-
-**Statements.** Short standalone reproducibility and ethics statements.
-
-**Adopted here.** The finding-first opening for the results, the differentiator clause in the comparison section, and the limitation-with-consequence form.
-
-## Least-to-most prompting (ICLR 2023)
-
-**Voice.** Contrastive. It defines itself against what came immediately before and says so in the first three sentences.
-
-**Abstract.** "Chain-of-thought prompting has demonstrated remarkable performance... However, it tends to perform poorly on tasks which require solving problems harder than the exemplars." Then "To overcome this challenge... we propose."
-
-**Introduction.** An enumerated three-way contrast between human and machine learning.
-
-**Method.** One-sentence definition, then two numbered stages, then a worked example.
-
-**Results.** "We present least-to-most prompting results for A, B, and C, and compare it with chain-of-thought prompting."
-
-**Limitations.** A short standalone section that opens on a concrete failure mode with a quoted example, then generalises from it. It is not defensive and it is not long.
-
-**Conclusion.** "We introduced least-to-most prompting to enable..." and a reflective close that questions the paradigm rather than defending it.
-
-**Adopted here.** The limitations form -- one concrete bound, stated once, with the number that fixes it -- and the short reflective close.
-
-## BabyAI (ICLR 2019)
-
-**Voice.** Platform-building and motivation-heavy. It argues for why the measurement matters before it measures anything.
-
-**Abstract.** Desirability, then the obstacle -- "given the lack of sample efficiency in current learning methods, reaching this goal may require substantial research efforts" -- then "We introduce the BabyAI research platform."
-
-**Introduction.** "How can a human train an intelligent agent to understand natural language instructions?" answered from a technological and a scientific perspective.
-
-**Related work.** Enumerated differentiators again: "First... Secondly... Thirdly... Most importantly."
-
-**Experiments.** "We assess the difficulty of BabyAI levels by training a behavioral cloning baseline for each level."
-
-**Conclusion.** "We present the BabyAI research platform to study language learning with a human in the loop."
-
-**Adopted here.** The habit of stating what a measurement is for before reporting it, which the design section now does with its question list.
-
-## What the set has in common, and what this manuscript does with it
-
-Every abstract opens on an established capability and turns on a single word; none opens on its own contribution. Every conclusion opens on the introduced object. Limitations are short, concrete, and carry the number or example that bounds them; none is a list of caveats. Related work names the line of work first and ends on a differentiator. Results lead with the finding. Contributions are prose, not bullets.
-
-This manuscript keeps its own subject vocabulary -- continuation, draw, prefix, arm, estimand, pathwise -- because those words carry the distinctions it reports; `AUDIT-ICLR.md` measures the resulting distance and records that no word was substituted to move that statistic.
+Vocabulary coverage moved from 70.70 to 70.84 percent against a leave-one-out
+range of 79.3 to 88.7 within the reference set. The shortfall is carried by this
+study's own objects, which are retained; no word was substituted to move the
+statistic, and no perplexity target or author imitation was used.
