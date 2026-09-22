@@ -116,7 +116,7 @@ S(x)=\begin{cases}\tfrac12\left[V^{(0)}(x)+V^{(1)}(x)\right] & \widehat a^{(0)}(
 \end{equation}
 and the controller fires the arm attaining $S(x)$ when $S(x)$ exceeds the continuation margin. Two entries join the shared grid: whether to require $\widehat a^{(0)}(x)=\widehat a^{(1)}(x)$, which declines to act when the draws disagree about which repair the prefix calls for, and whether to restrict the candidates to the two arms with the highest mean benefit inside the training fold. Both are chosen by development out-of-fold utility before any confirmation outcome. Equation~\ref{eq:crossdraw} is Equation~\ref{eq:gap} moved from the evaluator to the controller: the same symmetric construction applied to estimates rather than outcomes, and the same requirement that the quantity used to choose never be the quantity used to value.
 
-Model selection faces the same problem once more, because the grid is scored and then maximized on the same folds. We therefore also report a nested out-of-fold utility that selects inside each training fold and scores on the held-out fold.
+Model selection faces the same problem once more, because the grid is scored and then maximized on the same folds. We therefore also report a nested out-of-fold utility that selects inside each training fold and scores on the held-out fold. Ties in that utility are broken by how often the nested inner folds made the same choice, the selection-frequency criterion of \citet{meinshausen2010stability}, rather than by the firing rate.
 
 \subsection{Fallbacks and the comparator}
 
