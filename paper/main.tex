@@ -108,11 +108,13 @@ Model selection uses four shuffled folds that keep every record of a task togeth
 A deployed controller also maximizes. It compares estimates $\widehat\Delta_a(x)$ and fires the arm attaining their maximum, so the score that the margin test sees is a realized maximum over noisy estimates and inherits the bias of Section~\ref{sec:estimand} at the estimation level rather than the outcome level. The repeated-branch design already supplies the remedy it needs. We fit one signed-benefit forest per development draw, $\widehat\Delta^{(0)}$ and $\widehat\Delta^{(1)}$, on identical features, folds, and capacity. The arm is chosen on one draw and valued on the other,
 \begin{equation}
 \widehat a^{(r)}(x)=\arg\max_a\widehat\Delta^{(r)}_a(x),
-\qquad
-S(x)=\tfrac12\!\left[\widehat\Delta^{(1)}_{\widehat a^{(0)}(x)}(x)+\widehat\Delta^{(0)}_{\widehat a^{(1)}(x)}(x)\right],
+\quad
+V^{(r)}(x)=\widehat\Delta^{(1-r)}_{\widehat a^{(r)}(x)}(x),
+\quad
+S(x)=\begin{cases}\tfrac12\left[V^{(0)}(x)+V^{(1)}(x)\right] & \widehat a^{(0)}(x)=\widehat a^{(1)}(x),\\[2pt] \max_r V^{(r)}(x) & \text{otherwise,}\end{cases}
 \label{eq:crossdraw}
 \end{equation}
-and the controller intervenes when $S(x)$ exceeds the continuation margin. One binary entry joins the shared grid: whether to additionally require $\widehat a^{(0)}(x)=\widehat a^{(1)}(x)$, which declines to act when the two draws disagree about which repair the prefix calls for. Both entries are chosen by development out-of-fold utility before any confirmation outcome. Equation~\ref{eq:crossdraw} is Equation~\ref{eq:gap} moved from the evaluator to the controller: the same symmetric construction applied to estimates rather than outcomes, and the same requirement that the quantity used to choose never be the quantity used to value.
+and the controller fires the arm attaining $S(x)$ when $S(x)$ exceeds the continuation margin. Two entries join the shared grid: whether to require $\widehat a^{(0)}(x)=\widehat a^{(1)}(x)$, which declines to act when the draws disagree about which repair the prefix calls for, and whether to restrict the candidates to the two arms with the highest mean benefit inside the training fold. Both are chosen by development out-of-fold utility before any confirmation outcome. Equation~\ref{eq:crossdraw} is Equation~\ref{eq:gap} moved from the evaluator to the controller: the same symmetric construction applied to estimates rather than outcomes, and the same requirement that the quantity used to choose never be the quantity used to value.
 
 Model selection faces the same problem once more, because the grid is scored and then maximized on the same folds. We therefore also report a nested out-of-fold utility that selects inside each training fold and scores on the held-out fold.
 
@@ -201,7 +203,7 @@ The freeze is what makes the variance reduction safe. Fitting the machinery that
 
 \section{Limitations, ethics, and conclusion}
 
-\paragraph{Limitations.} The confirmations cover one 8B actor, two text environments, six fixed repairs, one trigger rule, and two draws per action, and not web or code agents. The triggered gain over continuation is positive but not certified: the pre-registered calculation put the required panel near 1,100 identity-disjoint tasks and the balanced pool was exhausted at 593. The first confirmation's null is bounded to a coarse menu at an early step, where headroom and capacity both locate the ceiling. ScienceWorld is boundary evidence, reported in full and pooled with nothing.
+\paragraph{Limitations.} The confirmations cover one 8B actor, two text environments, six fixed repairs, one trigger rule, and two draws per action, and not web or code agents. The triggered gain over continuation is positive but not certified: the pre-registered calculation put the required panel near 1,100 identity-disjoint tasks and the balanced pool was exhausted at \EventPlanned{}. The first confirmation's null is bounded to a coarse menu at an early step, where headroom and capacity both locate the ceiling. ScienceWorld is boundary evidence, reported in full and pooled with nothing.
 
 The study uses simulated household and elementary-science tasks and contains no human-subject data. Interventions can still degrade task success, so the artifact reports disruptions and includes continuation as an action. Compute is capped and charged by GPU occupancy. The supplementary archive removes user names, host names, repository ownership, and absolute paths.
 
