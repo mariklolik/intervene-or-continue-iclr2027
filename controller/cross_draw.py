@@ -11,6 +11,7 @@ from policies import Features, LEAVES, MARGINS, SEED, digest, task_folds
 
 DRAWS = (0, 1)
 CANDIDATE_SETS = ('all', 'evidence')
+FALLBACKS = ('continue', 'static')
 EVIDENCE_WIDTH = 2
 
 
@@ -25,22 +26,32 @@ def admissible(targets):
     return sorted(int(index) for index in ranked[:EVIDENCE_WIDTH])
 
 
-def choose(per_draw, margin, agreement=True, allowed=None):
-    if allowed is not None:
-        per_draw = np.where(np.asarray(allowed)[:, None, :], per_draw, -np.inf)
-    selected = per_draw.argmax(axis=2)
+def leader(targets):
+    return int(np.argmax(np.asarray(targets).mean(axis=(0, 1)))) + 1
+
+
+def choose(per_draw, margin, agreement=True, allowed=None, fallback=None):
+    scores = np.asarray(per_draw)
+    masked = scores if allowed is None else np.where(np.asarray(allowed)[:, None, :], scores, -np.inf)
+    selected = masked.argmax(axis=2)
     rows = np.arange(len(selected))
-    crossed = np.stack([per_draw[rows, 1 - draw, selected[:, draw]] for draw in DRAWS], axis=1)
+    crossed = np.stack([masked[rows, 1 - draw, selected[:, draw]] for draw in DRAWS], axis=1)
     winner = crossed.argmax(axis=1)
     index = selected[rows, winner]
     valued = np.where(selected[:, 0] == selected[:, 1], crossed.mean(axis=1), crossed[rows, winner])
     eligible = (selected[:, 0] == selected[:, 1]) if agreement else np.ones(len(rows), bool)
-    return np.eye(per_draw.shape[2] + 1)[np.where(eligible & (valued > margin + 1e-12), index + 1, 0)]
+    fired = np.where(eligible & (valued > margin + 1e-12), index + 1, 0)
+    if fallback is not None:
+        static = np.asarray(fallback)
+        held = np.stack([scores[rows, 1 - draw, static - 1] for draw in DRAWS], axis=1).mean(axis=1)
+        fired = np.where(fired == 0, np.where(held > -margin - 1e-12, static, 0), fired)
+    return np.eye(scores.shape[2] + 1)[fired]
 
 
 def fold_predictions(rows, targets, leaf, splits):
     predicted = np.zeros((len(rows), len(DRAWS), targets.shape[2]))
     evidence = np.zeros((len(rows), targets.shape[2]), dtype=bool)
+    leaders = np.ones(len(rows), dtype=int)
     for train, valid in splits:
         transform = Features(text=True).fit([rows[i] for i in train])
         train_x = transform.transform([rows[i] for i in train])
@@ -48,25 +59,29 @@ def fold_predictions(rows, targets, leaf, splits):
         for draw in DRAWS:
             predicted[valid, draw] = forest(train_x, targets[train, draw], leaf).predict(valid_x)
         evidence[np.ix_(valid, admissible(targets[train]))] = True
-    return predicted, evidence
+        leaders[valid] = leader(targets[train])
+    return predicted, evidence, leaders
 
 
 def grid_scores(rows, targets, utility, splits):
     scored = []
     for leaf in LEAVES:
-        predicted, evidence = fold_predictions(rows, targets, leaf, splits)
+        predicted, evidence, leaders = fold_predictions(rows, targets, leaf, splits)
         for margin in MARGINS:
             for agreement in (True, False):
                 for candidates in CANDIDATE_SETS:
-                    p = choose(predicted, margin, agreement, None if candidates == 'all' else evidence)
-                    scored.append({'leaf': leaf, 'threshold': margin, 'agreement': agreement, 'candidates': candidates,
-                                   'oof_utility': float((p * utility).sum(axis=1).mean()),
-                                   'oof_firing_rate': float(1 - p[:, 0].mean())})
+                    for fallback in FALLBACKS:
+                        p = choose(predicted, margin, agreement, None if candidates == 'all' else evidence,
+                                   None if fallback == 'continue' else leaders)
+                        scored.append({'leaf': leaf, 'threshold': margin, 'agreement': agreement, 'candidates': candidates,
+                                       'fallback': fallback,
+                                       'oof_utility': float((p * utility).sum(axis=1).mean()),
+                                       'oof_firing_rate': float(1 - p[:, 0].mean())})
     return scored
 
 
 def select_candidate(candidates):
-    return max(candidates, key=lambda c: (round(c['oof_utility'], 12), -c['oof_firing_rate'], c['candidates'] == 'all', c['agreement'], c['leaf'], c['threshold']))
+    return max(candidates, key=lambda c: (round(c['oof_utility'], 12), -c['oof_firing_rate'], c['fallback'] == 'continue', c['candidates'] == 'all', c['agreement'], c['leaf'], c['threshold']))
 
 
 def fit_stratum(rows):
@@ -86,7 +101,7 @@ def fit_stratum(rows):
     matrix = transform.transform(rows)
     models = [forest(matrix, targets[:, draw], selected['leaf']) for draw in DRAWS]
     fitted = {'forests': models, 'transform': transform, 'contrasts': list(range(1, y.shape[2])),
-              'admissible': admissible(targets), **selected}
+              'admissible': admissible(targets), 'leader': leader(targets), **selected}
     receipt = {'candidates': candidates, 'selected': selected, 'nested_selection': nested,
                'nested_honest_utility': float(np.mean([row['oof_utility'] for row in nested])),
                'target_sha256': digest(targets.tolist()), 'feature_schema': transform.schema()}
@@ -137,6 +152,7 @@ def predict(bundle, rows):
         if model['candidates'] != 'all':
             allowed = np.zeros((len(indices), width), dtype=bool)
             allowed[:, model['admissible']] = True
-        p[indices] = choose(estimates[indices], model['threshold'], model['agreement'], allowed)
+        fallback = None if model.get('fallback', 'continue') == 'continue' else np.full(len(indices), model['leader'])
+        p[indices] = choose(estimates[indices], model['threshold'], model['agreement'], allowed, fallback)
     return {'rows': [{k: r[k] for k in ROW_KEYS} for r in safe], 'probabilities': p.tolist(),
             'predicted_draw_advantages': estimates.tolist(), 'training_data_sha256': bundle['training_data_sha256']}

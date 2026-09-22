@@ -26,13 +26,15 @@ Arms `A0`-`A3` are the frozen four-message contract, unchanged. `A4` reverts the
 
 ## Primary family and power
 
-The completed development panel fixes the operating point and, with it, the evidence the confirmation can carry. Against continuation the cross-draw rule shows a paired difference of 2.94 percentage points over a discordance of 11.5 percent, which needs 1,092 analysable tasks for 80 percent power at alpha 0.05. Against the development-best fixed arm it shows 1.32 points over a discordance of 17.4 percent, which needs 7,915. The second quantity cannot be certified at any panel this study can build, so including it in the tested family would spend alpha on a test that cannot resolve.
+The completed development panel fixes the operating point and, with it, the evidence the confirmation can carry. Against continuation the cross-draw rule shows a paired difference of 2.94 percentage points over a discordance of 11.5 percent, which needs 1,092 analyzable tasks for 80 percent power at alpha 0.05. Against the development-best fixed arm it shows 1.32 points over a discordance of 17.4 percent, which needs 7,915. The second quantity cannot be certified at any panel this study can build, so including it in the tested family would spend alpha on a test that cannot resolve.
 
 The confirmatory family therefore contains one hypothesis: cross-draw control improves utility relative to `CONTINUE`, tested by a two-sided group sign-flip probability at alpha 0.05. Cross-draw control against the development-best fixed arm, against the direct learner, against the repeated arm-outcome forest, against the comparison-only learner, and against the failure-risk detector are pre-specified secondary contrasts, reported with estimates and both bootstrap intervals and without an adjusted decision. This reduction was recorded before any confirmation arm outcome existed and is justified only by development-panel quantities.
 
 To raise power within the available frame, the event-triggered confirmation adds the remaining identity-disjoint ALFWorld identities to the frozen 288, giving 593 planned tasks. The addition is compositionally uneven because the balanced pool is exhausted: it contributes 111 pick-and-place, 23 clean, 3 cool, and 168 two-object identities and no look-at or heat identities. The confirmatory population is the pooled frame, and its composition is reported with the result.
 
 Same-draw optimism is reported as an estimation diagnostic with task and floorplan bootstrap intervals and a within-task exchangeable-label reference distribution; it is not a member of the tested family, because the diagnostic is pathwise non-negative and a sign-flip null is degenerate for it.
+
+A static-fallback entry was added to the cross-draw grid after the reviewer report and is reported as an exploratory policy, never as a member of the tested family. The entry lets the grid protect the development-best arm instead of continuation, so that in the absence of prefix-level heterogeneity the rule reduces to the optimal static rule, as the individualized-treatment-rule design literature recommends. The entry is selected on development out-of-fold utility inside the same folds; the frozen controller and the frozen predictions are unchanged, and both readings are reported whatever their sign.
 
 The improvement-significance frontier of the frozen candidate grid is read on development records only, as the paired mean difference against `CONTINUE` and its $z$ statistic for every grid entry. It selects nothing and produces no confirmation prediction.
 
@@ -44,4 +46,4 @@ The scheduled mirror of the second panel runs the same identities and the same m
 
 ## Units, exclusions, and stopping
 
-Task identity is the reporting unit and ALFWorld floorplan is the resampling group. No task may be removed for an unfavourable outcome. Missing eligible cells block the primary analysis. The study stops when both frozen confirmation panels are complete. The coordinator reservation cap is 400,000 H100 GPU-seconds for this study and is recorded in a separate ledger from the first confirmation.
+Task identity is the reporting unit and ALFWorld floorplan is the resampling group. No task may be removed for an unfavorable outcome. Missing eligible cells block the primary analysis. The study stops when both frozen confirmation panels are complete. The coordinator reservation cap is 400,000 H100 GPU-seconds for this study and is recorded in a separate ledger from the first confirmation.
