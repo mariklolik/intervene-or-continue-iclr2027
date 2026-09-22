@@ -23,11 +23,12 @@ def main() -> None:
     parser.add_argument("--input", type=Path, action="append", required=True)
     parser.add_argument("--model", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--static-fallback", action="store_true")
     args = parser.parse_args()
     if args.model.exists() or args.manifest.exists():
         raise FileExistsError("Cross-draw model freeze already exists")
     rows = [row for path in args.input for row in json.loads(path.read_text())]
-    bundle, receipt = cross_draw.fit(rows)
+    bundle, receipt = cross_draw.fit(rows, cross_draw.FALLBACKS if args.static_fallback else cross_draw.FROZEN_FALLBACKS)
     args.model.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(bundle, args.model)
     receipt.update({

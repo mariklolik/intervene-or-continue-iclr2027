@@ -13,6 +13,7 @@ from policies import Features, LEAVES, MARGINS, SEED, digest, task_folds
 DRAWS = (0, 1)
 CANDIDATE_SETS = ('all', 'evidence')
 FALLBACKS = ('continue', 'static')
+FROZEN_FALLBACKS = ('continue',)
 EVIDENCE_WIDTH = 2
 
 
@@ -64,14 +65,14 @@ def fold_predictions(rows, targets, leaf, splits):
     return predicted, evidence, leaders
 
 
-def grid_scores(rows, targets, utility, splits):
+def grid_scores(rows, targets, utility, splits, fallbacks=FROZEN_FALLBACKS):
     scored = []
     for leaf in LEAVES:
         predicted, evidence, leaders = fold_predictions(rows, targets, leaf, splits)
         for margin in MARGINS:
             for agreement in (True, False):
                 for candidates in CANDIDATE_SETS:
-                    for fallback in FALLBACKS:
+                    for fallback in fallbacks:
                         p = choose(predicted, margin, agreement, None if candidates == 'all' else evidence,
                                    None if fallback == 'continue' else leaders)
                         scored.append({'leaf': leaf, 'threshold': margin, 'agreement': agreement, 'candidates': candidates,
@@ -86,7 +87,7 @@ def select_candidate(candidates, votes=None):
     return max(candidates, key=lambda c: (round(c['oof_utility'], 12), tally.get(c['fallback'], 0), -c['oof_firing_rate'], c['fallback'] == 'continue', c['candidates'] == 'all', c['agreement'], c['leaf'], c['threshold']))
 
 
-def fit_stratum(rows):
+def fit_stratum(rows, fallbacks=FROZEN_FALLBACKS):
     y = np.asarray([row['Y'] for row in rows], dtype=float)
     targets, utility = draw_targets(y), y.mean(axis=1)
     splits = task_folds(rows)
@@ -95,10 +96,11 @@ def fit_stratum(rows):
         inner_rows = [rows[i] for i in train]
         inner = select_candidate(grid_scores(inner_rows, draw_targets([r['Y'] for r in inner_rows]),
                                              np.asarray([r['Y'] for r in inner_rows], dtype=float).mean(axis=1),
-                                             task_folds(inner_rows)))
+                                             task_folds(inner_rows), fallbacks))
         nested.append({'validation_task_ids': sorted({rows[i]['task_id'] for i in valid}), **inner})
-    candidates = grid_scores(rows, targets, utility, splits)
-    selected = select_candidate(candidates, Counter(record['fallback'] for record in nested))
+    candidates = grid_scores(rows, targets, utility, splits, fallbacks)
+    votes = Counter(record['fallback'] for record in nested) if len(fallbacks) > 1 else None
+    selected = select_candidate(candidates, votes)
     transform = Features(text=True).fit(rows)
     matrix = transform.transform(rows)
     models = [forest(matrix, targets[:, draw], selected['leaf']) for draw in DRAWS]
@@ -110,7 +112,7 @@ def fit_stratum(rows):
     return fitted, receipt
 
 
-def fit(rows):
+def fit(rows, fallbacks=FROZEN_FALLBACKS):
     if not rows or any(row['split'] != 'dev' for row in rows):
         raise ValueError('Selection accepts dev rows only')
     keys = [(row['model'], row['env'], row['task_id']) for row in rows]
@@ -120,12 +122,13 @@ def fit(rows):
     bundle = {'strata': {}, 'training_tasks': sorted({(r['env'], r['task_id']) for r in rows}),
               'training_data_sha256': digest(rows)}
     receipt = {'dev_records': len(rows), 'dev_data_sha256': digest(rows), 'strata': [],
-               'text': True, 'seed': SEED, 'trees': 200, 'draws': list(DRAWS), 'folds': 4}
+               'text': True, 'seed': SEED, 'trees': 200, 'draws': list(DRAWS), 'folds': 4,
+               'fallbacks': list(fallbacks)}
     for key in sorted({(r['model'], r['env']) for r in rows}):
         subset = [r for r in rows if (r['model'], r['env']) == key]
         if len(subset) < 8:
             raise ValueError('Each development stratum needs at least eight tasks')
-        bundle['strata'][key], record = fit_stratum(subset)
+        bundle['strata'][key], record = fit_stratum(subset, fallbacks)
         receipt['strata'].append({'model': key[0], 'env': key[1], 'n_tasks': len(subset), **record})
     return bundle, receipt
 
