@@ -1,0 +1,14 @@
+{
+  "event": {
+    "semantic_boosted": 0.5014705882352941,
+    "semantic_forest": 0.5029411764705882,
+    "tabular_boosted": 0.4946078431372549,
+    "tabular_forest": 0.5068627450980392
+  },
+  "scheduled": {
+    "semantic_boosted": 0.28839800768713114,
+    "semantic_forest": 0.2910444792604956,
+    "tabular_boosted": 0.2927028915689356,
+    "tabular_forest": 0.2946972108371204
+  }
+}
