@@ -1,0 +1,914 @@
+{
+  "arms": {
+    "A0": null,
+    "A1": "Re-check the goal, the latest observation, and your previous action. Continue only after correcting any inconsistency you notice.",
+    "A2": "Construct a fresh, concise plan from the current goal and observable state. Then execute that plan.",
+    "A3": "The previous attempted action has been reverted. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan.",
+    "A4": "Your three most recent decisions have been reverted and the environment restored to the state before them. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan.",
+    "A5": "Before acting again, name the objects this task still requires and the places you have not yet inspected. Then inspect the most promising place."
+  },
+  "datasets": {
+    "alfworld": {
+      "assets": [
+        {
+          "bytes": 72018818,
+          "path": "/home/mekashirskiy/intervene-sota-20260908/data/alfworld/json_2.1.1_json.zip",
+          "sha256": "25171f16e20ad7b048c47275c45b0babf3aa1cbab29cec97387922350a9844bc",
+          "source": "https://github.com/alfworld/alfworld/releases/download/0.2.2/json_2.1.1_json.zip"
+        },
+        {
+          "bytes": 34881784,
+          "path": "/home/mekashirskiy/intervene-sota-20260908/data/alfworld/json_2.1.1_pddl.zip",
+          "sha256": "913942ebed06659ea0da2f8122512d98bc6add30d84961ca803132d8fbcad585",
+          "source": "https://github.com/alfworld/alfworld/releases/download/0.2.2/json_2.1.1_pddl.zip"
+        },
+        {
+          "bytes": 36493542,
+          "path": "/home/mekashirskiy/intervene-sota-20260908/data/alfworld/json_2.1.2_tw-pddl.zip",
+          "sha256": "eea90499df27b9cb3147d1d1927264146d38194b575e25f70a82875545742dcb",
+          "source": "https://github.com/alfworld/alfworld/releases/download/0.4.0/json_2.1.2_tw-pddl.zip"
+        }
+      ],
+      "package_version": "0.4.2",
+      "textworld_version": "1.7.0",
+      "version": "json_2.1.1"
+    },
+    "scienceworld": {
+      "source_sha256": {
+        "/home/mekashirskiy/intervene-sota-20260908/.venv-sw13/lib/python3.12/site-packages/scienceworld/scienceworld.jar": "e77b0fee7d68abe3ca5b12e57d86e2bfe7603f20c5200da0b0f085939faeb465",
+        "/home/mekashirskiy/intervene-sota-20260908/.venv-sw13/lib/python3.12/site-packages/scienceworld/scienceworld.py": "43c802c7f9e01b5d6b09224dfdabae8077b4c1de2d56576c2f24fa9aabd9f67c",
+        "/home/mekashirskiy/intervene-sota-20260908/legacy/src/env_adapters.py": "cc8b2d9f08240afa5ae84be0656ba0e1058abbf0eb380464a69b54c03ae1ee7d",
+        "/home/mekashirskiy/intervene-sota-20260908/legacy/src/task_sampling.py": "ae86aede39c06c4802e810a395fb3254ed579e79711518c5e21d989d15557659"
+      },
+      "version": "1.3.0"
+    }
+  },
+  "max_tokens": 256,
+  "model": "Qwen3-8B",
+  "model_path": "/home/mekashirskiy/.cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots/b968826d9c46dd6066d109eabc6255188de91218",
+  "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "phase": "holdout",
+  "rounds": 2,
+  "sampling": {
+    "checkpoint_rule": "event",
+    "counts": {
+      "alfworld": {
+        "look_at_obj_in_light": 0,
+        "pick_and_place_simple": 111,
+        "pick_clean_then_place_in_recep": 23,
+        "pick_cool_then_place_in_recep": 3,
+        "pick_heat_then_place_in_recep": 0,
+        "pick_two_obj_and_place": 168
+      },
+      "scienceworld": 0
+    },
+    "exclusion_scope": "Prior configured or recorded task identities and ALFWorld goal directories from the supplied exposure packet",
+    "rounds": 2,
+    "seed": 270951,
+    "task_set_sha256": "bb6408a7e9914785c94c5e166fc73478f8697214ee9ba326a9b37e04e98d7b15"
+  },
+  "scaffold": "grounded-react-v1",
+  "schema_version": 1,
+  "system_prompt": "You are an agent acting in a text-based simulated environment. Use the task, action history and observations to choose one valid next action. First write one short THOUGHT about the current state and next decision. Then end with exactly one ACTION: <command> line. Choose an exact currently valid command when a list is provided.",
+  "tasks": [
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-327",
+      "identity": {
+        "game": "pick_two_obj_and_place-Bowl-None-Desk-327/trial_T20190908_040620_961547"
+      },
+      "seed": 734460249,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "07b633e487e120e5",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-Bowl-None-Desk-327/trial_T20190908_040620_961547/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-303",
+      "identity": {
+        "game": "pick_two_obj_and_place-CreditCard-None-Shelf-303/trial_T20190908_062004_513133"
+      },
+      "seed": 1907102652,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "98c4b9f1386d3837",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-CreditCard-None-Shelf-303/trial_T20190908_062004_513133/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-209",
+      "identity": {
+        "game": "pick_two_obj_and_place-Watch-None-CoffeeTable-209/trial_T20190909_020425_925699"
+      },
+      "seed": 1817198580,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "709369e4326ef4fa",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-Watch-None-CoffeeTable-209/trial_T20190909_020425_925699/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-209",
+      "identity": {
+        "game": "pick_two_obj_and_place-Book-None-Sofa-209/trial_T20190909_022528_723601"
+      },
+      "seed": 1875344979,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "b82b8b85d31c1791",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-Book-None-Sofa-209/trial_T20190909_022528_723601/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-321",
+      "identity": {
+        "game": "pick_two_obj_and_place-CD-None-Drawer-321/trial_T20190908_180900_935530"
+      },
+      "seed": 2000196345,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "16e5854b8bc747b3",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-CD-None-Drawer-321/trial_T20190908_180900_935530/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-413",
+      "identity": {
+        "game": "pick_and_place_simple-SoapBottle-None-Cabinet-413/trial_T20190909_035103_556212"
+      },
+      "seed": 334436107,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "628da16d61b2de26",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-SoapBottle-None-Cabinet-413/trial_T20190909_035103_556212/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-7",
+      "identity": {
+        "game": "pick_and_place_simple-Egg-None-Fridge-7/trial_T20190906_164825_242073"
+      },
+      "seed": 797514021,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "c592d5d8b4abf70e",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-Egg-None-Fridge-7/trial_T20190906_164825_242073/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-302",
+      "identity": {
+        "game": "pick_and_place_simple-Pencil-None-Desk-302/trial_T20190908_032739_677771"
+      },
+      "seed": 636496730,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "0ac6297b75d2eb90",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-Pencil-None-Desk-302/trial_T20190908_032739_677771/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-428",
+      "identity": {
+        "game": "pick_and_place_simple-SprayBottle-None-GarbageCan-428/trial_T20190909_101548_443245"
+      },
+      "seed": 1717864679,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "899cd50d69cda740",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-SprayBottle-None-GarbageCan-428/trial_T20190909_101548_443245/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-309",
+      "identity": {
+        "game": "pick_two_obj_and_place-CellPhone-None-Bed-309/trial_T20190908_112341_368964"
+      },
+      "seed": 1669524339,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "e51848d059d433b5",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-CellPhone-None-Bed-309/trial_T20190908_112341_368964/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-305",
+      "identity": {
+        "game": "pick_and_place_simple-Pen-None-Drawer-305/trial_T20190907_224053_726820"
+      },
+      "seed": 1198816758,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "8231e92fccbb8ad9",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-Pen-None-Drawer-305/trial_T20190907_224053_726820/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-409",
+      "identity": {
+        "game": "pick_clean_then_place_in_recep-SoapBar-None-CounterTop-409/trial_T20190908_025437_027878"
+      },
+      "seed": 1657019200,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "4312b29d950f4608",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_clean_then_place_in_recep-SoapBar-None-CounterTop-409/trial_T20190908_025437_027878/game.tw-pddl",
+        "task_type": "pick_clean_then_place_in_recep"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-415",
+      "identity": {
+        "game": "pick_two_obj_and_place-SoapBar-None-Shelf-415/trial_T20190908_070525_956427"
+      },
+      "seed": 599745596,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "2259fc99c84973a5",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-SoapBar-None-Shelf-415/trial_T20190908_070525_956427/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-402",
+      "identity": {
+        "game": "pick_two_obj_and_place-ToiletPaper-None-Cabinet-402/trial_T20190908_144830_163459"
+      },
+      "seed": 1703953730,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "d0ed9d953f13d84e",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-ToiletPaper-None-Cabinet-402/trial_T20190908_144830_163459/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-417",
+      "identity": {
+        "game": "pick_two_obj_and_place-Candle-None-Toilet-417/trial_T20190907_182659_461774"
+      },
+      "seed": 1837466756,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "ee96cc001051c4df",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-Candle-None-Toilet-417/trial_T20190907_182659_461774/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-413",
+      "identity": {
+        "game": "pick_two_obj_and_place-SprayBottle-None-Dresser-413/trial_T20190906_193350_794065"
+      },
+      "seed": 372465172,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "85c8093a052db86a",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-SprayBottle-None-Dresser-413/trial_T20190906_193350_794065/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-428",
+      "identity": {
+        "game": "pick_two_obj_and_place-ToiletPaper-None-Cabinet-428/trial_T20190907_172619_990586"
+      },
+      "seed": 709351909,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "c12dd9874094a98b",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-ToiletPaper-None-Cabinet-428/trial_T20190907_172619_990586/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-320",
+      "identity": {
+        "game": "pick_and_place_simple-AlarmClock-None-Shelf-320/trial_T20190907_121134_827602"
+      },
+      "seed": 274957885,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "8edb84e6798d6e45",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-AlarmClock-None-Shelf-320/trial_T20190907_121134_827602/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-214",
+      "identity": {
+        "game": "pick_two_obj_and_place-Newspaper-None-Sofa-214/trial_T20190909_102441_593854"
+      },
+      "seed": 1388651066,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "ef73433d8815f33f",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-Newspaper-None-Sofa-214/trial_T20190909_102441_593854/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-208",
+      "identity": {
+        "game": "pick_and_place_simple-RemoteControl-None-Ottoman-208/trial_T20190909_100908_040512"
+      },
+      "seed": 1867480702,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "ea989a9311262c41",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-RemoteControl-None-Ottoman-208/trial_T20190909_100908_040512/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-428",
+      "identity": {
+        "game": "pick_and_place_simple-SprayBottle-None-GarbageCan-428/trial_T20190909_101535_306889"
+      },
+      "seed": 447967090,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "5b5dc23a7b7cc4ab",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-SprayBottle-None-GarbageCan-428/trial_T20190909_101535_306889/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-427",
+      "identity": {
+        "game": "pick_clean_then_place_in_recep-SoapBar-None-Toilet-427/trial_T20190906_184421_434111"
+      },
+      "seed": 1537108071,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "d66ba9b1e191a6bc",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_clean_then_place_in_recep-SoapBar-None-Toilet-427/trial_T20190906_184421_434111/game.tw-pddl",
+        "task_type": "pick_clean_then_place_in_recep"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-216",
+      "identity": {
+        "game": "pick_two_obj_and_place-TissueBox-None-Drawer-216/trial_T20190908_150448_341154"
+      },
+      "seed": 797807084,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "b75f0333899b977a",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-TissueBox-None-Drawer-216/trial_T20190908_150448_341154/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-5",
+      "identity": {
+        "game": "pick_and_place_simple-Tomato-None-Microwave-5/trial_T20190908_174001_568929"
+      },
+      "seed": 1357964463,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "6d0685144573522b",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-Tomato-None-Microwave-5/trial_T20190908_174001_568929/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-418",
+      "identity": {
+        "game": "pick_and_place_simple-Candle-None-Toilet-418/trial_T20190907_184947_274026"
+      },
+      "seed": 1024560537,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "e991ab170801d864",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-Candle-None-Toilet-418/trial_T20190907_184947_274026/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-327",
+      "identity": {
+        "game": "pick_two_obj_and_place-Bowl-None-Desk-327/trial_T20190908_040645_145153"
+      },
+      "seed": 1039940867,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "2112b2f9b2b26912",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-Bowl-None-Desk-327/trial_T20190908_040645_145153/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-15",
+      "identity": {
+        "game": "pick_clean_then_place_in_recep-Kettle-None-CounterTop-15/trial_T20190908_085843_938560"
+      },
+      "seed": 1760118489,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "e398e91cdbd84f0c",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_clean_then_place_in_recep-Kettle-None-CounterTop-15/trial_T20190908_085843_938560/game.tw-pddl",
+        "task_type": "pick_clean_then_place_in_recep"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-20",
+      "identity": {
+        "game": "pick_two_obj_and_place-SaltShaker-None-Shelf-20/trial_T20190906_200921_594258"
+      },
+      "seed": 1916997427,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "456be3546c0c1c13",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-SaltShaker-None-Shelf-20/trial_T20190906_200921_594258/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-224",
+      "identity": {
+        "game": "pick_two_obj_and_place-RemoteControl-None-ArmChair-224/trial_T20190908_141045_787069"
+      },
+      "seed": 103410433,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "61908c597603b13d",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-RemoteControl-None-ArmChair-224/trial_T20190908_141045_787069/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-12",
+      "identity": {
+        "game": "pick_two_obj_and_place-SaltShaker-None-Drawer-12/trial_T20190907_175317_697442"
+      },
+      "seed": 2030350903,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "5ee0cd61e30bc7f7",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-SaltShaker-None-Drawer-12/trial_T20190907_175317_697442/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-323",
+      "identity": {
+        "game": "pick_and_place_simple-KeyChain-None-Safe-323/trial_T20190918_181136_220658"
+      },
+      "seed": 190312832,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "c88a87ea484495c2",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-KeyChain-None-Safe-323/trial_T20190918_181136_220658/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-330",
+      "identity": {
+        "game": "pick_and_place_simple-KeyChain-None-SideTable-330/trial_T20190908_132834_404830"
+      },
+      "seed": 1218480061,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "66c0b4f9787492e4",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-KeyChain-None-SideTable-330/trial_T20190908_132834_404830/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-417",
+      "identity": {
+        "game": "pick_two_obj_and_place-Candle-None-Toilet-417/trial_T20190907_182724_868283"
+      },
+      "seed": 227735845,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "e635b91e1d87d7da",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_two_obj_and_place-Candle-None-Toilet-417/trial_T20190907_182724_868283/game.tw-pddl",
+        "task_type": "pick_two_obj_and_place"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-1",
+      "identity": {
+        "game": "pick_clean_then_place_in_recep-Pan-None-Fridge-1/trial_T20190908_105408_717097"
+      },
+      "seed": 514345491,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "2f5a91f2b841e194",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_clean_then_place_in_recep-Pan-None-Fridge-1/trial_T20190908_105408_717097/game.tw-pddl",
+        "task_type": "pick_clean_then_place_in_recep"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-427",
+      "identity": {
+        "game": "pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103"
+      },
+      "seed": 108322892,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "269540e49ef41281",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-Candle-None-Toilet-427/trial_T20190909_030439_155103/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-423",
+      "identity": {
+        "game": "pick_and_place_simple-HandTowel-None-GarbageCan-423/trial_T20190907_025926_506401"
+      },
+      "seed": 836768570,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "b2d29a1b91919607",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-HandTowel-None-GarbageCan-423/trial_T20190907_025926_506401/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 4,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-418",
+      "identity": {
+        "game": "pick_and_place_simple-Candle-None-Toilet-418/trial_T20190907_185015_671728"
+      },
+      "seed": 2107053511,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "f32cd223345fd6b2",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-Candle-None-Toilet-418/trial_T20190907_185015_671728/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    },
+    {
+      "checkpoint_rule": "event",
+      "checkpoint_step": 8,
+      "checkpoint_window": [
+        2,
+        24
+      ],
+      "env": "alfworld",
+      "group_id": "alf-floorplan-225",
+      "identity": {
+        "game": "pick_and_place_simple-KeyChain-None-Sofa-225/trial_T20190908_131143_093789"
+      },
+      "seed": 1489706802,
+      "source_split": "train",
+      "split": "holdout",
+      "task_id": "31de680184932111",
+      "task_spec": {
+        "game_file": "data/alfworld/json_2.1.1/train/pick_and_place_simple-KeyChain-None-Sofa-225/trial_T20190908_131143_093789/game.tw-pddl",
+        "task_type": "pick_and_place_simple"
+      },
+      "worker_shard": 6
+    }
+  ],
+  "temperature": 0.7,
+  "worker_shard": 6,
+  "worker_shards": 8
+}

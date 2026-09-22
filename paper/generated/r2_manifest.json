@@ -2,12 +2,12 @@
   "builder_sha256": "1bd4139077acb9a7091fb7d09bebeb414d96675d5b7fca2df369433e988712bc",
   "inputs": {
     "event": "666d9ba0de97b50b486efde0e794cec8fc61125907391868d9020810f0249158",
-    "scheduled": "d993f18595730f39ba2ca77159a21e18ef294ea4d7e24e12b81a4164ba276d28"
+    "scheduled": "4b30ecd9e61c9f496970750d07c2d9e08b6d0a95b2f9ebcf7062dfca5adc0d56"
   },
   "outputs": [
     {
       "path": "paper/generated/r2_numbers.tex",
-      "sha256": "a7392c5aee951a5638eabd6e4a7cfd3101309555d1a110eb38224d9d95d1e0c5"
+      "sha256": "2f190baedf074fabb08f8943917c157d7b4a1ab810f0d82ffc79fde9088cd496"
     },
     {
       "path": "paper/generated/r2_results.tex",
@@ -15,24 +15,24 @@
     },
     {
       "path": "paper/generated/r2_analysis.tex",
-      "sha256": "c19a51dc4886619e64ce503850fd8fcc129ae2defdec7bff77facf00cfb4554d"
+      "sha256": "5217bcf161bb4bf4e4f578691fad4921259e63cb204cd08e808ba47dba223fdb"
     },
     {
       "path": "paper/figures/headroom.pdf",
-      "sha256": "2ff6ef28321ada01f67b2a486fed1c50745954d5777967566aa3f05f30a8edd5"
+      "sha256": "083fc122e04028d8e7430fa38384da6a515079fd88404269e335ee8b0ee49e3b"
     },
     {
       "path": "paper/generated/abstract.tex",
-      "sha256": "18f2b25c191642677f0b3b08230754837b36c54eb69cf0c75c6b045be240e031"
+      "sha256": "54968c05398d646489ce779b4af19449a2d9c914a8a4d32ab50cdc92f2f5cc6d"
     },
     {
       "path": "paper/generated/r2_appendix.tex",
-      "sha256": "4d22556c91e78171db329a527a8bc18e8fb824c5f97591a97048a9d496ef2506"
+      "sha256": "08e80f19b3a280bca6138c7763c504911b1418b6227b2e92fd7e3ebdcda405a8"
     },
     {
       "path": "paper/generated/conclusion.tex",
-      "sha256": "90018065e8825828c2dfbaf5a0726280c7b78d097f81b045387fbf41d8528cc8"
+      "sha256": "713cedf9f2a797c848b38189ed4518b818e277cb673e77e35e6aa82fa6e18f7b"
     }
   ],
-  "text_builder_sha256": "967ac6bf5cfc875b927d4539d62ddb10f578ea01eb5a99c2978c8b8692cc8ed6"
+  "text_builder_sha256": "d53954a9df14ba389b869746fb67ca8af7f5207fef7a0081ac4f86d4f2de9de8"
 }

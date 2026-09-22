@@ -35,6 +35,12 @@
         "valid_cells": 102
       }
     },
+    "arms": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
     "config_path": "configs/independent-panel/panel-shard0.json",
     "config_sha256": "f4fb00daca46f63057635e7f8de765fb926cea38da467c62ed39c63c217b4633",
     "episode_inventory": [
@@ -9774,6 +9780,7 @@
     "planned_tasks": 56,
     "provenance_caveat": "Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence",
     "provenance_status": "revision_declared_in_hashed_config",
+    "rounds": 2,
     "tasks": [
       {
         "cells": [
@@ -9843,6 +9850,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -9919,6 +9927,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -9995,6 +10004,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -10007,6 +10017,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -10092,6 +10103,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10168,6 +10180,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10244,6 +10257,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10320,6 +10334,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10396,6 +10411,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10408,6 +10424,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -10493,6 +10510,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10569,6 +10587,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10645,6 +10664,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10721,6 +10741,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10797,6 +10818,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10873,6 +10895,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -10949,6 +10972,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11025,6 +11049,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11101,6 +11126,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -11177,6 +11203,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11253,6 +11280,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11329,6 +11357,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11405,6 +11434,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11417,6 +11447,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -11502,6 +11533,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11578,6 +11610,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11654,6 +11687,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11666,6 +11700,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -11751,6 +11786,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11827,6 +11863,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11903,6 +11940,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -11979,6 +12017,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -12055,6 +12094,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12131,6 +12171,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12207,6 +12248,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -12283,6 +12325,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12359,6 +12402,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12435,6 +12479,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12511,6 +12556,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12587,6 +12633,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -12599,6 +12646,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [
           "round0-A0.json",
@@ -12684,6 +12732,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12760,6 +12809,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12836,6 +12886,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12912,6 +12963,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -12988,6 +13040,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13064,6 +13117,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13140,6 +13194,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13216,6 +13271,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13292,6 +13348,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -13368,6 +13425,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13444,6 +13502,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13520,6 +13579,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13596,6 +13656,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13672,6 +13733,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13748,6 +13810,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -13804,6 +13867,12 @@
         "valid_cells": 94
       }
     },
+    "arms": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
     "config_path": "configs/independent-panel/panel-shard1.json",
     "config_sha256": "987fcc2e160bdc3956ec7462180a95eecd7b869022605b89922c5965ec8e1bee",
     "episode_inventory": [
@@ -23196,11 +23265,13 @@
     "planned_tasks": 55,
     "provenance_caveat": "Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence",
     "provenance_status": "revision_declared_in_hashed_config",
+    "rounds": 2,
     "tasks": [
       {
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -23286,6 +23357,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -23298,6 +23370,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -23383,6 +23456,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -23459,6 +23533,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -23535,6 +23610,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -23611,6 +23687,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -23687,6 +23764,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -23763,6 +23841,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -23839,6 +23918,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -23915,6 +23995,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -23991,6 +24072,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24003,6 +24085,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -24088,6 +24171,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24164,6 +24248,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -24240,6 +24325,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24316,6 +24402,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24328,6 +24415,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -24413,6 +24501,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24489,6 +24578,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -24565,6 +24655,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24641,6 +24732,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24717,6 +24809,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24793,6 +24886,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24869,6 +24963,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -24945,6 +25040,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -25021,6 +25117,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25033,6 +25130,7 @@
         "baseline_success": false,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [
           "round0-A0.json",
@@ -25118,6 +25216,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -25130,6 +25229,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -25215,6 +25315,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25291,6 +25392,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -25367,6 +25469,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25443,6 +25546,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25519,6 +25623,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25595,6 +25700,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25671,6 +25777,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25747,6 +25854,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25759,6 +25867,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -25844,6 +25953,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -25856,6 +25966,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [
           "round0-A0.json",
@@ -25941,6 +26052,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26017,6 +26129,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26093,6 +26206,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26169,6 +26283,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26245,6 +26360,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26321,6 +26437,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26397,6 +26514,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26473,6 +26591,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26549,6 +26668,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26625,6 +26745,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26701,6 +26822,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26777,6 +26899,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26853,6 +26976,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26929,6 +27053,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -26985,6 +27110,12 @@
         "valid_cells": 102
       }
     },
+    "arms": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
     "config_path": "configs/independent-panel/panel-shard2.json",
     "config_sha256": "865f96e460d9be0915f575b2ccba48fce98193e60cbc2490417a76ef3cae54b8",
     "episode_inventory": [
@@ -37005,6 +37136,7 @@
     "planned_tasks": 55,
     "provenance_caveat": "Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence",
     "provenance_status": "revision_declared_in_hashed_config",
+    "rounds": 2,
     "tasks": [
       {
         "cells": [
@@ -37074,6 +37206,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37150,6 +37283,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37226,6 +37360,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37302,6 +37437,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37378,6 +37514,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37454,6 +37591,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37530,6 +37668,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -37606,6 +37745,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37682,6 +37822,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37758,6 +37899,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37834,6 +37976,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37910,6 +38053,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -37986,6 +38130,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38062,6 +38207,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38138,6 +38284,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38214,6 +38361,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38290,6 +38438,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38366,6 +38515,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38442,6 +38592,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38518,6 +38669,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38530,6 +38682,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -38551,6 +38704,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -38636,6 +38790,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38712,6 +38867,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38788,6 +38944,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -38864,6 +39021,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -38940,6 +39098,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39016,6 +39175,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39092,6 +39252,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39168,6 +39329,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39244,6 +39406,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39320,6 +39483,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39396,6 +39560,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39472,6 +39637,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39548,6 +39714,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39624,6 +39791,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39636,6 +39804,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -39721,6 +39890,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39797,6 +39967,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39873,6 +40044,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -39949,6 +40121,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -40025,6 +40198,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40101,6 +40275,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40177,6 +40352,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -40253,6 +40429,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40329,6 +40506,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40405,6 +40583,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40481,6 +40660,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40557,6 +40737,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -40633,6 +40814,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40709,6 +40891,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40785,6 +40968,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -40861,6 +41045,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40937,6 +41122,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -40949,6 +41135,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [
           "round0-A0.json",
@@ -41014,6 +41201,12 @@
         "valid_cells": 100
       }
     },
+    "arms": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
     "config_path": "configs/independent-panel/panel-shard3.json",
     "config_sha256": "907acdfae2050f0f084b36d065c7dd14bda815a1088cc48dc0b9f937f1622249",
     "episode_inventory": [
@@ -52421,6 +52614,7 @@
     "planned_tasks": 55,
     "provenance_caveat": "Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence",
     "provenance_status": "revision_declared_in_hashed_config",
+    "rounds": 2,
     "tasks": [
       {
         "cells": [
@@ -52490,6 +52684,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -52566,6 +52761,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -52642,6 +52838,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -52718,6 +52915,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -52794,6 +52992,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -52870,6 +53069,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -52946,6 +53146,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53022,6 +53223,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53098,6 +53300,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53174,6 +53377,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53250,6 +53454,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53326,6 +53531,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53402,6 +53608,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53478,6 +53685,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53554,6 +53762,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53630,6 +53839,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53706,6 +53916,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53782,6 +53993,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53858,6 +54070,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -53934,6 +54147,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -54010,6 +54224,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -54086,6 +54301,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -54162,6 +54378,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -54238,6 +54455,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -54314,6 +54532,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -54326,6 +54545,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -54411,6 +54631,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -54487,6 +54708,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -54563,6 +54785,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -54639,6 +54862,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -54715,6 +54939,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -54791,6 +55016,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -54867,6 +55093,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -54943,6 +55170,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -55019,6 +55247,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55095,6 +55324,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55107,6 +55337,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -55192,6 +55423,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55268,6 +55500,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55344,6 +55577,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55420,6 +55654,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55496,6 +55731,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55572,6 +55808,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55584,6 +55821,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -55605,6 +55843,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -55690,6 +55929,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -55766,6 +56006,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -55842,6 +56083,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55918,6 +56160,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -55994,6 +56237,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -56070,6 +56314,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -56146,6 +56391,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -56222,6 +56468,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -56234,6 +56481,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -56319,6 +56567,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -56375,6 +56624,12 @@
         "valid_cells": 100
       }
     },
+    "arms": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
     "config_path": "configs/independent-panel/panel-shard4.json",
     "config_sha256": "55357795479f026f3e5391678ae594951b35919c3f3a54ba2268ffcbc9a55508",
     "episode_inventory": [
@@ -65644,6 +65899,7 @@
     "planned_tasks": 55,
     "provenance_caveat": "Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence",
     "provenance_status": "revision_declared_in_hashed_config",
+    "rounds": 2,
     "tasks": [
       {
         "cells": [
@@ -65713,6 +65969,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -65789,6 +66046,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -65865,6 +66123,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -65941,6 +66200,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66017,6 +66277,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66029,6 +66290,7 @@
         "baseline_success": false,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [
           "round0-A0.json",
@@ -66114,6 +66376,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66126,6 +66389,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -66211,6 +66475,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66287,6 +66552,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66363,6 +66629,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66439,6 +66706,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66515,6 +66783,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66591,6 +66860,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66667,6 +66937,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -66743,6 +67014,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -66819,6 +67091,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66895,6 +67168,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -66907,6 +67181,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -66992,6 +67267,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67068,6 +67344,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67144,6 +67421,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67220,6 +67498,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67296,6 +67575,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67372,6 +67652,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67448,6 +67729,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67524,6 +67806,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67600,6 +67883,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -67676,6 +67960,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67752,6 +68037,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67828,6 +68114,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67904,6 +68191,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -67980,6 +68268,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68056,6 +68345,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68132,6 +68422,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68208,6 +68499,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68220,6 +68512,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -68305,6 +68598,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68381,6 +68675,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68457,6 +68752,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68533,6 +68829,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68609,6 +68906,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68685,6 +68983,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68761,6 +69060,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68837,6 +69137,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -68913,6 +69214,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -68989,6 +69291,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -69065,6 +69368,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -69141,6 +69445,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -69217,6 +69522,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -69293,6 +69599,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -69305,6 +69612,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -69390,6 +69698,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -69466,6 +69775,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -69542,6 +69852,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -69598,6 +69909,12 @@
         "valid_cells": 106
       }
     },
+    "arms": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
     "config_path": "configs/independent-panel/panel-shard5.json",
     "config_sha256": "e27c9ccfac081c155a9b1991bda803ccde541887ee1acefdc13fa9597fbdb023",
     "episode_inventory": [
@@ -80142,6 +80459,7 @@
     "planned_tasks": 55,
     "provenance_caveat": "Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence",
     "provenance_status": "revision_declared_in_hashed_config",
+    "rounds": 2,
     "tasks": [
       {
         "cells": [
@@ -80211,6 +80529,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80223,6 +80542,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -80308,6 +80628,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80384,6 +80705,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80460,6 +80782,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80536,6 +80859,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80612,6 +80936,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80624,6 +80949,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -80709,6 +81035,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80785,6 +81112,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80861,6 +81189,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -80937,6 +81266,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81013,6 +81343,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81089,6 +81420,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81165,6 +81497,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81241,6 +81574,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81317,6 +81651,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81393,6 +81728,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81469,6 +81805,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81545,6 +81882,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81621,6 +81959,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81697,6 +82036,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81773,6 +82113,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81849,6 +82190,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -81925,6 +82267,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82001,6 +82344,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82077,6 +82421,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -82153,6 +82498,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -82229,6 +82575,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82305,6 +82652,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82381,6 +82729,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82457,6 +82806,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82533,6 +82883,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82609,6 +82960,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82685,6 +83037,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82761,6 +83114,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82837,6 +83191,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82913,6 +83268,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -82989,6 +83345,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83065,6 +83422,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -83141,6 +83499,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83217,6 +83576,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83293,6 +83653,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83369,6 +83730,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83445,6 +83807,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83521,6 +83884,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83597,6 +83961,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83673,6 +84038,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83749,6 +84115,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83825,6 +84192,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83901,6 +84269,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -83977,6 +84346,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -84053,6 +84423,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -84129,6 +84500,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -84205,6 +84577,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -84261,6 +84634,12 @@
         "valid_cells": 106
       }
     },
+    "arms": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
     "config_path": "configs/independent-panel/panel-shard6.json",
     "config_sha256": "45031c613127d993b38d0e6a17bee2c2878494fbe709e185e89bf0119552f00d",
     "episode_inventory": [
@@ -95645,6 +96024,7 @@
     "planned_tasks": 55,
     "provenance_caveat": "Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence",
     "provenance_status": "revision_declared_in_hashed_config",
+    "rounds": 2,
     "tasks": [
       {
         "cells": [
@@ -95714,6 +96094,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -95790,6 +96171,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -95866,6 +96248,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -95942,6 +96325,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96018,6 +96402,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96094,6 +96479,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96170,6 +96556,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -96246,6 +96633,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96258,6 +96646,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -96343,6 +96732,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96419,6 +96809,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96495,6 +96886,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96571,6 +96963,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96647,6 +97040,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96723,6 +97117,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96799,6 +97194,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96875,6 +97271,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -96951,6 +97348,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -97027,6 +97425,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97103,6 +97502,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97179,6 +97579,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97255,6 +97656,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97331,6 +97733,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97407,6 +97810,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97483,6 +97887,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97559,6 +97964,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97635,6 +98041,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -97711,6 +98118,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97787,6 +98195,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97863,6 +98272,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -97939,6 +98349,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -98015,6 +98426,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -98091,6 +98503,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -98167,6 +98580,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -98243,6 +98657,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -98319,6 +98734,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -98395,6 +98811,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -98407,6 +98824,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -98492,6 +98910,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -98568,6 +98987,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -98644,6 +99064,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -98720,6 +99141,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -98796,6 +99218,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -98872,6 +99295,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -98948,6 +99372,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -99024,6 +99449,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -99100,6 +99526,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99176,6 +99603,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99252,6 +99680,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99328,6 +99757,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99404,6 +99834,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99480,6 +99911,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99556,6 +99988,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99632,6 +100065,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99708,6 +100142,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -99764,6 +100199,12 @@
         "valid_cells": 102
       }
     },
+    "arms": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
     "config_path": "configs/independent-panel/panel-shard7.json",
     "config_sha256": "cf67963cae3d247768b9c77ba53267217574330d3cd08e68727080c125c4daef",
     "episode_inventory": [
@@ -109804,6 +110245,7 @@
     "planned_tasks": 55,
     "provenance_caveat": "Metadata/config consistency does not itself certify served weight hashes or conditional stochastic independence",
     "provenance_status": "revision_declared_in_hashed_config",
+    "rounds": 2,
     "tasks": [
       {
         "cells": [
@@ -109873,6 +110315,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -109949,6 +110392,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110025,6 +110469,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110101,6 +110546,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110177,6 +110623,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110253,6 +110700,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110329,6 +110777,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110405,6 +110854,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110417,6 +110867,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -110502,6 +110953,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110578,6 +111030,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110654,6 +111107,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110730,6 +111184,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -110806,6 +111261,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110882,6 +111338,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -110958,6 +111415,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -111034,6 +111492,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111110,6 +111569,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111186,6 +111646,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 16,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -111262,6 +111723,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111338,6 +111800,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111414,6 +111877,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111490,6 +111954,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111566,6 +112031,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111642,6 +112108,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -111718,6 +112185,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111794,6 +112262,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111870,6 +112339,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -111946,6 +112416,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112022,6 +112493,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112098,6 +112570,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112174,6 +112647,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112250,6 +112724,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112326,6 +112801,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112402,6 +112878,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112414,6 +112891,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -112499,6 +112977,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112575,6 +113054,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112651,6 +113131,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112727,6 +113208,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112803,6 +113285,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112879,6 +113362,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -112955,6 +113439,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [],
         "reasons": [],
@@ -113031,6 +113516,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113043,6 +113529,7 @@
         "baseline_success": false,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "scienceworld",
         "missing_cells": [
           "round0-A0.json",
@@ -113128,6 +113615,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113140,6 +113628,7 @@
         "baseline_success": true,
         "cells": [],
         "checkpoint_eligible": false,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [
           "round0-A0.json",
@@ -113225,6 +113714,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113301,6 +113791,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113377,6 +113868,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113453,6 +113945,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113529,6 +114022,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113605,6 +114099,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113681,6 +114176,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 8,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],
@@ -113757,6 +114253,7 @@
           }
         ],
         "checkpoint_eligible": true,
+        "checkpoint_step": 4,
         "env": "alfworld",
         "missing_cells": [],
         "reasons": [],

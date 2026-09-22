@@ -1,0 +1,41 @@
+{
+  "checkpoint_rule": "scheduled",
+  "shards": [
+    {
+      "path": "configs/p3-scheduled/panel-shard0.json",
+      "sha256": "f580cf0ff8b26f63b74b25f4b29e714da7cbb714da72c2899345b36900da6d26"
+    },
+    {
+      "path": "configs/p3-scheduled/panel-shard1.json",
+      "sha256": "c478aa30703d1a98a2dcfd15f3b3d66db3d94d0909ae98e33b7ffbf2c0f201c0"
+    },
+    {
+      "path": "configs/p3-scheduled/panel-shard2.json",
+      "sha256": "8ffb40663c8e905c364c3ebb456f5c44b3655191785a0e6f8e87ba85fe5a65b4"
+    },
+    {
+      "path": "configs/p3-scheduled/panel-shard3.json",
+      "sha256": "dafa0c28f6ec6495eea439c83e91b293cd026a8c5398cb6336166dc7265cabf6"
+    },
+    {
+      "path": "configs/p3-scheduled/panel-shard4.json",
+      "sha256": "6972bc374a8182762b2d080e72c16f1506533be44e956739f0a43681b877fddd"
+    },
+    {
+      "path": "configs/p3-scheduled/panel-shard5.json",
+      "sha256": "602cb16c1133e67c4dd8d1af071531b6f0dd026c3ea4cfb2aaf668793dc93242"
+    },
+    {
+      "path": "configs/p3-scheduled/panel-shard6.json",
+      "sha256": "a2d66186ca8238979227e940610723f798c1129b56254d2ff4764f97b4c878b6"
+    },
+    {
+      "path": "configs/p3-scheduled/panel-shard7.json",
+      "sha256": "c994ec711fe268af8f7451bb615265a9fc32272e2ba79b4b5184bac2fffd0147"
+    }
+  ],
+  "source_panel": "configs/p3-event",
+  "source_task_set_sha256": "bb6408a7e9914785c94c5e166fc73478f8697214ee9ba326a9b37e04e98d7b15",
+  "status": "MIRRORED_BEFORE_BASELINE_OR_ARM_GENERATION",
+  "tasks_sha256": "a5298fce3c19a502ff5363120d9e450a9015e42099481a0403a18d709537bfa4"
+}

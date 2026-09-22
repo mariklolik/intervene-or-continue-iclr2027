@@ -1,0 +1,322 @@
+{
+  "checkpoint_rule": "event",
+  "counts": {
+    "alfworld": {
+      "look_at_obj_in_light": 0,
+      "pick_and_place_simple": 111,
+      "pick_clean_then_place_in_recep": 23,
+      "pick_cool_then_place_in_recep": 3,
+      "pick_heat_then_place_in_recep": 0,
+      "pick_two_obj_and_place": 168
+    },
+    "scienceworld": 0
+  },
+  "excluded_alfworld_goals": 1368,
+  "excluded_scienceworld_variations": 284,
+  "exposure_inputs": [
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-dev-Qwen2.5-7B-Instruct-shard0.json",
+      "sha256": "4c714bc63c608207f52a5db370a87dd9ca340009e98046e2de9cabd99565350d"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-dev-Qwen2.5-7B-Instruct-shard1.json",
+      "sha256": "ee3fbb8a7873117713bc34e433bf93a4ee44c11d2525c4ab3488fef1b56a4fb4"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-dev-Qwen2.5-7B-Instruct.json",
+      "sha256": "81fa77197879dbca10fa3265fbe08bfad19f2c7d3f3db7554c7b03e4252d2527"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-dev-Qwen3-8B-shard0.json",
+      "sha256": "7954f170344f42081ff0301cfa882464b4a2dd07199f4e8300ecff3c056e9afa"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-dev-Qwen3-8B-shard1.json",
+      "sha256": "7e6e5fca3af91164e360bc1462ac2f78ef8482fc148aa7023c761ffe35fd7f54"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-dev-Qwen3-8B.json",
+      "sha256": "38f1efa17b664f91a124db80281384d4ec64d2e62d109c64a7392dadf65a06da"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-test-Qwen2.5-7B-Instruct-shard0.json",
+      "sha256": "5965578e12d0c75b05942820778a5cb49973e99f2f989628bf84cb677858bcee"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-test-Qwen2.5-7B-Instruct-shard1.json",
+      "sha256": "5bd9328d607ae607089ca869fc8851e66699b09b3eddab8ebf130715f9b25add"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-test-Qwen2.5-7B-Instruct.json",
+      "sha256": "d75622dfa9de694b3bc367138a1446e24e0a8f44744c744bb295606bea329883"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-test-Qwen3-8B-shard0.json",
+      "sha256": "02600a10aeec59f119cc18d8e4ffc5fa2cd99e79b0998674da0575d533b3abf9"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-test-Qwen3-8B-shard1.json",
+      "sha256": "3efac08aeea7d4184a65c576997c8cd59e1b4cc0806e8b89efcc33f646f2c985"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-frozen/main-test-Qwen3-8B.json",
+      "sha256": "626ab0ffaab9598c856348b3d526115c6bdd30479fbfdcb81cedf01979952bb7"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-budget/main-test-Qwen2.5-7B-Instruct-shard0.json",
+      "sha256": "1c33e2c4c6363c8213cf04fe5a527b6f145cc860ce9214d3ec799feb61eefdf7"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-budget/main-test-Qwen2.5-7B-Instruct-shard1.json",
+      "sha256": "7de2e4bbf11ac288cc7de4f8dce202255f1891ee85e567660a7247d9060a4923"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-budget/main-test-Qwen2.5-7B-Instruct.json",
+      "sha256": "88f6f976129110d13a4816a3b8a8c672f6bb9503eaff07352a2852e2c53f33c7"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-budget/main-test-Qwen3-8B-shard0.json",
+      "sha256": "94f94a999bf5a319ec444cf3ae8b7826f8e619a3e2d74a01f6196b28a72aaad0"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-budget/main-test-Qwen3-8B-shard1.json",
+      "sha256": "393f13f6a40cdd47d43d3d50940d01cfca61239bdb46b6fc53a8910b37e45b89"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-budget/main-test-Qwen3-8B.json",
+      "sha256": "ae0ff905bc9823c0ee706e646c8ab6a1ba00e0ecfd28c3ef41f476d51c26b7f8"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-qualified/main-test-Qwen2.5-7B-Instruct-shard0.json",
+      "sha256": "4f29c902c13735f91ecdc407d0ded2c2db524e67497f4451bb6c0217afacc433"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-qualified/main-test-Qwen2.5-7B-Instruct-shard1.json",
+      "sha256": "5b0f31a140c92f164fc84717e311384b25964b835cbcebe2ebd10868d96a8aaa"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-qualified/main-test-Qwen2.5-7B-Instruct.json",
+      "sha256": "b593414ebb03f061de7804d2e11da1f700f16e732f3571ff2c939ee9a6754d8a"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-qualified/main-test-Qwen3-8B-shard0.json",
+      "sha256": "b16a687988e00dfbf43ee08b7274d0acb6f50b6efdcf2137468cb60f089a2d31"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-qualified/main-test-Qwen3-8B-shard1.json",
+      "sha256": "0800a299021e9abc8998f0f96da93278d42ff20346e914046f74783ccd724e11"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-final-qualified/main-test-Qwen3-8B.json",
+      "sha256": "ddee79d13cf774fd3e220a292482da01e91e14775c6e15a173e5acb90137e6d5"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-dev-Qwen2.5-7B-Instruct-shard0.json",
+      "sha256": "9dcab64bdde820477cf60f098222d5e720213ed9824c5650846c6407311114fc"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-dev-Qwen2.5-7B-Instruct-shard1.json",
+      "sha256": "b375707ede5a2b02a4915d3b6b42266126ad842c4e7ca04d9d1dfe823a0ba3f3"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-dev-Qwen2.5-7B-Instruct.json",
+      "sha256": "874df915b40e0955f3b08819e81ba82e2e9149347a08b39fd95ac53624112fbd"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-dev-Qwen3-8B-shard0.json",
+      "sha256": "80d306f4d4db7d9003fd0fe6e358c420af8977b6522b403a38ad409ac17f906d"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-dev-Qwen3-8B-shard1.json",
+      "sha256": "787bf4bb6d15da6bf4ad37448f338e37911c77d7bd9edda7c745171fb5cdf5fd"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-dev-Qwen3-8B.json",
+      "sha256": "584ca83afc5052ef1d06f285915d5040597d92df87c900beea78a4fbd4c0e8c8"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-test-Qwen2.5-7B-Instruct-shard0.json",
+      "sha256": "ff96b78b6808a15b0be653b00e3421fe6a08f2d7e60cdc03e4ec970ac71617fd"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-test-Qwen2.5-7B-Instruct-shard1.json",
+      "sha256": "f654a078ac72239e6be0552595448ca609cca6444422ee1f232e73b648b21f9e"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-test-Qwen2.5-7B-Instruct.json",
+      "sha256": "124dccb7a63bd8fb73ed0783202d048e860045b31b416c5c2cb0c0c4745059d8"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-test-Qwen3-8B-shard0.json",
+      "sha256": "4e4f38203a0b1b4809d23c5452be392afa63a61482ebbc54aa5d05fb689e92b0"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-test-Qwen3-8B-shard1.json",
+      "sha256": "d00aca9c7f45481d59093891685197ed40a3bfcacc12466bc2e98949e1df80c1"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/main-v2-frozen/main-test-Qwen3-8B.json",
+      "sha256": "8db73f1154eb2aa00a9b1b283d75d6d355a6f6e8d947faa8377930b572518bc1"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-Qwen2.5-7B-Instruct.json",
+      "sha256": "c3f0ad828a228ae545f78b700e90bff3c3cebf53a402607bdacac0201f227ba3"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-Qwen3-8B.json",
+      "sha256": "8c6e2b9c22bb4fb5286142783ae091987ced3ea2eaf99ce8fbddc800b7f2e481"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-grounded-Qwen2.5-7B-Instruct.json",
+      "sha256": "c619a294d93527c03631e97b265c414588e85f44b3261b69a2614b54f3a87dbf"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-grounded-Qwen3-8B.json",
+      "sha256": "70c7b37c4fc012ed7a468b606aa658cdd95069c3ccd5a4d43f88f12c8fed9131"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-qualified-Qwen2.5-7B-Instruct.json",
+      "sha256": "def9e26e677a58dc52c5c6678541142f320ac6b18a7e1e5b371b1797ca2a499a"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-qualified-Qwen3-8B.json",
+      "sha256": "5c8ec634ccb1062cfa29f30f383ce6cdf8c05e59f4564cc440136b7ff805af25"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-react-Qwen2.5-7B-Instruct.json",
+      "sha256": "2b115cfb0461b0bc61bf5ecad9dd6b6459e99ea92169ac5d9ddac5c03f05e492"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-react-Qwen3-8B.json",
+      "sha256": "8426d0b1ec154a73d3ff8c116effe6de23d442c851bef4f7b8d79f211c7b2d73"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-sw-Qwen2.5-7B-Instruct.json",
+      "sha256": "5362a4f0a5ff9a8aabbebf6108e7d002a3ccc3d01828c43175f63798df80c64e"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-sota-20260908/configs/pilot-sw-Qwen3-8B.json",
+      "sha256": "4eee02f52e50d8c1964d1b074d7fd4c298fb9922abd060630e58fa8e8b53423a"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/confirmation-actor27b.json",
+      "sha256": "c436754a11d95e196d11f95ec7b400554b208275300fbdeb997a333a2e05f3a3"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/confirmation-actor9b-secondary.json",
+      "sha256": "3ba8d34cce3fa56c02cf0c30f87e8fc199c169838468669d64d8234e438c9308"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/confirmation-selfcheck8b.json",
+      "sha256": "fa87ae3fd31c441b51d046e4ec6cbfb1af3848941ef7816107930ace933fc70e"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/goal-actor27b.json",
+      "sha256": "cdb28c6f57ad19c90d1344c8195d6f0df9a9ee72ffbbf272c0ccdb0dfb80861b"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/goal-generic27b.json",
+      "sha256": "ba645dd0545717ffee124b72a6d0de7aeb860138997bdd847d7569b90552be04"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/goal-specific27b.json",
+      "sha256": "d79af415fae9e4906617240d70b6c8e2b092a5eac8a5fd629fdf05d1d35592d5"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/latest-actor-v1.json",
+      "sha256": "047177a543dcd6f093abadb4bd21b993ac25ff3b5225b57b03244ec1de7cc802"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/latest-actor-v3.json",
+      "sha256": "1510413203876214df80b71e2cf36d0030ba2b5ccb5c508096a51e6be095ad4e"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/memory-v1.json",
+      "sha256": "66dab0205c3b9bf09d9413d0918f37d2ad5c4277dad0bcfb2ad09517cc73e1da"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/pilot-v1.json",
+      "sha256": "c07d4537e225c61c37d33bcf08f35ac2648e9bc6ad9359115042df9f8333b4b0"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/pilot-v2.json",
+      "sha256": "13471960b2b523af26c8bc8211d6510218048beebb0462d14fa947f7ae566367"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/public-actor27b.json",
+      "sha256": "e188ee0fda102693dcc33863ac877d5d69684dd0a319145d375af359e655b983"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-next-20260909/configs/public-selfcheck27b.json",
+      "sha256": "95f37b2c98a871f7c8f17c51f314b7146f5c9b25a35eadb8227c8a8ce49daa37"
+    },
+    {
+      "path": "configs/independent-panel/panel-master.json",
+      "sha256": "130be2193460372bed53dc1756cd9b1dfdf01766cced0fade4bf51e640c2603b"
+    },
+    {
+      "path": "configs/p2-event/panel-master.json",
+      "sha256": "14a0873a2f42df9da9a4c247512ed54e8949bf48c81c7bf100c109eeb20e37d3"
+    },
+    {
+      "path": "configs/d2-event/panel-master.json",
+      "sha256": "c9469f219557fe0a565767f1ad4290c4a76f2d5a19438f3aa803f63ab8547ad3"
+    },
+    {
+      "path": "configs/t1-event/panel-master.json",
+      "sha256": "47344d8b6fc6d3d876279e71c674816e15b6bbd629710851e0c0e28359a8a68c"
+    }
+  ],
+  "groups": {
+    "alfworld": 84,
+    "scienceworld": 0
+  },
+  "prior_reserved_frame_sha256": "11948ec9173469e2ef6f4288558744560a4ef7c10f76dbe1e4ef1dc5d6f29faf",
+  "rounds": 2,
+  "seed": 270951,
+  "shards": [
+    {
+      "path": "configs/p3-event/panel-shard0.json",
+      "sha256": "3645e73cf8a206c24d7b2725669b4163b57336c5a4f8dc0cde748b8f830d7004",
+      "tasks": 39
+    },
+    {
+      "path": "configs/p3-event/panel-shard1.json",
+      "sha256": "c79c10405cd20b31a9b7f01570b84fcbc9ea6768e3c378f6bb006cc43cc376b6",
+      "tasks": 38
+    },
+    {
+      "path": "configs/p3-event/panel-shard2.json",
+      "sha256": "9b15f1d450f47a237df746689d28072ab73c76438a1414710d924fdbaddbc7fe",
+      "tasks": 38
+    },
+    {
+      "path": "configs/p3-event/panel-shard3.json",
+      "sha256": "7b4ce87a1b00b5a73813e49014a2e27e6ff3507fb7c500c4ba34c3cfbc3f915a",
+      "tasks": 38
+    },
+    {
+      "path": "configs/p3-event/panel-shard4.json",
+      "sha256": "172b185cbf316c6fa356f5e2312e2689f745a4da3aa095c4aa9a9d39761b2d14",
+      "tasks": 38
+    },
+    {
+      "path": "configs/p3-event/panel-shard5.json",
+      "sha256": "9939d684ec43462f9eb59a31bb9322d3f4d2a86945b6d8e789171f450769389c",
+      "tasks": 38
+    },
+    {
+      "path": "configs/p3-event/panel-shard6.json",
+      "sha256": "e9e5d152e07abb769b45f1ff607bb705afdf87e1bfe07df9e42fbfc3ff8364cc",
+      "tasks": 38
+    },
+    {
+      "path": "configs/p3-event/panel-shard7.json",
+      "sha256": "73d6fc69373a0ce03b506c150cab0a0741e31b856b3cefcf3dc88c62e5a7b972",
+      "tasks": 38
+    }
+  ],
+  "status": "FROZEN_BEFORE_BASELINE_OR_ARM_GENERATION",
+  "tasks_sha256": "bb6408a7e9914785c94c5e166fc73478f8697214ee9ba326a9b37e04e98d7b15",
+  "template_sha256": "d17f2d8983af3a23e17e93c22df471bfee5225967861e7f76ac98bc4ed8169ec"
+}

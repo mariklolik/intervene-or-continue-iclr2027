@@ -1,0 +1,51 @@
+{
+  "analysis_rows_sha256": "7815d77e488a6c2864553def19c722775747d045763977b6d5f150b6e03e7bcd",
+  "ingestion_audits_sha256": "3a33ce40e155320178a83abdbf561fdf321859d9d2ba2a4791b4fbf50d8a5343",
+  "inputs": [
+    {
+      "path": "configs/independent-panel/panel-shard0.json",
+      "sha256": "f4fb00daca46f63057635e7f8de765fb926cea38da467c62ed39c63c217b4633"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard1.json",
+      "sha256": "987fcc2e160bdc3956ec7462180a95eecd7b869022605b89922c5965ec8e1bee"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard2.json",
+      "sha256": "865f96e460d9be0915f575b2ccba48fce98193e60cbc2490417a76ef3cae54b8"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard3.json",
+      "sha256": "907acdfae2050f0f084b36d065c7dd14bda815a1088cc48dc0b9f937f1622249"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard4.json",
+      "sha256": "55357795479f026f3e5391678ae594951b35919c3f3a54ba2268ffcbc9a55508"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard5.json",
+      "sha256": "e27c9ccfac081c155a9b1991bda803ccde541887ee1acefdc13fa9597fbdb023"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard6.json",
+      "sha256": "45031c613127d993b38d0e6a17bee2c2878494fbe709e185e89bf0119552f00d"
+    },
+    {
+      "path": "configs/independent-panel/panel-shard7.json",
+      "sha256": "cf67963cae3d247768b9c77ba53267217574330d3cd08e68727080c125c4daef"
+    },
+    {
+      "path": "artifacts/prediction-freeze/predictions.json",
+      "sha256": "7838091417d183133bc561be4670313d8fc9d4235f409ed86c13616afaf6911b"
+    },
+    {
+      "path": "artifacts/prediction-freeze/prediction-freeze.json",
+      "sha256": "0647b9625b7ac2c5410732ad512cb9a663caf76414bc5baa2ae931dfe76ce218"
+    },
+    {
+      "path": "/Users/mekashirskiy/.codex/.chatgpt-projects/g-p-6a84252afa14819186401a092bcc38e6/output/intervene-iclr2027-clean/controller/evaluate_confirmation.py",
+      "sha256": "fe8166b173ba8f3a11cf839f873a3ea1367105b6c20947c9ef4a37df6c8cf377"
+    }
+  ],
+  "results_sha256": "d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d"
+}

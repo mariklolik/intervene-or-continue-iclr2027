@@ -38,6 +38,8 @@ The improvement-significance frontier of the frozen candidate grid is read on de
 
 Learner capacity is measured on development records only, by nested honest out-of-fold utility of the cross-draw fit under gradient boosting, appended sentence embeddings of the prefix from `Qwen3-0.6B-Base`, and their combination. No confirmation prediction is produced from these variants and the frozen controller is unchanged; the reading is descriptive and answers whether the model class binds.
 
+The scheduled mirror of the second panel runs the same identities and the same menu under the scheduled rule, so the decision point is the only design variable that moves. Its predictions come from the same frozen controller bundle and from baselines alone; the rule contrast is descriptive and is not a member of the tested family.
+
 `p2-scheduled`, the contrast between checkpoint rules, direct-versus-cross-draw, direct-versus-continue, arm counts, firing rates, recoveries, disruptions, and costs are secondary or descriptive.
 
 ## Units, exclusions, and stopping

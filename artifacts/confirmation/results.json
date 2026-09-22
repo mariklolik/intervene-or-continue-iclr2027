@@ -2690,6 +2690,21 @@
         }
       ],
       "groups": 96,
+      "headroom": {
+        "arm_means_eligible": [
+          0.49014084507042255,
+          0.48732394366197185,
+          0.5169014084507042,
+          0.48450704225352115
+        ],
+        "best_fixed_arm": 2,
+        "best_fixed_eligible": 0.5169014084507042,
+        "continue_eligible": 0.49014084507042255,
+        "cross_draw_oracle_eligible": 0.5028169014084507,
+        "definition": "Value of an outcome-informed selector that reads one complete independent draw of every arm and is scored on another; an honest reference for what any prefix-conditional policy can reach at this draw count",
+        "oracle_minus_best_fixed": -0.014084507042253502,
+        "same_draw_oracle_eligible": 0.6690140845070423
+      },
       "planned_tasks": 384,
       "policies": {
         "ARM_OUTCOME": {
@@ -2880,6 +2895,17 @@
         }
       },
       "same_draw_selection_optimism": {
+        "exchangeable_label_floor": {
+          "definition": "Within-task permutation of every arm/draw outcome; the sharp null of exchangeable arm and draw labels",
+          "draws": 20000,
+          "interval_95": [
+            0.14929577464788732,
+            0.19577464788732393
+          ],
+          "mean": 0.1725832394366197,
+          "observed_eligible_mean": 0.16619718309859155,
+          "one_sided_p": 0.32068396580170994
+        },
         "group_bootstrap_95": [
           0.12464955547436365,
           0.1829616137764211
@@ -3278,7 +3304,35 @@
         "task_bootstrap_95": [
           0.125,
           0.18489583333333334
-        ]
+        ],
+        "variance_profile": {
+          "bins": [
+            {
+              "lower": 0.0,
+              "mean_optimism": 0.0,
+              "mean_success": 0.48044692737430167,
+              "n_tasks": 179,
+              "upper": 1e-09
+            },
+            {
+              "lower": 1e-09,
+              "mean_optimism": 0.24074074074074073,
+              "mean_success": 0.5138888888888888,
+              "n_tasks": 81,
+              "upper": 0.15
+            },
+            {
+              "lower": 0.15,
+              "mean_optimism": 0.41578947368421054,
+              "mean_success": 0.5052631578947369,
+              "n_tasks": 95,
+              "upper": 0.31
+            }
+          ],
+          "correlation": 0.6050213913794006,
+          "definition": "Tasks binned by the variance of a Bernoulli with their pooled arm-by-draw success rate; the diagnostic is a function of that variance",
+          "zero_variance_tasks": 179
+        }
       },
       "selection": {
         "arm_outcome_parameterization_control": "REPEATED",
@@ -3861,6 +3915,21 @@
         }
       ],
       "groups": 25,
+      "headroom": {
+        "arm_means_eligible": [
+          0.1568627450980392,
+          0.11764705882352941,
+          0.1568627450980392,
+          0.0784313725490196
+        ],
+        "best_fixed_arm": 2,
+        "best_fixed_eligible": 0.1568627450980392,
+        "continue_eligible": 0.1568627450980392,
+        "cross_draw_oracle_eligible": 0.14705882352941177,
+        "definition": "Value of an outcome-informed selector that reads one complete independent draw of every arm and is scored on another; an honest reference for what any prefix-conditional policy can reach at this draw count",
+        "oracle_minus_best_fixed": -0.009803921568627444,
+        "same_draw_oracle_eligible": 0.20588235294117646
+      },
       "planned_tasks": 57,
       "policies": {
         "ARM_OUTCOME": {
@@ -4051,6 +4120,17 @@
         }
       },
       "same_draw_selection_optimism": {
+        "exchangeable_label_floor": {
+          "definition": "Within-task permutation of every arm/draw outcome; the sharp null of exchangeable arm and draw labels",
+          "draws": 20000,
+          "interval_95": [
+            0.0392156862745098,
+            0.11764705882352941
+          ],
+          "mean": 0.07367352941176471,
+          "observed_eligible_mean": 0.058823529411764705,
+          "one_sided_p": 0.3233338333083346
+        },
         "group_bootstrap_95": [
           0.01694915254237288,
           0.1
@@ -4121,7 +4201,35 @@
         "task_bootstrap_95": [
           0.008771929824561403,
           0.10526315789473684
-        ]
+        ],
+        "variance_profile": {
+          "bins": [
+            {
+              "lower": 0.0,
+              "mean_optimism": 0.0,
+              "mean_success": 0.025,
+              "n_tasks": 40,
+              "upper": 1e-09
+            },
+            {
+              "lower": 1e-09,
+              "mean_optimism": 0.375,
+              "mean_success": 0.3125,
+              "n_tasks": 4,
+              "upper": 0.15
+            },
+            {
+              "lower": 0.15,
+              "mean_optimism": 0.21428571428571427,
+              "mean_success": 0.6071428571428571,
+              "n_tasks": 7,
+              "upper": 0.31
+            }
+          ],
+          "correlation": 0.5566156102709549,
+          "definition": "Tasks binned by the variance of a Bernoulli with their pooled arm-by-draw success rate; the diagnostic is a function of that variance",
+          "zero_variance_tasks": 40
+        }
       },
       "selection": {
         "arm_outcome_parameterization_control": "REPEATED",
@@ -4159,5 +4267,10 @@
   },
   "prediction_freeze_sha256": "0647b9625b7ac2c5410732ad512cb9a663caf76414bc5baa2ae931dfe76ce218",
   "predictions_sha256": "7838091417d183133bc561be4670313d8fc9d4235f409ed86c13616afaf6911b",
+  "primary_family": [
+    "same_draw_selection_optimism",
+    "DIRECT_ADVANTAGE_vs_CONTINUE",
+    "DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"
+  ],
   "status": "COMPLETE"
 }
