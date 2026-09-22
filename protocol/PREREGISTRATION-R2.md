@@ -34,6 +34,8 @@ To raise power within the available frame, the event-triggered confirmation adds
 
 Same-draw optimism is reported as an estimation diagnostic with task and floorplan bootstrap intervals and a within-task exchangeable-label reference distribution; it is not a member of the tested family, because the diagnostic is pathwise non-negative and a sign-flip null is degenerate for it.
 
+The improvement-significance frontier of the frozen candidate grid is read on development records only, as the paired mean difference against `CONTINUE` and its $z$ statistic for every grid entry. It selects nothing and produces no confirmation prediction.
+
 Learner capacity is measured on development records only, by nested honest out-of-fold utility of the cross-draw fit under gradient boosting, appended sentence embeddings of the prefix from `Qwen3-0.6B-Base`, and their combination. No confirmation prediction is produced from these variants and the frozen controller is unchanged; the reading is descriptive and answers whether the model class binds.
 
 `p2-scheduled`, the contrast between checkpoint rules, direct-versus-cross-draw, direct-versus-continue, arm counts, firing rates, recoveries, disruptions, and costs are secondary or descriptive.

@@ -1,0 +1,221 @@
+{
+  "frontier": [
+    {
+      "agreement": true,
+      "candidates": "all",
+      "discordance": 0.014705882352941176,
+      "improvement": -0.0014705882352941176,
+      "leaf": 10,
+      "threshold": 0.1,
+      "z": -0.44668684196556296
+    },
+    {
+      "agreement": true,
+      "candidates": "evidence",
+      "discordance": 0.023529411764705882,
+      "improvement": 0.0029411764705882353,
+      "leaf": 10,
+      "threshold": 0.1,
+      "z": 0.7065858921426064
+    },
+    {
+      "agreement": false,
+      "candidates": "all",
+      "discordance": 0.029411764705882353,
+      "improvement": 0.0014705882352941176,
+      "leaf": 10,
+      "threshold": 0.1,
+      "z": 0.27697326356614643
+    },
+    {
+      "agreement": false,
+      "candidates": "evidence",
+      "discordance": 0.029411764705882353,
+      "improvement": 0.0029411764705882353,
+      "leaf": 10,
+      "threshold": 0.1,
+      "z": 0.49944781871613875
+    },
+    {
+      "agreement": true,
+      "candidates": "all",
+      "discordance": 0.058823529411764705,
+      "improvement": 0.0014705882352941176,
+      "leaf": 10,
+      "threshold": 0.05,
+      "z": 0.1854314591628574
+    },
+    {
+      "agreement": true,
+      "candidates": "evidence",
+      "discordance": 0.07941176470588235,
+      "improvement": 0.0029411764705882353,
+      "leaf": 10,
+      "threshold": 0.05,
+      "z": 0.3328971756936842
+    },
+    {
+      "agreement": false,
+      "candidates": "all",
+      "discordance": 0.10294117647058823,
+      "improvement": 0.011764705882352941,
+      "leaf": 10,
+      "threshold": 0.05,
+      "z": 1.1318383723334542
+    },
+    {
+      "agreement": false,
+      "candidates": "evidence",
+      "discordance": 0.10588235294117647,
+      "improvement": 0.008823529411764706,
+      "leaf": 10,
+      "threshold": 0.05,
+      "z": 0.8160954526397346
+    },
+    {
+      "agreement": true,
+      "candidates": "all",
+      "discordance": 0.09705882352941177,
+      "improvement": 0.010294117647058823,
+      "leaf": 10,
+      "threshold": 0.0,
+      "z": 0.9801393689575646
+    },
+    {
+      "agreement": true,
+      "candidates": "evidence",
+      "discordance": 0.12941176470588237,
+      "improvement": 0.01911764705882353,
+      "leaf": 10,
+      "threshold": 0.0,
+      "z": 1.697129148900241
+    },
+    {
+      "agreement": false,
+      "candidates": "all",
+      "discordance": 0.19117647058823528,
+      "improvement": 0.010294117647058823,
+      "leaf": 10,
+      "threshold": 0.0,
+      "z": 0.7176724857353075
+    },
+    {
+      "agreement": false,
+      "candidates": "evidence",
+      "discordance": 0.19411764705882353,
+      "improvement": 0.022058823529411766,
+      "leaf": 10,
+      "threshold": 0.0,
+      "z": 1.5586940029218004
+    },
+    {
+      "agreement": true,
+      "candidates": "all",
+      "discordance": 0.01764705882352941,
+      "improvement": 0.0058823529411764705,
+      "leaf": 5,
+      "threshold": 0.1,
+      "z": 1.15526865675969
+    },
+    {
+      "agreement": true,
+      "candidates": "evidence",
+      "discordance": 0.023529411764705882,
+      "improvement": 0.0058823529411764705,
+      "leaf": 5,
+      "threshold": 0.1,
+      "z": 1.0692702906509666
+    },
+    {
+      "agreement": false,
+      "candidates": "all",
+      "discordance": 0.04411764705882353,
+      "improvement": 0.0029411764705882353,
+      "leaf": 5,
+      "threshold": 0.1,
+      "z": 0.40774743358228227
+    },
+    {
+      "agreement": false,
+      "candidates": "evidence",
+      "discordance": 0.03529411764705882,
+      "improvement": 0.004411764705882353,
+      "leaf": 5,
+      "threshold": 0.1,
+      "z": 0.6541026153319504
+    },
+    {
+      "agreement": true,
+      "candidates": "all",
+      "discordance": 0.047058823529411764,
+      "improvement": 0.01764705882352941,
+      "leaf": 5,
+      "threshold": 0.05,
+      "z": 2.0678742017070317
+    },
+    {
+      "agreement": true,
+      "candidates": "evidence",
+      "discordance": 0.06470588235294118,
+      "improvement": 0.01764705882352941,
+      "leaf": 5,
+      "threshold": 0.05,
+      "z": 1.9046847558126174
+    },
+    {
+      "agreement": false,
+      "candidates": "all",
+      "discordance": 0.11176470588235295,
+      "improvement": 0.004411764705882353,
+      "leaf": 5,
+      "threshold": 0.05,
+      "z": 0.3716322681831707
+    },
+    {
+      "agreement": false,
+      "candidates": "evidence",
+      "discordance": 0.10588235294117647,
+      "improvement": 0.013235294117647059,
+      "leaf": 5,
+      "threshold": 0.05,
+      "z": 1.1343715524746227
+    },
+    {
+      "agreement": true,
+      "candidates": "all",
+      "discordance": 0.07941176470588235,
+      "improvement": 0.025,
+      "leaf": 5,
+      "threshold": 0.0,
+      "z": 2.3970320631698705
+    },
+    {
+      "agreement": true,
+      "candidates": "evidence",
+      "discordance": 0.11470588235294117,
+      "improvement": 0.029411764705882353,
+      "leaf": 5,
+      "threshold": 0.0,
+      "z": 2.603843313258307
+    },
+    {
+      "agreement": false,
+      "candidates": "all",
+      "discordance": 0.18529411764705883,
+      "improvement": 0.01911764705882353,
+      "leaf": 5,
+      "threshold": 0.0,
+      "z": 1.2698121729622152
+    },
+    {
+      "agreement": false,
+      "candidates": "evidence",
+      "discordance": 0.19117647058823528,
+      "improvement": 0.030882352941176472,
+      "leaf": 5,
+      "threshold": 0.0,
+      "z": 2.100030974136598
+    }
+  ],
+  "tasks": 340
+}

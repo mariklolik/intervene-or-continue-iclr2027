@@ -17,6 +17,7 @@ def main() -> None:
     parser.add_argument("--scheduled", type=Path)
     parser.add_argument("--first", type=Path, default=ROOT / "artifacts" / "confirmation" / "results.json")
     parser.add_argument("--capacity", type=Path)
+    parser.add_argument("--frontier", type=Path)
     parser.add_argument("--temperature-hot", type=Path)
     parser.add_argument("--temperature-cold", type=Path)
     parser.add_argument("--out", type=Path, default=ROOT / "paper")
@@ -44,7 +45,8 @@ def main() -> None:
     r2.write_numbers(reports, paths, outputs[0])
     r2.write_results(reports, outputs[1])
     capacity = json.loads(args.capacity.read_text()) if args.capacity and args.capacity.exists() else None
-    r2.write_analysis(reports, outputs[2], capacity)
+    frontier = json.loads(args.frontier.read_text()) if args.frontier and args.frontier.exists() else None
+    r2.write_analysis(reports, outputs[2], capacity, frontier)
     r2.write_abstract(json.loads(args.first.read_text()), reports, outputs[4])
     r2.write_appendix(reports, freezes, outputs[5])
     r2.write_conclusion(json.loads(args.first.read_text()), reports, outputs[6])

@@ -136,6 +136,18 @@ def write_results(reports: dict, out: Path) -> None:
     out.write_text(text)
 
 
+def frontier_sentence(frontier: dict) -> str:
+    if not frontier:
+        return ""
+    rows = frontier["frontier"]
+    best = max(rows, key=lambda row: row["z"])
+    widest = max(rows, key=lambda row: row["improvement"])
+    return (" The same grid traces the trade-off between expected gain and the significance of that gain. Across the frozen candidate set "
+            f"the development improvement over continuation reaches {pct(widest['improvement'])} points and the paired $z$ statistic reaches {best['z']:.2f}; "
+            f"the configuration the pre-registered utility criterion selected is the one attaining that maximum, at {pct(best['improvement'])} points over "
+            f"{pct(best['discordance'], 1)}\\% discordant tasks. The frozen operating point is the most certifiable one the menu offers, not the most aggressive.")
+
+
 def paired_phrase(event: dict, scheduled: dict) -> str:
     return " on the same identities" if event["planned_tasks"] == scheduled["planned_tasks"] else ""
 
@@ -151,12 +163,12 @@ def capacity_sentence(capacity: dict) -> str:
             "What the prefix carries at a decision point, not the model class, sets the ceiling.")
 
 
-def write_analysis(reports: dict, out: Path, capacity: dict | None = None) -> None:
+def write_analysis(reports: dict, out: Path, capacity: dict | None = None, frontier: dict | None = None) -> None:
     event, scheduled = domain(reports["event"]), domain(reports["scheduled"])
     head, shead = event["headroom"], scheduled["headroom"]
     gap, sgap = event["same_draw_selection_optimism"], scheduled["same_draw_selection_optimism"]
     floor, sfloor = gap["exchangeable_label_floor"], sgap["exchangeable_label_floor"]
-    text = f"""Two readings connect the two confirmations, and both come from the same repeated branches rather than from a new experiment. The first is what the menu can reach. A per-task selector given one complete independent draw of every arm, scored on the other draw, reaches {pct(head['cross_draw_oracle_eligible'])}\\% on triggered prefixes against {pct(head['best_fixed_eligible'])}\\% for the best fixed repair, a margin of {pct(head['oracle_minus_best_fixed'])} points; under the scheduled rule the same quantities are {pct(shead['cross_draw_oracle_eligible'])}\\% and {pct(shead['best_fixed_eligible'])}\\%, a margin of {pct(shead['oracle_minus_best_fixed'])} points. A trigger exists on {event['eligible_tasks']}/{event['planned_tasks']} tasks, against {scheduled['eligible_tasks']}/{scheduled['planned_tasks']} that reach the scheduled checkpoint{paired_phrase(event, scheduled)}, so the event rule does not open its room by offering more chances to act. {arm_sentence(head)}. An average cost is not a verdict on any prefix, which is the distinction a controller is asked to make. Conditioning the decision on a public failure signal is what opens prefix-level room for a controller; a larger learner at the earlier decision point does not.{capacity_sentence(capacity or {{}})}
+    text = f"""Two readings connect the two confirmations, and both come from the same repeated branches rather than from a new experiment. The first is what the menu can reach. A per-task selector given one complete independent draw of every arm, scored on the other draw, reaches {pct(head['cross_draw_oracle_eligible'])}\\% on triggered prefixes against {pct(head['best_fixed_eligible'])}\\% for the best fixed repair, a margin of {pct(head['oracle_minus_best_fixed'])} points; under the scheduled rule the same quantities are {pct(shead['cross_draw_oracle_eligible'])}\\% and {pct(shead['best_fixed_eligible'])}\\%, a margin of {pct(shead['oracle_minus_best_fixed'])} points. A trigger exists on {event['eligible_tasks']}/{event['planned_tasks']} tasks, against {scheduled['eligible_tasks']}/{scheduled['planned_tasks']} that reach the scheduled checkpoint{paired_phrase(event, scheduled)}, so the event rule does not open its room by offering more chances to act. {arm_sentence(head)}. An average cost is not a verdict on any prefix, which is the distinction a controller is asked to make. Conditioning the decision on a public failure signal is what opens prefix-level room for a controller; a larger learner at the earlier decision point does not.{capacity_sentence(capacity or {{}})}{frontier_sentence(frontier or {{}})}
 
 The second is how much of the same-draw gap is mechanical. Within-task permutation of the recorded action and draw labels fixes the continuation noise level and removes any action structure. Under the event rule the observed gap is {pct(gap['mean'])} points over planned tasks and {pct(floor['observed_eligible_mean'])} points over eligible prefixes, against an exchangeable-label floor of {pct(floor['mean'])} points ({interval(floor, 'interval_95')}). The gap tracks continuation noise, which is why it is reported as an estimate rather than tested.
 
