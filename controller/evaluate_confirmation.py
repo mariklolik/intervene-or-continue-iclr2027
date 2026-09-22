@@ -176,6 +176,8 @@ def main() -> None:
         indices = [index for index, row in enumerate(rows) if row["env"] == env]
         subset = [rows[index] for index in indices]
         planned = [task for (task_env, _), task in task_meta.items() if task_env == env]
+        if not planned:
+            continue
         complete_ids = {row["task_id"] for row in subset}
         early_ids = {task_id for task_env, task_id in early if task_env == env}
         missing = [task["task_id"] for task in planned if task["task_id"] not in complete_ids | early_ids]

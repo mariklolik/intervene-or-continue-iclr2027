@@ -201,10 +201,9 @@ def variance_sentence(measurement: dict) -> str:
         return ""
     zero = profile["bins"][0]
     top = profile["bins"][-1]
-    return (f" The gap is a function of that instability rather than of the menu: the {zero['n_tasks']} tasks whose recorded cells never disagree contribute "
-            f"{pct(zero['mean_optimism'])} points, while the {top['n_tasks']} tasks in the highest outcome-variance bin contribute {pct(top['mean_optimism'])} points, "
-            f"and the two quantities correlate at {profile['correlation']:.2f} across tasks. An environment whose tools or simulated users add randomness of their own therefore "
-            "raises this diagnostic, so the estimates here are a lower reference for such settings.")
+    return (f" It is a function of that instability: the {zero['n_tasks']} tasks whose recorded cells never disagree contribute {pct(zero['mean_optimism'])} points, "
+            f"the {top['n_tasks']} tasks in the highest outcome-variance bin contribute {pct(top['mean_optimism'])} points, and the two correlate at {profile['correlation']:.2f}. "
+            "An environment whose tools or simulated users add randomness therefore raises the diagnostic, so these estimates are a lower reference for such settings.")
 
 
 def write_analysis(report: dict, out: Path) -> None:
@@ -215,9 +214,16 @@ def write_analysis(report: dict, out: Path) -> None:
     sw_dc = sw["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
     text = f"""The same-draw action maximum exceeds independent-draw evaluation by {pct(gap['mean'])} percentage points over all ALFWorld tasks (task-bootstrap 95\\% interval {interval(gap, 'task_bootstrap_95')}; floorplan-bootstrap {interval(gap, 'group_bootstrap_95')}; Holm-adjusted ${p_claim(gap['holm_p_primary_family'])}$). The gap is pathwise nonnegative, but its magnitude depends on how often stochastic branch outcomes disagree, so it should not be read as an intervention gain or as the regret of the learned controller.{variance_sentence(gap)} The adjusted probability is the one the first study pre-registered; because a sign-flip null is degenerate for a pathwise nonnegative quantity, we report it for fidelity to that freeze and read the gap itself as an estimate against the reference distribution introduced below.
 
-Figure~\\ref{{fig:groups}} keeps the complete group distribution visible. Groups in the upper-left quadrant exhibit a positive selection/evaluation gap while direct intervention underperforms continuation. This is precisely the case in which a realized rescue can look compelling even though the deployable policy loses utility. Groups with zero gap are retained.
+"""
+    out.write_text(text)
 
-ScienceWorld provides a prespecified boundary rather than a second opportunity to claim success. Its continuation success rate is {pct(sw['policies']['CONTINUE']['planned_mean'])}\\%, so most tasks fail under every action and contribute zero to both the gap and every contrast; the panel therefore compresses effects mechanically rather than showing greater branch stability. Its same-draw gap is {pct(sw_gap['mean'])} points ({interval(sw_gap, 'group_bootstrap_95')} by task-family bootstrap), and Direct minus Continue is {pct(sw_dc['mean'])} points; its {interval(sw_dc, 'group_bootstrap_95')} interval is degenerate because the controller fired on {pct(sw['policies']['DIRECT_ADVANTAGE']['firing_rate_eligible'], 1)}\\% of prefixes and produced no recovery or disruption, which is an absence of observed differences rather than an exact null. All {sw['planned_tasks']} tasks, {sw['groups']} families, six policies, costs, recoveries, and disruptions appear in Table~\\ref{{tab:scienceworld-contrasts}} and the released result JSON. Differences in direction across environments narrow the empirical scope instead of motivating post hoc domain selection.
+
+def write_scienceworld(report: dict, out: Path) -> None:
+    alf = report["domains"]["alfworld"]
+    sw = report["domains"]["scienceworld"]
+    sw_gap = sw["same_draw_selection_optimism"]
+    sw_dc = sw["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
+    text = f"""ScienceWorld provides a prespecified boundary rather than a second opportunity to claim success. Its continuation success rate is {pct(sw['policies']['CONTINUE']['planned_mean'])}\\%, so most tasks fail under every action and contribute zero to both the gap and every contrast; the panel therefore compresses effects mechanically rather than showing greater branch stability. Its same-draw gap is {pct(sw_gap['mean'])} points ({interval(sw_gap, 'group_bootstrap_95')} by task-family bootstrap), and Direct minus Continue is {pct(sw_dc['mean'])} points; its {interval(sw_dc, 'group_bootstrap_95')} interval is degenerate because the controller fired on {pct(sw['policies']['DIRECT_ADVANTAGE']['firing_rate_eligible'], 1)}\\% of prefixes and produced no recovery or disruption, which is an absence of observed differences rather than an exact null. All {sw['planned_tasks']} tasks, {sw['groups']} families, six policies, costs, recoveries, and disruptions appear in Table~\\ref{{tab:scienceworld-contrasts}} and the released result JSON. Differences in direction across environments narrow the empirical scope instead of motivating post hoc domain selection.
 """
     out.write_text(text)
 

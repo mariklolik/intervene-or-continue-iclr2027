@@ -1,0 +1,83 @@
+{
+  "analysis_rows_sha256": "94fcf6d2cd0f397caa58e52447942235a6a1c98b87774443f580911983b55484",
+  "ingestion_audits_sha256": "86f8bc30a6555de96ddc8e8a122da9ba14a079822252b02369c958bc314ae806",
+  "inputs": [
+    {
+      "path": "configs/p2-event/panel-shard0.json",
+      "sha256": "72ede91514821e896055dec03921ad876ee7e998fc220ff7b64b50b2ff02e21c"
+    },
+    {
+      "path": "configs/p2-event/panel-shard1.json",
+      "sha256": "455e3920b4a781440ce39ca6780dd1832a669ed129fbd555434a1b5064addf80"
+    },
+    {
+      "path": "configs/p2-event/panel-shard2.json",
+      "sha256": "54b03f3fdbfb3d8bbd9f78aea94d0033970919c2587d018d45b22e6073c79c23"
+    },
+    {
+      "path": "configs/p2-event/panel-shard3.json",
+      "sha256": "b410cee5e3715d180c3918073a1d2d7f0c4cdfe45bf26214d430225614cef156"
+    },
+    {
+      "path": "configs/p2-event/panel-shard4.json",
+      "sha256": "c2201b736b442cd867459230b8972c1f1798a0f2ab0da379ce694391d13b0b32"
+    },
+    {
+      "path": "configs/p2-event/panel-shard5.json",
+      "sha256": "61ba1af6c62fc1141cafd892b93c67f61c495fdeb77c373d0cee3edafa101be9"
+    },
+    {
+      "path": "configs/p2-event/panel-shard6.json",
+      "sha256": "0cb631989169ff7b13af645e20e513bdfbe338a56e10c125229faa2e04cf406e"
+    },
+    {
+      "path": "configs/p2-event/panel-shard7.json",
+      "sha256": "0d524b325431e2ea64c9b0d477bd9bbcd4335f76bad071b378ddcbf1534fad5e"
+    },
+    {
+      "path": "configs/p3-event/panel-shard0.json",
+      "sha256": "3645e73cf8a206c24d7b2725669b4163b57336c5a4f8dc0cde748b8f830d7004"
+    },
+    {
+      "path": "configs/p3-event/panel-shard1.json",
+      "sha256": "c79c10405cd20b31a9b7f01570b84fcbc9ea6768e3c378f6bb006cc43cc376b6"
+    },
+    {
+      "path": "configs/p3-event/panel-shard2.json",
+      "sha256": "9b15f1d450f47a237df746689d28072ab73c76438a1414710d924fdbaddbc7fe"
+    },
+    {
+      "path": "configs/p3-event/panel-shard3.json",
+      "sha256": "7b4ce87a1b00b5a73813e49014a2e27e6ff3507fb7c500c4ba34c3cfbc3f915a"
+    },
+    {
+      "path": "configs/p3-event/panel-shard4.json",
+      "sha256": "172b185cbf316c6fa356f5e2312e2689f745a4da3aa095c4aa9a9d39761b2d14"
+    },
+    {
+      "path": "configs/p3-event/panel-shard5.json",
+      "sha256": "9939d684ec43462f9eb59a31bb9322d3f4d2a86945b6d8e789171f450769389c"
+    },
+    {
+      "path": "configs/p3-event/panel-shard6.json",
+      "sha256": "e9e5d152e07abb769b45f1ff607bb705afdf87e1bfe07df9e42fbfc3ff8364cc"
+    },
+    {
+      "path": "configs/p3-event/panel-shard7.json",
+      "sha256": "73d6fc69373a0ce03b506c150cab0a0741e31b856b3cefcf3dc88c62e5a7b972"
+    },
+    {
+      "path": "artifacts/p2event-freeze/predictions.json",
+      "sha256": "738b1ff3f2135975d6befcf4101b9c37cdac6d12a53ebe1d2416ae9c4e8ec801"
+    },
+    {
+      "path": "artifacts/p2event-freeze/prediction-freeze.json",
+      "sha256": "da582deef8022cd2313d8acf880ebb08d6eeeb770fda8b2207122ea8f0599135"
+    },
+    {
+      "path": "/home/mekashirskiy/intervene-r2/controller/evaluate_confirmation.py",
+      "sha256": "4d3ac1ae95e5b49a0b614313c9f55f07b68a9d377eef985d62fcc85ab7416920"
+    }
+  ],
+  "results_sha256": "666d9ba0de97b50b486efde0e794cec8fc61125907391868d9020810f0249158"
+}

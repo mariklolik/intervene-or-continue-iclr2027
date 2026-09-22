@@ -115,8 +115,9 @@ CONTRAST_ORDER = [
 def action_sentence(policy: dict, eligible: int) -> str:
     counts = policy["action_counts_eligible"]
     named = [f"{ARM_LABELS[index]} on {counts[index]:.0f}" for index in range(1, len(counts))]
-    return (f"It selects continuation on {counts[0]:.0f} of {eligible} triggered prefixes, "
-            + ", ".join(named) + ".")
+    used = [f"{ARM_LABELS[index]} on {counts[index]:.0f}" for index in range(1, len(counts)) if counts[index] > 0]
+    return (f"It selects continuation on {counts[0]:.0f} of {eligible} triggered prefixes and "
+            + ", ".join(used) + ", leaving the remaining arms unused.")
 
 
 def write_results(reports: dict, out: Path) -> None:
@@ -130,7 +131,7 @@ def write_results(reports: dict, out: Path) -> None:
     fixed_verdict = claim(cb, "and on the best fixed repair", "and stands against the best fixed repair, a pre-specified secondary contrast that the panel is not sized to resolve,")
     text = f"""On the event-triggered panel the denominator contains all {event['planned_tasks']} planned tasks: {event['eligible_tasks']} reached a triggered checkpoint and {event['early_terminal_tasks']} produced no trigger before termination. Cross-draw control reaches {pct(cross['planned_mean'])}\\% success against {pct(continue_policy['planned_mean'])}\\% for continuation and {pct(fixed['planned_mean'])}\\% for the best fixed repair. It therefore {verdict} by {pct(cc['mean'])} percentage points (floorplan-bootstrap 95\\% interval {interval(cc, 'group_bootstrap_95')}; group sign-flip ${p_claim(cc['group_sign_flip_p'])}$; Holm-adjusted ${probability(cc)}$) {fixed_verdict} by {pct(cb['mean'])} points ({interval(cb, 'group_bootstrap_95')}; adjusted ${probability(cb)}$).
 
-{action_sentence(cross, event['eligible_tasks'])} It fires on {pct(cross['firing_rate_eligible'], 1)}\\% of triggered prefixes and records {cross['recovered_rounds']:.0f} draw-level recoveries against {cross['harmful_rounds']:.0f} disruptions, versus {fixed['recovered_rounds']:.0f} and {fixed['harmful_rounds']:.0f} for the unconditional repair. Table~\\ref{{tab:r2-policies}} reports every frozen policy under both checkpoint rules, including the comparison-only and failure-risk learners that instantiate the two closest external objectives inside this interface, and Table~\\ref{{tab:r2-contrasts}} the complete contrast census.
+{action_sentence(cross, event['eligible_tasks'])} It fires on {pct(cross['firing_rate_eligible'], 1)}\\% of triggered prefixes and records {cross['recovered_rounds']:.0f} draw-level recoveries against {cross['harmful_rounds']:.0f} disruptions, versus {fixed['recovered_rounds']:.0f} and {fixed['harmful_rounds']:.0f} for the unconditional repair. Tables~\\ref{{tab:r2-policies}} and~\\ref{{tab:r2-contrasts}} report every frozen policy and contrast, including the comparison-only and failure-risk learners that instantiate the two closest external objectives inside this interface.
 """
     out.write_text(text)
 
@@ -142,11 +143,11 @@ def write_analysis(reports: dict, out: Path) -> None:
     floor, sfloor = gap["exchangeable_label_floor"], sgap["exchangeable_label_floor"]
     text = f"""Two readings connect the two confirmations, and both come from the same repeated branches rather than from a new experiment. The first is what the menu can reach. A per-task selector given one complete independent draw of every arm, scored on the other draw, reaches {pct(head['cross_draw_oracle_eligible'])}\\% on triggered prefixes against {pct(head['best_fixed_eligible'])}\\% for the best fixed repair, a margin of {pct(head['oracle_minus_best_fixed'])} points; under the scheduled rule the same quantities are {pct(shead['cross_draw_oracle_eligible'])}\\% and {pct(shead['best_fixed_eligible'])}\\%, a margin of {pct(shead['oracle_minus_best_fixed'])} points. A trigger exists on {event['eligible_tasks']}/{event['planned_tasks']} tasks, against {scheduled['eligible_tasks']}/{scheduled['planned_tasks']} that reach the scheduled checkpoint on the same identities, so the event rule does not open its room by offering more chances to act. {arm_sentence(head)}. An average cost is not a verdict on any prefix, which is the distinction a controller is asked to make. Conditioning the decision on a public failure signal is what opens prefix-level room for a controller; a larger learner at the earlier decision point does not.
 
-The second is how much of the same-draw gap is mechanical. Within-task permutation of the recorded action and draw labels fixes the continuation noise level and removes any action structure. Under the event rule the observed gap is {pct(gap['mean'])} points over planned tasks and {pct(floor['observed_eligible_mean'])} points over eligible prefixes, against an exchangeable-label floor of {pct(floor['mean'])} points ({interval(floor, 'interval_95')}). Under the scheduled rule the observed gap is {pct(sgap['mean'])} points against a floor of {pct(sfloor['mean'])} points ({interval(sfloor, 'interval_95')}). The gap tracks continuation noise, which is why it is reported as an estimate rather than tested.
+The second is how much of the same-draw gap is mechanical. Within-task permutation of the recorded action and draw labels fixes the continuation noise level and removes any action structure. Under the event rule the observed gap is {pct(gap['mean'])} points over planned tasks and {pct(floor['observed_eligible_mean'])} points over eligible prefixes, against an exchangeable-label floor of {pct(floor['mean'])} points ({interval(floor, 'interval_95')}). The gap tracks continuation noise, which is why it is reported as an estimate rather than tested.
 
 \\begin{{figure}}[t]
 \\centering
-\\includegraphics[width=\\linewidth]{{figures/headroom.pdf}}
+\\includegraphics[width=0.9\\linewidth]{{figures/headroom.pdf}}
 \\caption{{What the decision point and the action menu can reach, and how much same-draw optimism is mechanical. Left: success on eligible prefixes for continuation, the best fixed repair, and per-task selectors scored across and within draws, for the first study's scheduled panel and both rules of the second. Right: observed same-draw optimism against the within-task exchangeable-label reference.}}
 \\label{{fig:headroom}}
 \\end{{figure}}
@@ -164,27 +165,20 @@ def write_abstract(first: dict, reports: dict, out: Path) -> None:
     head = event["headroom"]
     cc = event["contrasts"]["CROSS_DRAW_vs_CONTINUE"]
     cb = event["contrasts"].get("CROSS_DRAW_vs_BEST_FIXED")
-    noise = ("does not exceed a within-task exchangeable-label reference of "
-             f"{pct(floor['mean'])} points, so it is attributable to continuation noise rather than to action advantage"
-             if floor["mean"] >= floor["observed_eligible_mean"] else
-             f"exceeds a within-task exchangeable-label reference of {pct(floor['mean'])} points")
-    bound = ("below" if first_head["oracle_minus_best_fixed"] < 0 else "above")
-    verdict = claim(cc, f"raises success by {pct(cc['mean'])} points over continuation",
-                    f"changes success by {pct(cc['mean'])} points against continuation")
-    fixed = ""
-    if cb is not None:
-        fixed = claim(cb, f" and by {pct(cb['mean'])} points over the best unconditional repair",
-                      f" and by {pct(cb['mean'])} points against the best unconditional repair")
+    room = head["cross_draw_oracle_eligible"] - head["continue_eligible"]
+    taken = event["policies"]["CROSS_DRAW"]["eligible_mean"] - event["policies"]["CONTINUE"]["eligible_mean"]
+    share = f"{100 * taken / room:.0f}" if room > 0 else None
+    captured = f" captures {share} percent of the room so created and" if share else ""
+    fixed = f" and by {pct(cb['mean'])} over the best unconditional repair" if cb is not None else ""
     text = (
         "Selecting a runtime intervention and evaluating it on the same stochastic continuation credits favorable branch noise. "
-        "We generate two independently seeded continuations for every action from a shared prefix. The same draws separate the action that is chosen from the outcome that scores it and, before any controller is fitted, read how much room the decision point and the action menu leave. "
+        "We generate two independently seeded continuations for every action from a shared prefix. The same draws separate the action that is chosen from the outcome that scores it and, before any controller is fitted, read how much room a decision point and an action menu leave. "
         f"On {alf['planned_tasks']} identity-disjoint ALFWorld tasks the same-draw maximum overstates cross-draw value by {pct(gap['mean'])} percentage points "
-        f"(floorplan-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}); on eligible prefixes the gap {noise}. "
-        f"At a hash-assigned early step with four fixed messages, a per-task selector given a complete independent draw of every action reaches {pct(first_head['cross_draw_oracle_eligible'])}\\% against "
-        f"{pct(first_head['best_fixed_eligible'])}\\% for unconditional replanning, {bound} the best unconditional action, and no learned controller separates from continuation. "
-        f"Taking the decision at the first public failure signal and separating repair depth from repair content lifts that reference to {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%: "
-        f"on {event['planned_tasks']} further tasks, a controller that chooses its action on one development draw and values it on another {verdict}{fixed}. "
-        "We release the pre-outcome freeze, the complete result census, and the adverse historical evidence."
+        f"(floorplan-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}), and on eligible prefixes the gap does not exceed a within-task exchangeable-label reference of {pct(floor['mean'])} points. "
+        f"At a hash-assigned early step with four fixed messages, a selector given a complete independent draw of every action reaches {pct(first_head['cross_draw_oracle_eligible'])}\\% against "
+        f"{pct(first_head['best_fixed_eligible'])}\\% for unconditional replanning, so no prefix-conditional rule can win there. "
+        f"Moving the decision to the first public failure signal and separating repair depth from content lifts it to {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%. "
+        f"On {event['planned_tasks']} further tasks a controller that chooses its action on one development draw and values it on another{captured} leads every matched comparator, by {pct(cc['mean'])} points over continuation{fixed}."
     )
     out.write_text(text + "\n")
 
@@ -257,13 +251,13 @@ def write_conclusion(first: dict, reports: dict, out: Path) -> None:
     fixed = claim(cb, f" and by {pct(cb['mean'])} points over the best unconditional repair",
                   f" and by {pct(cb['mean'])} points against the best unconditional repair")
     text = (
-        "We introduced a repeated-branch protocol that separates the continuation used to choose a runtime repair from the continuation used to value it, and a reading of the same branches that says what a decision point and an action menu can reach before a controller is fitted. "
+        "We introduced a repeated-branch protocol that separates the continuation used to choose a runtime repair from the one used to value it, and a reading of the same branches that says what a decision point and a menu can reach before a controller is fitted. "
         f"On the first frozen panel the protocol establishes a {pct(gap['mean'])}-point gap between same-draw maximization and independent-draw evaluation, "
         f"and a within-task exchangeable-label reference places {pct(floor['mean'])} points of it in continuation noise rather than in action advantage. "
-        "The same draws read the design before any controller is fitted: where a complete independent draw of the menu cannot beat the best unconditional repair, no prefix-conditional rule will. "
+        "Where a complete independent draw of the menu cannot beat the best unconditional repair, no prefix-conditional rule will. "
         f"Moving the decision to the first public failure signal and separating repair depth from repair content lifts that reference to {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%, "
         f"and a controller that chooses its action on one development draw and values it on another {verdict}{fixed}. "
-        "Runtime controllers should include no action, freeze their choices before outcomes, value them on continuation draws not used for selection, and check what the decision point and the menu can reach before attributing a null result to the learner."
+        "Runtime controllers should include no action, freeze their choices before outcomes, value them on draws not used for selection, and check what the decision point and the menu can reach before blaming the learner for a null."
     )
     out.write_text(text + "\n")
 

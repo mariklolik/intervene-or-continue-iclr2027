@@ -17,3 +17,4 @@ paper/*.log
 paper/*.out
 paper/build/
 dist/
+artifacts/event-confirmation/analysis-rows.json

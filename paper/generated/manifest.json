@@ -1,6 +1,6 @@
 {
-  "builder_sha256": "838611fd6e0b3d525750392c2bb00111a3e2629efede279bc5d7c75a08f52b39",
-  "figure_builder_sha256": "dccdb55e0eaa1df1dddf46beedc910e2a8a10ecf650b37cef2e1770411929a29",
+  "builder_sha256": "9a0082a3bdb8cbeae0f41c922b585e4922bcd1111d9ca51c16333ff96b2b48d2",
+  "figure_builder_sha256": "c72c26c23484c11aff7eb2c28bc84dd783c501ade8d86bb7a6065f01faf0ebe2",
   "outputs": [
     {
       "path": "paper/generated/numbers.tex",
@@ -16,7 +16,7 @@
     },
     {
       "path": "paper/generated/analysis.tex",
-      "sha256": "2da0991bf675d9aedcc1ddb52fb58846b460131ae1b6af66493154316579d952"
+      "sha256": "3706aa06560667ff3f85fcbbd4e6466fdec373f68a53928feaaa10a2bfc3e17b"
     },
     {
       "path": "paper/generated/conclusion.tex",
@@ -35,6 +35,10 @@
       "sha256": "e930400d3675aa2f6da7b7f90730d2985500a9d43b23e00b688a96460722799f"
     },
     {
+      "path": "paper/generated/scienceworld.tex",
+      "sha256": "be1862493085eb3f481ea31419984baaa04c4778b3e77f03a413cf3a08daa14e"
+    },
+    {
       "path": "paper/figures/design.pdf",
       "sha256": "cd78193b2af0751bf646689a456708129c70f522336bd93580ded3dd20f7e26b"
     },
@@ -48,5 +52,5 @@
     }
   ],
   "results_sha256": "d993f18595730f39ba2ca77159a21e18ef294ea4d7e24e12b81a4164ba276d28",
-  "text_builder_sha256": "dea162f9d9a73a00781fbc87ceb25d68ad5436aeae5801a26216842a36d0b88e"
+  "text_builder_sha256": "92f00f6a243b1223c254c81ac46ed6f898d31f8afe342e021adf1843716c6458"
 }

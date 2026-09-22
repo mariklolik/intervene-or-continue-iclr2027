@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -57,7 +58,7 @@ def main() -> None:
         "inputs": {rule: digest(path) for rule, path in paths.items()},
         "builder_sha256": digest(Path(__file__)),
         "text_builder_sha256": digest(Path(__file__).with_name("asset_text_r2.py")),
-        "outputs": [{"path": str(path.relative_to(ROOT)), "sha256": digest(path)} for path in outputs],
+        "outputs": [{"path": os.path.relpath(path, ROOT), "sha256": digest(path)} for path in outputs],
     }
     (generated / "r2_manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 

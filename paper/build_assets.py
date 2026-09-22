@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -17,6 +18,7 @@ from asset_text import (
     write_abstract,
     write_analysis,
     write_analysis_floats,
+    write_scienceworld,
     write_appendix_results,
     write_results_floats,
     write_conclusion,
@@ -31,7 +33,7 @@ def write_manifest(result_path: Path, outputs: list[Path], out: Path) -> None:
         "builder_sha256": digest(Path(__file__)),
         "text_builder_sha256": digest(Path(__file__).with_name("asset_text.py")),
         "figure_builder_sha256": digest(Path(__file__).with_name("asset_figures.py")),
-        "outputs": [{"path": str(path.relative_to(ROOT)), "sha256": digest(path)} for path in outputs],
+        "outputs": [{"path": os.path.relpath(path, ROOT), "sha256": digest(path)} for path in outputs],
     }
     out.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
@@ -58,6 +60,7 @@ def main() -> None:
         generated / "appendix_results.tex",
         generated / "results_floats.tex",
         generated / "analysis_floats.tex",
+        generated / "scienceworld.tex",
         figures / "design.pdf",
         figures / "policy-effects.pdf",
         figures / "group-results.pdf",
@@ -70,10 +73,11 @@ def main() -> None:
     write_appendix_results(report, outputs[5])
     write_results_floats(report, outputs[6])
     write_analysis_floats(report, outputs[7])
+    write_scienceworld(report, outputs[8])
     setup_plotting()
-    draw_design(outputs[8])
-    draw_policy_effects(report, outputs[9])
-    draw_group_results(report, outputs[10])
+    draw_design(outputs[9])
+    draw_policy_effects(report, outputs[10])
+    draw_group_results(report, outputs[11])
     write_manifest(args.results, outputs, generated / "manifest.json")
 
 

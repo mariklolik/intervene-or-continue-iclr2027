@@ -105,7 +105,7 @@ def draw_group_results(report: dict, out: Path) -> None:
 
 def draw_headroom(reports: dict, out: Path) -> None:
     panels = [(label, report["domains"]["alfworld"]) for label, report in reports.items()]
-    figure, axes = plt.subplots(1, 2, figsize=(7.0, 2.6))
+    figure, axes = plt.subplots(1, 2, figsize=(7.0, 2.15))
     labels = ["Continue", "Best fixed", "Cross-draw\noracle", "Same-draw\noracle"]
     keys = ["continue_eligible", "best_fixed_eligible", "cross_draw_oracle_eligible", "same_draw_oracle_eligible"]
     colors = ["#C08A2E", "#167D8D", "#173F5F", "#6C7785"]

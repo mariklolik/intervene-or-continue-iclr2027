@@ -1,0 +1,74 @@
+\begin{table}[ht]
+\caption{Complete policy census under both checkpoint rules. Success uses every planned task; firing is over eligible prefixes; recoveries and disruptions count draw-level comparisons with continuation.}
+\label{tab:r2-policies}
+\centering
+\small
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Rule & Policy & Success (\%) & Fire (\%) & Recover & Disrupt \\
+\midrule
+\multirow{10}{*}{Event-triggered} & Continue & 54.97 & 0.0 & 0 & 0 \\
+ & Best fixed & 54.30 & 100.0 & 105 & 113 \\
+ & Direct & 56.24 & 54.1 & 62 & 47 \\
+ & Arm outcome & 54.81 & 10.1 & 10 & 12 \\
+ & Matched & 55.06 & 0.8 & 3 & 2 \\
+ & Comparison-only & 55.48 & 54.9 & 60 & 54 \\
+ & Failure risk & 54.38 & 81.9 & 94 & 101 \\
+ & Lower bound & 54.97 & 0.0 & 0 & 0 \\
+ & Cross-draw & 56.24 & 40.0 & 52 & 37 \\
+ & Safe selected & 56.24 & 40.0 & 52 & 37 \\
+\midrule
+\multirow{6}{*}{Scheduled} & Continue & 52.86 & 0.0 & 0 & 0 \\
+ & Best fixed & 55.34 & 100.0 & 74 & 55 \\
+ & Direct & 54.43 & 31.0 & 26 & 14 \\
+ & Arm outcome & 54.04 & 96.6 & 69 & 60 \\
+ & Matched & 54.82 & 78.0 & 66 & 51 \\
+ & Safe selected & 54.82 & 78.0 & 66 & 51 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\caption{Complete contrast census on the event-triggered panel. Intervals are 95\% task and floorplan bootstraps; adjusted values apply Holm correction within the pre-registered family.}
+\label{tab:r2-contrasts}
+\centering
+\small
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Contrast & Estimate (pp) & Task 95\% & Group 95\% & Raw $p$ & Adjusted $p$ \\
+\midrule
+Cross-draw $-$ Continue & 1.26 & [$-$0.51, 3.04] & [$-$0.35, 2.83] & 0.1579 & 0.1579 \\
+Cross-draw $-$ Best fixed & 1.94 & [$-$0.17, 4.05] & [$-$0.17, 4.17] & 0.0855 & -- \\
+Cross-draw $-$ Direct & 0.00 & [$-$1.43, 1.43] & [$-$1.48, 1.57] & 1.0000 & -- \\
+Cross-draw $-$ Arm outcome & 1.43 & [$-$0.17, 3.04] & [$-$0.09, 2.94] & 0.0957 & -- \\
+Cross-draw $-$ Matched & 1.18 & [$-$0.51, 2.87] & [$-$0.35, 2.68] & 0.1671 & -- \\
+Cross-draw $-$ Comparison-only & 0.76 & [$-$0.93, 2.36] & [$-$0.82, 2.43] & 0.4226 & -- \\
+Cross-draw $-$ Failure risk & 1.85 & [$-$0.25, 3.88] & [$-$0.24, 4.05] & 0.1001 & -- \\
+Cross-draw $-$ Lower bound & 1.26 & [$-$0.51, 3.04] & [$-$0.35, 2.83] & 0.1579 & -- \\
+Direct $-$ Continue & 1.26 & [$-$0.59, 3.20] & [$-$0.79, 3.15] & 0.2630 & -- \\
+Comparison-only $-$ Continue & 0.51 & [$-$1.43, 2.45] & [$-$1.60, 2.50] & 0.6892 & -- \\
+Failure risk $-$ Continue & $-$0.59 & [$-$2.95, 1.77] & [$-$3.45, 2.11] & 0.7244 & -- \\
+Lower bound $-$ Continue & 0.00 & [0.00, 0.00] & [0.00, 0.00] & 1.0000 & -- \\
+Safe selected $-$ Continue & 1.26 & [$-$0.51, 3.04] & [$-$0.35, 2.83] & 0.1579 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\caption{Pre-outcome lineage for the event-triggered study. Both checkpoint rules run the same 288 identities; predictions were frozen after baselines and before any arm outcome.}
+\label{tab:r2-lineage}
+\centering
+\small
+\begin{tabular}{@{}lp{0.55\linewidth}@{}}
+\toprule
+Object & Frozen identifier \\
+\midrule
+Event-triggered eligible prefixes & 497 \\
+Event-triggered prefix digest & \texttt{d20c439a...ba0775} \\
+Event-triggered prediction digest & \texttt{738b1ff3...8ec801} \\
+Scheduled eligible prefixes & 406 \\
+Scheduled prefix digest & \texttt{0f5a80d1...46e863} \\
+Scheduled prediction digest & \texttt{78380914...f6911b} \\
+\bottomrule
+\end{tabular}
+\end{table}
