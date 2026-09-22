@@ -36,6 +36,10 @@
     {
       "path": "paper/generated/r2_transfer.tex",
       "sha256": "2827d1c1c59c28ac734c5f34cb7d8128a1bea1a5fd1de6f6ab3de4c650c553ba"
+    },
+    {
+      "path": "paper/generated/r2_temperature.tex",
+      "sha256": "cfeff0597006c15fa06cd93a521147752df4055c49c89349cdf08e1f38798dc1"
     }
   ],
   "text_builder_sha256": "3504268871e269e614e421644d89dfeda63d7f12ee3bd1ea176c4d0be64f3d54"
