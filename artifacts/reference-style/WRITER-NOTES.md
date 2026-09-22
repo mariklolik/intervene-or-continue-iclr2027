@@ -1,49 +1,97 @@
-# Section-level reading of the pre-2024 ICLR reference set
+# Writer-persona reading of the pre-2024 ICLR reference set
 
-Five papers accepted to ICLR before 2024, read from their arXiv sources: BabyAI (1810.08272, ICLR 2019), ALFWorld (2010.03768, ICLR 2021), self-consistency (2203.11171, ICLR 2023), least-to-most prompting (2205.10625, ICLR 2023), and ReAct (2210.03629, ICLR 2023). The reading records how each section opens and what work it is made to do, so that this manuscript can adopt the same moves. Section lengths, float conventions, and a vocabulary comparison are in `AUDIT-ICLR.md`.
+Five papers accepted to ICLR before 2024, read from their arXiv sources rather than from memory: BabyAI (1810.08272, ICLR 2019), ALFWorld (2010.03768, ICLR 2021), self-consistency (2203.11171, ICLR 2023), least-to-most prompting (2205.10625, ICLR 2023), and ReAct (2210.03629, ICLR 2023). They are the topical neighbours of this manuscript: two build interactive text environments for grounded agents, three introduce a decoding or prompting protocol and defend it with a measurement design. Each is read section by section for its voice, its opening move, how it states a claim, how it hedges, and what vocabulary carries it. Section lengths, float conventions and a vocabulary comparison are in `AUDIT-ICLR.md`.
 
-## Abstract
+## ReAct (ICLR 2023)
 
-Every paper opens on an established capability or a concrete situation, not on its own contribution. ReAct: reasoning and acting "have primarily been studied as separate topics." Least-to-most: chain-of-thought "has demonstrated remarkable performance... However, it tends to perform poorly on tasks which require solving problems harder than the exemplars." ALFWorld opens on a request a person could make. BabyAI opens on what would be desirable. The shape is capability, then the word that turns it, then the proposal, then the numbers, then one line of significance.
+**Voice.** Expository and analogical. It explains before it measures, and it prefers a concrete scene to an abstract definition.
 
-Applied here: the abstract opens on what a runtime controller is asked to do before naming the bias it is exposed to.
+**Abstract.** Opens on a tension between two established capabilities, not on the contribution: reasoning and acting "have primarily been studied as separate topics." The proposal arrives in the third sentence.
 
-## Introduction
+**Introduction.** Opens on human cognition and a kitchen, with the inner monologue quoted verbatim. The gap is reached only in the second paragraph.
 
-Four of the five open with a question to the reader or an everyday scene: "How can a human train an intelligent agent to understand natural language instructions?"; "Consider helping a friend prepare dinner in an unfamiliar house". The gap is stated in the second or third paragraph, never the first sentence. Contributions are listed last, in prose rather than bullets, in ReAct and least-to-most.
+**Method.** "Consider a general setup of an agent interacting with an environment for task solving." Notation is fixed in one paragraph and not hedged before it arrives.
 
-Applied here: the introduction keeps its declarative opening on what a repair costs, which serves the same function as the scene, and states contributions in prose at the end.
+**Experiments.** Signposting verbs carry the structure: "We begin with knowledge-intensive reasoning tasks", "We also test on two language-based interactive decision-making tasks."
 
-## Formal section
+**Related work.** Topic-lead sentences that name the line of work first.
 
-ReAct opens "Consider a general setup of an agent interacting with an environment for task solving," then fixes notation in one paragraph. Least-to-most opens with a one-sentence definition of the method before any detail. Neither hedges before the definition arrives.
+**Conclusion.** "We have proposed ReAct -- a simple yet effective method for..." followed by the results in one sentence, then a limitation folded in after "Despite the simplicity of our method."
 
-Applied here: the estimand section fixes notation first and states the mixture value before any discussion of bias.
+**Adopted here.** The signposting verbs and the conclusion's opening move.
 
-## Experiments
+## ALFWorld (ICLR 2021)
 
-ALFWorld opens: "We design experiments to answer the following questions: (1)... (4)". BabyAI: "We assess the difficulty of BabyAI levels by training a behavioral cloning baseline for each level." Self-consistency and least-to-most open by naming the task families and the comparison. The list of questions is the dominant device and it is answered in order.
+**Voice.** Scenario-first and infrastructural. It sells a capability by showing someone using it.
 
-Applied here: the confirmation design opens with the questions the two panels answer, in the order the results report them.
+**Abstract.** Opens on a request a person could make, in italics, then on what humans do with it, then on the gap: "existing work does not yet provide the infrastructure."
 
-## Related work
+**Introduction.** A direct question to the reader: "Consider helping a friend prepare dinner in an unfamiliar house."
 
-All five use topic-lead sentences that name the line of work before the sentence about it: "Reasoning in language models.", "Compositional generalization.", "Interactive Text-Only Environments:". Comparisons are stated as differences in setting, not as deficiencies.
+**Experiments.** The dominant device in the set: "We design experiments to answer the following questions: (1)... (4)", answered in order. The ablation section repeats it.
 
-Applied here: the comparison-boundary section leads each paragraph with the class of method it is about, and states each boundary as a difference in what is being estimated.
+**Related work.** Enumerated differentiators: "First... Secondly... Thirdly."
 
-## Limitations
+**Conclusion.** "We introduced ALFWorld, the first interactive text environment with aligned embodied worlds."
 
-Least-to-most carries a short standalone limitations section that opens on a concrete failure mode and gives an example. ReAct folds the same content into the conclusion after "Despite the simplicity of our method". Neither is defensive and neither is long.
+**Adopted here.** The numbered question list now opens the confirmation design, and the results sections answer it in order.
 
-Applied here: limitations is one short paragraph of fixed budget, stating the frame rather than apologising for it.
+## Self-consistency (ICLR 2023)
 
-## Conclusion
+**Voice.** Hypothesis-driven and plain. It states what it believes, then tests it, and it never dresses a number.
 
-Every paper opens with the introduced object: "We introduced least-to-most prompting to enable..."; "We have proposed ReAct -- a simple yet effective method for..."; "We present the BabyAI research platform..."; "We introduced ALFWorld, the first interactive text environment with aligned embodied worlds." The recap of results follows in one or two sentences, and a forward-looking sentence closes.
+**Abstract.** Capability, then "In this paper, we propose a new decoding strategy", then the mechanism in two sentences, then results with margins in parentheses.
 
-Applied here: the conclusion opens on the protocol rather than on a number, recaps both confirmations, and closes on what a runtime controller should do.
+**Introduction.** The limitation, the prior fix, then a worked example quoted in full.
 
-## Statements
+**Method.** Opens with an aphorism -- "A salient aspect of humanity is that people think differently" -- and then states the hypothesis in one testable sentence: "we hypothesize that correct reasoning processes, even if they are diverse, tend to have greater agreement in their final answer than incorrect processes."
 
-Self-consistency carries separate short reproducibility and ethics statements. Both are kept here, and an AI-use statement is added as the venue requires.
+**Experiments.** The finding comes before the setup: "We find that self-consistency robustly improves reasoning accuracy for every language model considered."
+
+**Related work.** Each topic lead closes with an explicit differentiator: "Compared to prior work, self-consistency is applicable to a wide range of reasoning tasks without any additional supervision or fine-tuning."
+
+**Conclusion.** "We introduced a simple yet effective method called self-consistency, and observed that..." then one named limitation with a practical mitigation attached: it costs compute, so try five or ten paths.
+
+**Statements.** Short standalone reproducibility and ethics statements.
+
+**Adopted here.** The finding-first opening for the results, the differentiator clause in the comparison section, and the limitation-with-consequence form.
+
+## Least-to-most prompting (ICLR 2023)
+
+**Voice.** Contrastive. It defines itself against what came immediately before and says so in the first three sentences.
+
+**Abstract.** "Chain-of-thought prompting has demonstrated remarkable performance... However, it tends to perform poorly on tasks which require solving problems harder than the exemplars." Then "To overcome this challenge... we propose."
+
+**Introduction.** An enumerated three-way contrast between human and machine learning.
+
+**Method.** One-sentence definition, then two numbered stages, then a worked example.
+
+**Results.** "We present least-to-most prompting results for A, B, and C, and compare it with chain-of-thought prompting."
+
+**Limitations.** A short standalone section that opens on a concrete failure mode with a quoted example, then generalises from it. It is not defensive and it is not long.
+
+**Conclusion.** "We introduced least-to-most prompting to enable..." and a reflective close that questions the paradigm rather than defending it.
+
+**Adopted here.** The limitations form -- one concrete bound, stated once, with the number that fixes it -- and the short reflective close.
+
+## BabyAI (ICLR 2019)
+
+**Voice.** Platform-building and motivation-heavy. It argues for why the measurement matters before it measures anything.
+
+**Abstract.** Desirability, then the obstacle -- "given the lack of sample efficiency in current learning methods, reaching this goal may require substantial research efforts" -- then "We introduce the BabyAI research platform."
+
+**Introduction.** "How can a human train an intelligent agent to understand natural language instructions?" answered from a technological and a scientific perspective.
+
+**Related work.** Enumerated differentiators again: "First... Secondly... Thirdly... Most importantly."
+
+**Experiments.** "We assess the difficulty of BabyAI levels by training a behavioral cloning baseline for each level."
+
+**Conclusion.** "We present the BabyAI research platform to study language learning with a human in the loop."
+
+**Adopted here.** The habit of stating what a measurement is for before reporting it, which the design section now does with its question list.
+
+## What the set has in common, and what this manuscript does with it
+
+Every abstract opens on an established capability and turns on a single word; none opens on its own contribution. Every conclusion opens on the introduced object. Limitations are short, concrete, and carry the number or example that bounds them; none is a list of caveats. Related work names the line of work first and ends on a differentiator. Results lead with the finding. Contributions are prose, not bullets.
+
+This manuscript keeps its own subject vocabulary -- continuation, draw, prefix, arm, estimand, pathwise -- because those words carry the distinctions it reports; `AUDIT-ICLR.md` measures the resulting distance and records that no word was substituted to move that statistic.
