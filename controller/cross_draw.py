@@ -1,4 +1,5 @@
 import sys
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -80,8 +81,9 @@ def grid_scores(rows, targets, utility, splits):
     return scored
 
 
-def select_candidate(candidates):
-    return max(candidates, key=lambda c: (round(c['oof_utility'], 12), -c['oof_firing_rate'], c['fallback'] == 'continue', c['candidates'] == 'all', c['agreement'], c['leaf'], c['threshold']))
+def select_candidate(candidates, votes=None):
+    tally = votes or {}
+    return max(candidates, key=lambda c: (round(c['oof_utility'], 12), tally.get(c['fallback'], 0), -c['oof_firing_rate'], c['fallback'] == 'continue', c['candidates'] == 'all', c['agreement'], c['leaf'], c['threshold']))
 
 
 def fit_stratum(rows):
@@ -96,7 +98,7 @@ def fit_stratum(rows):
                                              task_folds(inner_rows)))
         nested.append({'validation_task_ids': sorted({rows[i]['task_id'] for i in valid}), **inner})
     candidates = grid_scores(rows, targets, utility, splits)
-    selected = select_candidate(candidates)
+    selected = select_candidate(candidates, Counter(record['fallback'] for record in nested))
     transform = Features(text=True).fit(rows)
     matrix = transform.transform(rows)
     models = [forest(matrix, targets[:, draw], selected['leaf']) for draw in DRAWS]

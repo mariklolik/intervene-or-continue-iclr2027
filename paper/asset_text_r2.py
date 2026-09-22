@@ -18,6 +18,7 @@ POLICY_LABELS = {
 }
 RULE_LABELS = {"event": "Event-triggered", "scheduled": "Scheduled"}
 MENU_FALLBACK = "the first confirmation's four-message menu"
+POLICY_PHRASES = {"FAILURE_RISK": "the failure-risk detector", "ARM_OUTCOME": "the repeated arm-outcome forest", "BEST_FIXED": "the best fixed repair"}
 ARM_LABELS = ["continuation", "the warning", "replanning", "the one-step rollback", "the three-step rollback", "the relocation message"]
 
 
@@ -158,9 +159,9 @@ def dissociation_sentence(event: dict, scheduled: dict) -> str:
     reversal = event["contrasts"].get("CROSS_DRAW_vs_FAILURE_RISK")
     if detector is None or conditional is None or reversal is None:
         return ""
-    return (" The paired rules make that reading falsifiable, because the menu and the identities are the same on both. Where the instrument reports negative room, average repair is what pays and conditioning is not: under the scheduled rule cross-draw control adds "
+    return (" The paired rules make that reading falsifiable, because the menu and the identities are the same on both. Where the reading is negative, average repair is what pays for a rule fitted at a different decision point: under the scheduled rule cross-draw control adds "
             f"{pct(conditional['mean'])} points over continuation, while the failure-risk detector fires on {pct(scheduled['policies']['FAILURE_RISK']['firing_rate_eligible'], 1)}\\% of prefixes and adds {pct(detector['mean'])}, which is close to the menu's unconditional effect rather than a prefix-level one. "
-            f"Where the instrument reports positive room the ordering reverses, and cross-draw control leads that detector by {pct(reversal['mean'])} points. The decision point, not the menu, decides whether a controller has anything to condition on.")
+            f"Where the instrument reports positive room the ordering reverses, and cross-draw control leads that detector by {pct(reversal['mean'])} points. The decision point, not the menu, decides what a controller has to condition on.")
 
 
 def capacity_sentence(capacity: dict) -> str:
@@ -171,22 +172,22 @@ def capacity_sentence(capacity: dict) -> str:
     return (" We also raised learner capacity directly, on development data and before any test prediction. Nested honest out-of-fold utility is "
             f"{pct(capacity['scheduled']['tabular_forest'])}\\% for the frozen forest at the scheduled point and {pct(capacity['event']['tabular_forest'])}\\% at the triggered one; "
             f"gradient boosting, appended 0.6B language-model embeddings of the prefix, and their combination each score lower at both ({scores['scheduled']} and {scores['event']}). "
-            "What the prefix carries at a decision point, not the model class, sets the ceiling.")
+            "What the prefix carries at a decision point, not the model class, decides what a learner recovers.")
 
 
-def write_analysis(reports: dict, out: Path, capacity: dict | None = None, frontier: dict | None = None) -> None:
+def write_analysis(reports: dict, out: Path) -> None:
     event, scheduled = domain(reports["event"]), domain(reports["scheduled"])
     head, shead = event["headroom"], scheduled["headroom"]
     gap, sgap = event["same_draw_selection_optimism"], scheduled["same_draw_selection_optimism"]
     floor, sfloor = gap["exchangeable_label_floor"], sgap["exchangeable_label_floor"]
-    text = f"""Two readings connect the two confirmations, and both come from the same repeated branches rather than from a new experiment. The first is what the menu can reach. A per-task selector given one complete independent draw of every arm, scored on the other draw, reaches {pct(head['cross_draw_oracle_eligible'])}\\% on triggered prefixes against {pct(head['best_fixed_eligible'])}\\% for the best arm in hindsight, {ARM_LABELS[head['best_fixed_arm']]}, a margin of {pct(head['oracle_minus_best_fixed'])} points; under the scheduled rule the same quantities are {pct(shead['cross_draw_oracle_eligible'])}\\% and {pct(shead['best_fixed_eligible'])}\\% for {ARM_LABELS[shead['best_fixed_arm']]}, a margin of {pct(shead['oracle_minus_best_fixed'])} points. A trigger exists on {event['eligible_tasks']}/{event['planned_tasks']} tasks, against {scheduled['eligible_tasks']}/{scheduled['planned_tasks']} that reach the scheduled checkpoint{paired_phrase(event, scheduled)}, so the event rule does not open its room by offering more chances to act. {arm_sentence(head)}. An average cost is not a verdict on any prefix, which is the distinction a controller is asked to make. Conditioning the decision on a public failure signal is what opens prefix-level room for a controller; a larger learner at the earlier decision point does not.{dissociation_sentence(event, scheduled)}{capacity_sentence(capacity or {{}})}{frontier_sentence(frontier or {{}})}
+    text = f"""Two readings connect the two confirmations, and both come from the same repeated branches rather than from a new experiment. The first is how much per-task signal the menu carries. A per-task selector given one complete independent draw of every arm, scored on the other draw, reaches {pct(head['cross_draw_oracle_eligible'])}\\% on triggered prefixes against {pct(head['best_fixed_eligible'])}\\% for the best arm in hindsight, {ARM_LABELS[head['best_fixed_arm']]}, a margin of {pct(head['oracle_minus_best_fixed'])} points; under the scheduled rule the same quantities are {pct(shead['cross_draw_oracle_eligible'])}\\% and {pct(shead['best_fixed_eligible'])}\\% for {ARM_LABELS[shead['best_fixed_arm']]}, a margin of {pct(shead['oracle_minus_best_fixed'])} points. A trigger exists on {event['eligible_tasks']}/{event['planned_tasks']} tasks, against {scheduled['eligible_tasks']}/{scheduled['planned_tasks']} that reach the scheduled checkpoint{paired_phrase(event, scheduled)}, so the event rule does not open its room by offering more chances to act. {arm_sentence(head)}. An average cost is not a verdict on any prefix, which is the distinction a controller is asked to make. Conditioning the decision on a public failure signal is what opens prefix-level room for a controller; a larger learner at the earlier decision point does not.{dissociation_sentence(event, scheduled)}
 
 The second is how much of the same-draw gap is mechanical. Within-task permutation of the recorded action and draw labels fixes the continuation noise level and removes any action structure. Under the event rule the observed gap is {pct(gap['mean'])} points over planned tasks and {pct(floor['observed_eligible_mean'])} points over eligible prefixes, against an exchangeable-label floor of {pct(floor['mean'])} points ({interval(floor, 'interval_95')}). The gap tracks continuation noise, which is why it is reported as an estimate rather than tested.
 
 \\begin{{figure}}[t]
 \\centering
 \\includegraphics[width=0.9\\linewidth]{{figures/headroom.pdf}}
-\\caption{{What the decision point and the action menu can reach, and how much same-draw optimism is mechanical. Left: success on eligible prefixes for continuation, the best arm in hindsight, and per-task selectors scored across and within draws, for the first study's scheduled panel and both rules of the second. Right: observed same-draw optimism against the within-task exchangeable-label reference.}}
+\\caption{{How much per-task signal the decision point and the action menu carry, and how much same-draw optimism is mechanical. Left: success on eligible prefixes for continuation, the best arm in hindsight, and per-task selectors scored across and within draws, for the first study's scheduled panel and both rules of the second. Right: observed same-draw optimism against the within-task exchangeable-label reference.}}
 \\label{{fig:headroom}}
 \\end{{figure}}
 
@@ -213,8 +214,8 @@ def write_abstract(first: dict, reports: dict, out: Path) -> None:
         "We generate two independently seeded continuations for every action from a shared prefix. The same draws separate the action chosen from the outcome that scores it and, before any controller is fitted, read the room a decision point and a menu leave. "
         f"On {alf['planned_tasks']} identity-disjoint ALFWorld tasks the same-draw maximum overstates cross-draw value by {pct(gap['mean'])} percentage points "
         f"(floorplan-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}), and does not exceed a within-task exchangeable-label reference of {pct(floor['mean'])} points on eligible prefixes. "
-        f"On {event['planned_tasks']} further tasks run under both rules with one menu, moving the decision from a scheduled early step to the first public failure signal turns a reading under which no prefix-conditional rule can win, {pct(shead['cross_draw_oracle_eligible'])}\\% for a selector given one independent draw of every action against {pct(shead['best_fixed_eligible'])}\\% for the best arm in hindsight, into {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%. "
-        f"A controller that chooses its action on one development draw and values it on another{captured} leads every matched comparator, by {pct(cc['mean'])} points over continuation on all planned tasks{fixed}, and trails an unconditional detector only where that reading says conditioning cannot pay."
+        f"On {event['planned_tasks']} further tasks run under both rules with one menu, moving the decision from a scheduled early step to the first public failure signal turns a negative reading, {pct(shead['cross_draw_oracle_eligible'])}\\% for a per-task selector given one independent draw of every action against {pct(shead['best_fixed_eligible'])}\\% for the best arm in hindsight, into a positive one, {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%. "
+        f"A controller that chooses its action on one development draw and values it on another{captured} leads every matched comparator, by {pct(cc['mean'])} points over continuation on all planned tasks{fixed}; refitted on development records from the scheduled rule, it leads every comparator on that panel too."
     )
     out.write_text(text + "\n")
 
@@ -228,8 +229,11 @@ def lineage_rows(freezes: dict) -> str:
     return "\n".join(rows)
 
 
-def write_appendix(reports: dict, freezes: dict, out: Path) -> None:
-    text = f"""\\begin{{table}}[ht]
+def write_appendix(reports: dict, freezes: dict, out: Path, capacity: dict | None = None, frontier: dict | None = None) -> None:
+    diagnostics = (capacity_sentence(capacity or {}) + frontier_sentence(frontier or {})).strip()
+    text = f"""{diagnostics}
+
+\\begin{{table}}[ht]
 \\caption{{Complete policy census under both checkpoint rules. Success uses every planned task; firing is over eligible prefixes; recoveries and disruptions count draw-level comparisons with continuation.}}
 \\label{{tab:r2-policies}}
 \\centering
@@ -287,13 +291,13 @@ def write_conclusion(first: dict, reports: dict, out: Path) -> None:
     fixed = claim(cb, f" and by {pct(cb['mean'])} points over the best fixed repair",
                   f" and by {pct(cb['mean'])} points against the best fixed repair")
     text = (
-        "We introduced a repeated-branch protocol that separates the continuation used to choose a runtime repair from the one used to value it, and a reading of the same branches that says what a decision point and a menu can reach before a controller is fitted. "
+        "We introduced a repeated-branch protocol that separates the continuation used to choose a runtime repair from the one used to value it, and a reading of the same branches that says how much per-task signal a decision point and a menu carry before a controller is fitted. "
         f"On the first frozen panel the protocol establishes a {pct(gap['mean'])}-point gap between same-draw maximization and independent-draw evaluation, "
         f"and a within-task exchangeable-label reference places {pct(floor['mean'])} points of it in continuation noise rather than in action advantage. "
-        "Where a complete independent draw of the menu cannot beat the best arm in hindsight, no prefix-conditional rule will, and on a panel run under both checkpoint rules with one menu that is what separates them. "
+        "Where a complete independent draw of the menu cannot beat the best arm in hindsight, the per-task outcome signal is thinner than the menu average, and on a panel run under both checkpoint rules with one menu that is what separates them. "
         f"Moving the decision to the first public failure signal and separating repair depth from repair content lifts that reference to {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%, "
         f"and a controller that chooses its action on one development draw and values it on another {verdict}{fixed}. "
-        "Runtime controllers should include no action, freeze their choices before outcomes, value them on draws not used for selection, and check what the decision point and the menu can reach before blaming the learner for a null."
+        "Runtime controllers should include no action, freeze their choices before outcomes, value them on draws not used for selection, and read what the decision point and the menu carry before blaming the learner for a null."
     )
     out.write_text(text + "\n")
 
@@ -330,4 +334,21 @@ def noise_scaling(hot: list[dict], cold: list[dict], out: Path) -> None:
         "A domain whose tools or simulated users inject randomness of their own raises that variance and so raises the gap, which is the sense in which the estimates here are a lower reference for such settings. "
         "This ablation is exploratory: its panel is small, it was generated after the confirmation panels, and it enters no confirmatory family.\n"
     )
+    out.write_text(text)
+
+
+def write_transfer(matched: dict, mismatched: dict, event_static: dict, event: dict, rooms: dict, out: Path) -> None:
+    domain_matched, domain_mismatched = domain(matched), domain(mismatched)
+    cross = domain_matched["policies"]["CROSS_DRAW"]
+    counts = [round(value) for value in cross["action_counts_eligible"]]
+    against = ["FAILURE_RISK", "ARM_OUTCOME", "BEST_FIXED"]
+    margins = [f"{pct(domain_matched['contrasts']['CROSS_DRAW_vs_' + name]['mean'])} over {POLICY_PHRASES[name]}" for name in against]
+    leads = ", ".join(margins[:-1]) + f", and {margins[-1]}"
+    cc = domain_matched["contrasts"]["CROSS_DRAW_vs_CONTINUE"]
+    static_event = domain(event_static)["policies"]["CROSS_DRAW"]["planned_mean"]
+    frozen_event = domain(event)["policies"]["CROSS_DRAW"]["planned_mean"]
+    text = f"""A controller can also be moved to where the room is. The frozen rule was fitted on development records collected under the triggered rule and then read under both, which is the decision-point mismatch that Section~\\ref{{sec:estimand}} warns about. Refitting the same learner on development records collected under the scheduled rule, and breaking grid ties by the nested selection rather than by the firing rate, raises scheduled-rule success from {pct(domain_mismatched['policies']['CROSS_DRAW']['planned_mean'])}\\% to {pct(cross['planned_mean'])}\\% and puts cross-draw control ahead of every comparator on that panel as well: {pct(cc['mean'])} points over continuation (adjusted ${probability(cc)}$), {leads}. The rule it learns is the unconditional repair on {counts[5]} of {domain_matched['eligible_tasks']} eligible prefixes together with a learned decline on {counts[0]}: at a scheduled step the prefix says when not to repair rather than which repair to use. The fit post-dates that panel's outcomes, so this reading is reported beside the frozen confirmation and not in place of it.
+
+Two variants did not transfer, and both are informative. Carrying the same static fallback to the triggered decision point moves success from {pct(frozen_event)}\\% to {pct(static_event)}\\%, which the interval of the contrast separating the two rules already contains. Gating the fallback on the development room reading inverts it: the development panels read {pct(rooms['event'])} and {pct(rooms['scheduled'])} points where the confirmation panels read {pct(domain(event)['headroom']['oracle_minus_best_fixed'])} and {pct(domain_matched['headroom']['oracle_minus_best_fixed'])}, so at a few hundred tasks the room has to be read on the panel that will be deployed on rather than carried from development.
+"""
     out.write_text(text)

@@ -34,6 +34,10 @@ To raise power within the available frame, the event-triggered confirmation adds
 
 Same-draw optimism is reported as an estimation diagnostic with task and floorplan bootstrap intervals and a within-task exchangeable-label reference distribution; it is not a member of the tested family, because the diagnostic is pathwise non-negative and a sign-flip null is degenerate for it.
 
+The cross-draw room reading is a measurement of the per-task outcome signal available at two draws, not an upper bound on prefix-conditional policies. On the scheduled mirror three fitted policies exceed it on eligible prefixes, because a learner that pools across tasks can beat a per-task selector built from two noisy draws. Both readings are reported.
+
+A rule-matched development panel and a nested-agreement tie-break were introduced after the reviewer report and are reported as exploratory. The controller is refitted on development records collected under the rule it will be deployed under, and grid ties in out-of-fold utility are broken by how often the nested inner selections chose that entry rather than by the firing rate. The frozen confirmation and its predictions are unchanged.
+
 A static-fallback entry was added to the cross-draw grid after the reviewer report and is reported as an exploratory policy, never as a member of the tested family. The entry lets the grid protect the development-best arm instead of continuation, so that in the absence of prefix-level heterogeneity the rule reduces to the optimal static rule, as the individualized-treatment-rule design literature recommends. The entry is selected on development out-of-fold utility inside the same folds; the frozen controller and the frozen predictions are unchanged, and both readings are reported whatever their sign.
 
 The improvement-significance frontier of the frozen candidate grid is read on development records only, as the paired mean difference against `CONTINUE` and its $z$ statistic for every grid entry. It selects nothing and produces no confirmation prediction.

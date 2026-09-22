@@ -18,6 +18,8 @@ def main() -> None:
     parser.add_argument("--first", type=Path, default=ROOT / "artifacts" / "confirmation" / "results.json")
     parser.add_argument("--capacity", type=Path)
     parser.add_argument("--frontier", type=Path)
+    parser.add_argument("--transfer", type=Path, nargs=3)
+    parser.add_argument("--rooms", type=Path)
     parser.add_argument("--temperature-hot", type=Path)
     parser.add_argument("--temperature-cold", type=Path)
     parser.add_argument("--out", type=Path, default=ROOT / "paper")
@@ -46,10 +48,16 @@ def main() -> None:
     r2.write_results(reports, outputs[1])
     capacity = json.loads(args.capacity.read_text()) if args.capacity and args.capacity.exists() else None
     frontier = json.loads(args.frontier.read_text()) if args.frontier and args.frontier.exists() else None
-    r2.write_analysis(reports, outputs[2], capacity, frontier)
+    r2.write_analysis(reports, outputs[2])
     r2.write_abstract(json.loads(args.first.read_text()), reports, outputs[4])
-    r2.write_appendix(reports, freezes, outputs[5])
+    r2.write_appendix(reports, freezes, outputs[5], capacity, frontier)
     r2.write_conclusion(json.loads(args.first.read_text()), reports, outputs[6])
+    if args.transfer and args.rooms:
+        target = generated / "r2_transfer.tex"
+        matched, mismatched, event_static = [json.loads(path.read_text()) for path in args.transfer]
+        rooms = json.loads(args.rooms.read_text())
+        r2.write_transfer(matched, mismatched, event_static, reports["event"], rooms, target)
+        outputs.append(target)
     setup_plotting()
     panels = {"First study": json.loads(args.first.read_text())}
     panels.update({r2.RULE_LABELS[rule]: report for rule, report in reports.items()})
