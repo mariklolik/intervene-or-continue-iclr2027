@@ -44,7 +44,7 @@ Every arm starts from the same task and baseline checkpoint, with the same actor
 \section{Controller construction and development selection}
 \label{app:controller}
 
-The 50 numeric features are action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. The text field concatenates the recent public observations and actions. Word TF--IDF uses at most 512 terms; the fitted development vocabulary is reduced to at most 16 components. All text fitting occurs inside each task-group fold during development selection. The final transform is refit on all admitted development tasks only.
+The 50 numeric features include the encoded environment indicator \texttt{env\_scienceworld}, action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. The text field concatenates the recent public observations and actions. Word TF--IDF uses at most 512 terms; the fitted development vocabulary is reduced to at most 16 components. All text fitting occurs inside each task-group fold during development selection. The final transform is refit on all admitted development tasks only.
 
 \begin{table}[ht]
 \caption{Development-only policy selection for the Qwen3-8B actor: 129 complete ALFWorld tasks and 55 complete ScienceWorld tasks. Utilities average the two saved continuation draws within each task row. The strongest matched comparator and the operational selection were fixed before confirmation outcomes.}
