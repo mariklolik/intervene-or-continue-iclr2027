@@ -34,12 +34,12 @@ Arm & Name & Operation \\
 0 & \textsc{Continue} & Restore the checkpoint and append no message. \\
 1 & \textsc{Warning} & ``Re-check the goal, the latest observation, and your previous action. Continue only after correcting any inconsistency you notice.'' \\
 2 & \textsc{Replan} & ``Construct a fresh, concise plan from the current goal and observable state. Then execute that plan.'' \\
-3 & \textsc{Rollback--replan} & Restore environment and dialogue to before the latest reversible action, append ``The previous attempted action has been reverted. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan,'' and reduce the suffix budget by one decision. \\
+3 & \textsc{Rollback--replan} & Restore environment and dialogue to immediately before the most recent executed action, append ``The previous attempted action has been reverted. Construct a fresh, concise plan from the current goal and restored observable state. Then execute that plan,'' and reduce the suffix budget by one decision. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Every arm receives the same task instruction, public action history, public observations, actor weights, decoding parameters, and total decision budget. The controller receives only fields computed from the prefix. Environment state hashes, future observations, suffix outcomes, rollback metadata, and task-selection provenance are excluded. Arm 3 changes the simulator state by exactly the most recent reversible action and has no special access to a future legal-action sequence. The intervention decision occurs once per episode.
+Every arm receives the same task instruction, public action history, public observations, actor weights, decoding parameters, and total decision budget. The controller receives only fields computed from the prefix. Environment state hashes, future observations, suffix outcomes, rollback metadata, and task-selection provenance are excluded. Arm 3 restores the simulator state and dialogue immediately before the most recent executed action and has no special access to a future legal-action sequence. If the checkpoint follows $k$ actions under a total limit $B$, arm 3 restores step $k-1$ and uses limit $B-1$, leaving $(B-1)-(k-1)=B-k$ new actor decisions, the same as the other arms. The intervention decision occurs once per episode.
 
 \section{Controller construction and development selection}
 \label{app:controller}
