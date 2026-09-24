@@ -28,7 +28,7 @@ This distinction is separate from two established ideas. First, outcome regressi
 
 We use two independently seeded continuations for each of four actions from a shared prefix. Any policy fitted on separate development tasks is evaluated on both draws. For an outcome-informed oracle diagnostic, the action selected on one draw is evaluated on the other. This yields a symmetric, pathwise nonnegative gap between the observed maximum and the independent-draw value of the selected action. The gap measures how much a same-outcome analysis can overstate deployable utility on the sampled task frame. It does not establish that any learned intervention helps.
 
-The controller comparison holds the development records, observable prefix features, four task-group folds, 200-tree capacity, margin grid, and action menu fixed. One forest predicts four arm outcomes. A second predicts three signed benefits relative to continuation,
+The controller comparison holds the development records, observable prefix features, four shuffled task-ID folds, 200-tree capacity, margin grid, and action menu fixed. One forest predicts four arm outcomes. A second predicts three signed benefits relative to continuation,
 \begin{equation}
 \Delta_a(x)=\mathbb{E}[Y_a-Y_0\mid X=x],\qquad a\in\{1,2,3\}.
 \end{equation}
@@ -100,7 +100,7 @@ Its continuation score is fixed at zero. Thus the two learners differ in the res
 
 Both learners receive public information available at the fork: an encoded environment indicator (\texttt{env\_scienceworld}), checkpoint index, counts of invalid or inadmissible actions, reward and usage summaries, action repetition signals, recent observations and actions, and recent prefix text. Hidden state hashes and reversibility metadata are excluded. Numeric fields are vectorized directly. Recent text uses a 512-term TF--IDF vocabulary fitted within each training fold and at most 16 truncated-SVD components.
 
-Model selection uses four shuffled whole-task folds with seed 260908. Each candidate has 200 trees, minimum leaf size 5 or 10, and a continuation margin in $\{0,0.05,0.10\}$. Vocabulary and projection fitting occur inside each fold. Out-of-fold utility selects the configuration, and lower intervention rate breaks utility ties. The final forests are refit on all admitted development tasks. Source and target hashes, fold identities, feature schemas, library versions, and every candidate score are stored in the model manifests.
+Model selection uses four shuffled GroupKFold splits by task ID with seed 260908; draws from one task stay in the same fold, while floorplans are not held out together. Each candidate has 200 trees, minimum leaf size 5 or 10, and a continuation margin in $\{0,0.05,0.10\}$. Vocabulary and projection fitting occur inside each fold. Out-of-fold utility selects the configuration, and lower intervention rate breaks utility ties. The final forests are refit on all admitted development tasks. Source and target hashes, fold identities, feature schemas, library versions, and every candidate score are stored in the model manifests.
 
 \subsection{Fallbacks and the comparator}
 
@@ -119,7 +119,7 @@ Component & Arm-outcome forest & Direct signed-benefit forest \\
 \midrule
 Development rows & Same two-draw task blocks & Same two-draw task blocks \\
 Features and text & Shared prefix transform & Shared prefix transform \\
-Folds and capacity & 4 groups; 200 trees & 4 groups; 200 trees \\
+Folds and capacity & 4 task-ID folds; 200 trees & 4 task-ID folds; 200 trees \\
 Leaf and margin grid & $\{5,10\}$; $\{0,.05,.10\}$ & $\{5,10\}$; $\{0,.05,.10\}$ \\
 Response & $(\bar Y_0,\ldots,\bar Y_3)$ & $(\bar D_1,\bar D_2,\bar D_3)$ \\
 No-intervention action & $a=0$ & zero-benefit reference \\
