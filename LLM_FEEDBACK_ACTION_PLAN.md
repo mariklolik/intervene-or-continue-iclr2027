@@ -84,3 +84,37 @@ For the present manuscript, the appropriate response to D1–D5 is a precise sco
 4. **Build and audit:** Regenerate the PDF and supplement; verify numbers, anonymity, and artifact integrity. PAT feedback does not require a point-by-point OpenReview response.
 
 Official procedural sources: [ICLR PAT announcement](https://blog.iclr.cc/2026/09/10/making-googles-paper-assistant-tool-pat-available-to-iclr-submitters/) and [ICLR 2027 Author Guidelines](https://iclr.cc/Conferences/2027/AuthorGuidelines).
+
+## Resolution audit (24 September 2026)
+
+The table records manuscript changes made from the archived evidence. No new agent runs, controller training, or confirmatory analyses were performed.
+
+| Point | Resolution | Commit |
+|---|---|---|
+| A1 | Proposition 1 and its proof require conditionally independent, identically distributed draws. | `bf3327a` |
+| A2 | The oracle diagnostic is distinguished from evaluation of a policy fixed before test outcomes. | `0e5055d` |
+| A3 | The practical Direct–Single-1 comparison and the controlled Direct–Arm-outcome comparison have separate interpretations. | `98b8b93` |
+| A4 | Policy value is defined on all planned tasks, including early terminations. | `77d8f77` |
+| A5 | Controller conclusions are restricted to the tested actor, features, checkpoints, and action menu. | `7464845` |
+| A6 | Scheduled checkpoints are distinguished from event-triggered monitors. | `246e1e7` |
+| A7 | Best fixed's 48 extra gross recoveries, 41 extra disruptions, and seven-outcome net difference are reported without a causal mechanism claim. | `c68ae76` |
+| A8 | The ScienceWorld all-zero fraction is reported as 39/51, and the success-floor interpretation is qualified. | `b1db3bc` |
+| B1 | The nonnegative diagnostic's sign-flip test is retained for audit but not interpreted as evidence of treatment benefit. | `e22c590` |
+| B2 | Both raw and Holm-adjusted controller p-values are shown; neither raw test is significant. | `087c047` |
+| B3 | Arm outcome OOF results and the Qwen3-8B development task counts are added from the saved model manifest. | `6d04c53` |
+| B4 | The zero ScienceWorld Direct–Continue interval is explained by six interventions and no observed binary changes. | `8aead2b`, `2503a6f` |
+| B5 | Identical ScienceWorld policy rows are explained in the analysis and table captions. | `b7abbce`, `2503a6f` |
+| B6 | Direct's zero rollback choices and Matched's 71 choices are stated without an unsupported mechanism. | `faadfb8` |
+| C1 | The complete action-index tie order is specified. | `011585f` |
+| C2 | Rollback restoration, transcript history, and the equal-decision-budget formula match the implementation. | `9b04568`, `d1ff8da` |
+| C3 | The `env_scienceworld` indicator is named among the 50 numeric features. | `69c298f` |
+| C4 | Cross-validation is described as task-ID grouping, with no floorplan grouping claim. | `178182b` |
+| C5 | The verification command uses `.venv/bin/python`. | `ae2c12a` |
+| C6 | The unrelated acronym is removed and appendix pointers identify the relevant sections. | `3598e67` |
+| C7 | Effects use percentage-point units and TeX math minus signs. The archived 97.5% systems interval is identified as separate; its original rationale is not documented. | `c95b155`, `80609c1` |
+| C8 | The Figure 3 caption states that every ScienceWorld group has zero Direct–Continue effect. | `0b57802` |
+| Additional minor points | The empirical target identity, margin notation, TF–IDF/SVD distinction, and model-bundle digest are corrected. | `d54fde2`, `fc808a5` |
+| D1–D5 | New experiments were excluded as requested. The limitations describe the untested advisors, triggers, search methods, tool dynamics, and rollback mechanism. | `2a8a12b` |
+| E1–E5 | Incorrect numerical claims were checked against saved records; source and the existing rendered PDF were compared before changing apparent text-extraction artifacts. | Relevant commits above |
+
+The saved `results.json` validates as a complete two-domain report. All nine generated-output hashes match their manifest, and the six generated TeX fragments reproduce byte for byte from the saved results under Python 3.12. Full pytest, PDF rebuilding, and page-limit verification remain unavailable in this workspace: the locked Python packages are absent from the offline cache, and no TeX engine is installed. The checked-in `paper/main.pdf` predates these edits and should be rebuilt in the submission environment before upload.
