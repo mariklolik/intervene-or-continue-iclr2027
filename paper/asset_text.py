@@ -207,7 +207,7 @@ def variance_sentence(measurement: dict) -> str:
     top = profile["bins"][-1]
     return (f" It is a function of that instability: the {zero['n_tasks']} tasks whose recorded cells never disagree contribute {pct(zero['mean_optimism'])} points, "
             f"the {top['n_tasks']} tasks in the highest outcome-variance bin contribute {pct(top['mean_optimism'])} points, and the two correlate at {profile['correlation']:.2f}. "
-            "An environment whose tools or simulated users add randomness therefore raises the diagnostic, so these estimates are a lower reference for such settings.")
+            "Additional randomness from tools or simulated users could change this diagnostic; the present panels do not measure its direction or size in those settings.")
 
 
 def write_analysis(report: dict, out: Path) -> None:
@@ -216,7 +216,7 @@ def write_analysis(report: dict, out: Path) -> None:
     gap = alf["same_draw_selection_optimism"]
     sw_gap = sw["same_draw_selection_optimism"]
     sw_dc = sw["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
-    text = f"""We measure the same-draw action maximum against independent-draw evaluation. It exceeds it by {pct(gap['mean'])} percentage points over all ALFWorld tasks (task-bootstrap 95\\% interval {interval(gap, 'task_bootstrap_95')}; floorplan-bootstrap {interval(gap, 'group_bootstrap_95')}; Holm-adjusted ${p_claim(gap['holm_p_primary_family'])}$). The gap is pathwise nonnegative. Its magnitude depends on how often stochastic branch outcomes disagree, so we do not read it as an intervention gain or as the regret of the learned controller.{variance_sentence(gap)} We report the adjusted probability because the first study pre-registered it. A sign-flip null is degenerate for a pathwise nonnegative quantity, so we read the gap itself as an estimate against the reference distribution introduced below.
+    text = f"""We measure the same-draw action maximum against independent-draw evaluation. It exceeds it by {pct(gap['mean'])} percentage points over all ALFWorld tasks (task-bootstrap 95\\% interval {interval(gap, 'task_bootstrap_95')}; floorplan-bootstrap {interval(gap, 'group_bootstrap_95')}). The gap is pathwise nonnegative. Its magnitude depends on how often stochastic branch outcomes disagree, so we do not read it as an intervention gain or as the regret of the learned controller.{variance_sentence(gap)} The first study's preregistered sign-flip and Holm result remains in Appendix~\\ref{{app:statistics}} for audit. Because $G_i\\geq0$ pathwise, its symmetric sign-flip null is an all-zero null: a small $p$ value does not test intervention benefit or action heterogeneity. We interpret the gap through its magnitude, interval, and the reference distribution introduced below.
 
 """
     out.write_text(text)
