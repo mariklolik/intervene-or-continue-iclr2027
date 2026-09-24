@@ -44,7 +44,7 @@ Every arm starts from the same task and baseline checkpoint, with the same actor
 \section{Controller construction and development selection}
 \label{app:controller}
 
-The 50 numeric features include the encoded environment indicator \texttt{env\_scienceworld}, action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. The text field concatenates the recent public observations and actions. Word TF--IDF uses at most 512 terms; the fitted development vocabulary is reduced to at most 16 components. All text fitting occurs inside each task-ID fold during development selection. The final transform is refit on all admitted development tasks only.
+The 50 numeric features include the encoded environment indicator \texttt{env\_scienceworld}, action-class fractions; counts and rates of admissible, repeated, invalid, and failed actions; reward summaries; observation and prompt lengths; token usage; action and observation novelty; vocabulary growth; and step index. The text field concatenates the recent public observations and actions. Word TF--IDF uses at most 512 terms; the resulting TF--IDF representation is reduced to at most 16 truncated-SVD components. All text fitting occurs inside each task-ID fold during development selection. The final transform is refit on all admitted development tasks only.
 
 \begin{table}[ht]
 \caption{Development-only policy selection for the Qwen3-8B actor: 129 complete ALFWorld tasks and 55 complete ScienceWorld tasks. Utilities average the two saved continuation draws within each task row. The strongest matched comparator and the operational selection were fixed before confirmation outcomes.}
@@ -72,7 +72,7 @@ Environment & Candidate & OOF utility (\%) & Intervention rate (\%) \\
 \end{tabular}
 \end{table}
 
-The two-draw arm-outcome control, \textsc{Arm outcome} (\textsc{Repeated} in the model manifest), predicts all four outcomes after fitting to the mean of two draws. \textsc{Single-1} uses the same action-outcome formulation but fits to one predesignated draw; it was the strongest runnable development comparator. \textsc{Direct} predicts three outcomes relative to continuation. Both target-parameterization learners share the same feature builder, task-ID folds, 200-tree random-forest class, minimum-leaf grid $\{5,10\}$, continuation-margin grid $\{0,.05,.10\}$, and task rows. A candidate must exceed the continuation margin to intervene; otherwise it chooses arm 0. Utility ties favor the lower firing rate and then the prespecified candidate order.
+The two-draw arm-outcome control, \textsc{Arm outcome} (\textsc{Repeated} in the model manifest), predicts all four outcomes after fitting to the mean of two draws. \textsc{Single-1} uses the same action-outcome formulation but fits to one predesignated draw; it was the strongest runnable development comparator. \textsc{Direct} predicts three outcomes relative to continuation. Both target-parameterization learners share the same feature builder, task-ID folds, 200-tree random-forest class, minimum-leaf grid $\{5,10\}$, continuation-margin grid $\{0.00,0.05,0.10\}$, and task rows. A candidate must exceed the continuation margin to intervene; otherwise it chooses arm 0. Utility ties favor the lower firing rate and then the prespecified candidate order.
 
 \section{Panel construction and lineage}
 \label{app:lineage}
