@@ -98,15 +98,15 @@ def write_abstract(report: dict, out: Path) -> None:
         "The same-draw diagnostic is estimated",
     )
     text = (
-        "Selecting a runtime intervention and evaluating it on the same stochastic continuation credits favorable branch noise. "
+        "Selecting an intervention after observing stochastic branch outcomes, then scoring it on those outcomes, credits favorable continuation noise. "
         "We test this problem with four actions, including no intervention, and two independent continuations from each shared prefix. "
         f"The confirmation covers {alf['planned_tasks']} identity-disjoint ALFWorld tasks ({alf['groups']} floorplan groups), with predictions frozen before arm outcomes. "
         f"{gap_claim}: the planned-task gap is {pct(gap['mean'])} percentage points "
         f"(group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}, Holm-adjusted $p={p_value(gap['holm_p_primary_family']).replace('$', '')}$). "
         "Holding features, task-group folds, forest capacity, and action support fixed, direct signed-benefit prediction changes success by "
         f"{pct(direct_continue['mean'])} points versus continuation and {pct(direct_matched['mean'])} points versus the strongest runnable matched controller. "
-        "Neither controller contrast survives multiplicity correction. We retain the complete ScienceWorld boundary panel and adverse historical results, and make no cross-harness state-of-the-art claim. "
-        "The resulting protocol turns an outcome-selected rescue into an auditable policy-value estimate."
+        "Neither controller contrast is significant, with or without multiplicity correction. The gap diagnoses outcome reuse, not bias in a precommitted policy. We retain the complete ScienceWorld boundary panel and adverse historical results. "
+        "The protocol separates outcome-selected rescues from the value of prefix-only policies."
     )
     out.write_text(text + "\n")
 
