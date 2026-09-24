@@ -12,7 +12,7 @@
     },
     {
       "path": "paper/generated/results.tex",
-      "sha256": "0037b5e208bd3d47e2d16e87ddad93852be6e46a8372a9e36883d16b88d52396"
+      "sha256": "67329810653cb276802cf7b3eab42e4c72a07496f1626aaf7442e873ce7625d5"
     },
     {
       "path": "paper/generated/analysis.tex",
@@ -40,5 +40,5 @@
     }
   ],
   "results_sha256": "d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d",
-  "text_builder_sha256": "fa213d7372c159b6a4dc0e467ac519969b5d3992ad3e00280bc87c8961272fd1"
+  "text_builder_sha256": "73dc2632e00ee13d93ed25cfc5280032987d3dce81245bca4d2b9215f5bf9a54"
 }
