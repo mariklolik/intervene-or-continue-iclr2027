@@ -48,7 +48,13 @@ Let $X_i$ be the observable prefix for task $i$ at a fixed checkpoint. The actio
 V(\pi)=\mathbb{E}_X\!\left[\sum_{a\in\mathcal{A}}\pi(a\mid X)\mu_a(X)\right].
 \label{eq:policy-value}
 \end{equation}
-The expectation includes continuation randomness. A controller that always intervenes can have lower value than continuation even when it correctly detects a difficult prefix. Detection quality and treatment choice are different estimands \citep{vasudev2026failure}.
+The expectation in Eq.~\eqref{eq:policy-value} is over tasks that reach the checkpoint and includes continuation randomness. To match the planned-task success rates reported below, let $E_i$ indicate that task $i$ reaches its assigned checkpoint and let $T_i$ be its observed success if it terminates earlier. The full task-level value is
+\begin{equation}
+V_{\mathrm{task}}(\pi)=\mathbb{E}\!\left[(1-E_i)T_i+
+E_i\sum_{a\in\mathcal A}\pi(a\mid X_i)\mu_a(X_i)\right].
+\label{eq:task-value}
+\end{equation}
+No intervention decision exists when $E_i=0$, so such tasks contribute equally to all policy values and zero to their contrasts. A controller that always intervenes can have lower value than continuation even when it correctly detects a difficult prefix. Detection quality and treatment choice are different estimands \citep{vasudev2026failure}.
 
 Our simulated environments permit a repeated-branch design. From the same serialized state, we generate two draws $Y_{ia}^{(0)}$ and $Y_{ia}^{(1)}$ for every action. The request seeds are independent deterministic hashes of task, draw, action, and request index. Full-state hashes validate restoration before the first suffix call. The actor sees only the common public prefix, the assigned message, and subsequent observations.
 
