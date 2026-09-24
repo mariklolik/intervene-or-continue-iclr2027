@@ -159,7 +159,7 @@ pdflatex -interaction=nonstopmode -halt-on-error \
 pdflatex -interaction=nonstopmode -halt-on-error \
   -output-directory=build main.tex
 cd ..
-python tools/verify_artifacts.py --supplement \
+.venv/bin/python tools/verify_artifacts.py --supplement \
   ../intervene-or-continue-iclr2027-supplement.zip
 \end{verbatim}
 
