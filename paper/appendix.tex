@@ -39,7 +39,7 @@ Arm & Name & Operation \\
 \end{tabular}
 \end{table}
 
-Every arm receives the same task instruction, public action history, public observations, actor weights, decoding parameters, and total decision budget. The controller receives only fields computed from the prefix. Environment state hashes, future observations, suffix outcomes, rollback metadata, and task-selection provenance are excluded. Arm 3 restores the simulator state and dialogue immediately before the most recent executed action and has no special access to a future legal-action sequence. If the checkpoint follows $k$ actions under a total limit $B$, arm 3 restores step $k-1$ and uses limit $B-1$, leaving $(B-1)-(k-1)=B-k$ new actor decisions, the same as the other arms. The intervention decision occurs once per episode.
+Every arm starts from the same task and baseline checkpoint, with the same actor weights, decoding parameters, and total decision budget. Arms 0--2 restore the checkpoint history and observations; arm 3 restores the public history and state from one action earlier. The controller receives only fields computed from the prefix. Environment state hashes, future observations, suffix outcomes, rollback metadata, and task-selection provenance are excluded. Arm 3 restores the simulator state and dialogue immediately before the most recent executed action and has no special access to a future legal-action sequence. If the checkpoint follows $k$ actions under a total limit $B$, arm 3 restores step $k-1$ and uses limit $B-1$, leaving $(B-1)-(k-1)=B-k$ new actor decisions, the same as the other arms. The intervention decision occurs once per episode.
 
 \section{Controller construction and development selection}
 \label{app:controller}
