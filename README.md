@@ -8,7 +8,7 @@ The repository starts from the verified native/demo runtime and the `intervene_8
 
 ## Result
 
-On the frozen 384-task ALFWorld confirmation, same-draw action selection overstates independent-draw value by 15.36 percentage points, with a floorplan-bootstrap 95% interval of [12.46, 18.30] and Holm-adjusted p < 0.0001. Direct signed-benefit prediction changes success by +1.56 points versus `CONTINUE` and -0.39 points versus the matched controller; neither contrast is significant after correction. The complete 57-task ScienceWorld boundary panel is retained.
+On the frozen 384-task ALFWorld confirmation, same-draw action selection overstates independent-draw value by 15.36 percentage points, with a floorplan-bootstrap 95% interval of [12.46, 18.30]. The preregistered sign-flip p-value for this pathwise nonnegative diagnostic is retained for audit, not interpreted as a test of intervention benefit. Direct signed-benefit prediction changes success by +1.56 points versus `CONTINUE` and -0.39 points versus the matched controller; neither contrast is significant after correction. The complete 57-task ScienceWorld boundary panel is retained.
 
 ## Reproduce
 

@@ -80,29 +80,17 @@ def write_numbers(report: dict, result_path: Path, out: Path) -> None:
     out.write_text("\n".join(lines) + "\n")
 
 
-def primary_decision(record: dict, positive: str, neutral: str) -> str:
-    adjusted = record["holm_p_primary_family"]
-    if record["mean"] > 0 and adjusted < .05:
-        return positive
-    return neutral
-
-
 def write_abstract(report: dict, out: Path) -> None:
     alf = report["domains"]["alfworld"]
     gap = alf["same_draw_selection_optimism"]
     direct_continue = alf["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
     direct_matched = alf["contrasts"]["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]
-    gap_claim = primary_decision(
-        gap,
-        "The same-draw maximum overstates cross-draw value",
-        "The same-draw diagnostic is estimated",
-    )
     text = (
         "Selecting an intervention after observing stochastic branch outcomes, then scoring it on those outcomes, credits favorable continuation noise. "
         "We test this problem with four actions, including no intervention, and two independent continuations from each shared prefix. "
         f"The confirmation covers {alf['planned_tasks']} identity-disjoint ALFWorld tasks ({alf['groups']} floorplan groups), with predictions frozen before arm outcomes. "
-        f"{gap_claim}: the planned-task gap is {pct(gap['mean'])} percentage points "
-        f"(group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}, Holm-adjusted $p={p_value(gap['holm_p_primary_family']).replace('$', '')}$). "
+        f"The same-draw maximum exceeds cross-draw evaluation by {pct(gap['mean'])} percentage points "
+        f"on the planned-task panel (group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}). "
         "The two-draw Direct and Arm outcome forests share features, folds, capacity, and action support. In the primary policy comparisons, Direct changes success by "
         f"{pct(direct_continue['mean'])} points versus continuation and {pct(direct_matched['mean'])} points versus the strongest runnable matched controller. "
         "Neither controller contrast is significant, with or without multiplicity correction. The gap diagnoses outcome reuse, not bias in a precommitted policy. We retain the complete ScienceWorld boundary panel and adverse historical results. "
@@ -178,12 +166,12 @@ Domain & Policy & Success (\\%) & Fire (\\%) & Recover & Disrupt \\\\
 \\end{{tabular}}
 \\end{{table}}
 
-Figure~\\ref{{fig:effects}} shows both marginal task and grouped uncertainty for the primary family and the selected deployment rule. The group intervals are wider whenever shared floorplans induce material composition sensitivity. Statistical significance is determined only by the frozen group sign-flip family, not by whether a plotted interval excludes zero.
+Figure~\\ref{{fig:effects}} shows both marginal task and grouped uncertainty for the primary family and the selected deployment rule. The group intervals are wider whenever shared floorplans induce material composition sensitivity. The prespecified group sign-flip tests govern controller contrasts; the nonnegative optimism diagnostic is interpreted through its magnitude and uncertainty interval.
 
 \\begin{{figure}}[t]
 \\centering
 \\includegraphics[width=\\linewidth]{{figures/policy-effects.pdf}}
-\\caption{{Confirmation effects on ALFWorld. Dots show planned-task means; thick and thin intervals show task- and floorplan-bootstrap 95\\% intervals. Reported adjusted $p$ values use the prespecified group sign-flip tests and Holm correction.}}
+\\caption{{Confirmation effects on ALFWorld. Dots show planned-task means; thick and thin intervals show task- and floorplan-bootstrap 95\\% intervals. The prespecified sign-flip and Holm results for controller contrasts are reported in the text; the optimism row is an estimation diagnostic.}}
 \\label{{fig:effects}}
 \\end{{figure}}
 """
@@ -196,7 +184,7 @@ def write_analysis(report: dict, out: Path) -> None:
     gap = alf["same_draw_selection_optimism"]
     sw_gap = sw["same_draw_selection_optimism"]
     sw_dc = sw["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
-    text = f"""The same-draw action maximum exceeds independent-draw evaluation by {pct(gap['mean'])} percentage points over all ALFWorld tasks (task-bootstrap 95\\% interval {interval(gap, 'task_bootstrap_95')}; floorplan-bootstrap {interval(gap, 'group_bootstrap_95')}; Holm-adjusted $p={p_value(gap['holm_p_primary_family']).replace('$', '')}$). The gap is pathwise nonnegative, but its magnitude depends on how often stochastic branch outcomes disagree. It should not be read as an intervention gain or the regret of the learned controller.
+    text = f"""The same-draw action maximum exceeds independent-draw evaluation by {pct(gap['mean'])} percentage points over all ALFWorld tasks (task-bootstrap 95\\% interval {interval(gap, 'task_bootstrap_95')}; floorplan-bootstrap {interval(gap, 'group_bootstrap_95')}). The preregistered sign-flip $p$ value for this pathwise nonnegative statistic remains in Appendix~\\ref{{app:statistics}} for audit, but its symmetric null does not test intervention benefit. The gap is pathwise nonnegative, but its magnitude depends on how often stochastic branch outcomes disagree. It should not be read as an intervention gain or the regret of the learned controller.
 
 Figure~\\ref{{fig:groups}} keeps the complete group distribution visible. Groups in the upper-left quadrant exhibit a positive selection/evaluation gap while direct intervention underperforms continuation. This is precisely the case in which a realized rescue can look compelling even though the deployable policy loses utility. Groups with zero gap are retained.
 
@@ -217,10 +205,8 @@ def write_conclusion(report: dict, out: Path) -> None:
     gap = alf["same_draw_selection_optimism"]
     dc = alf["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
     dm = alf["contrasts"]["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]
-    established = gap["mean"] > 0 and gap["holm_p_primary_family"] < .05
-    gap_text = "establishes" if established else "estimates"
     text = (
-        f"On the frozen ALFWorld panel, independent continuation evaluation {gap_text} a {pct(gap['mean'])}-point gap relative to same-draw maximization. "
+        f"On the frozen ALFWorld panel, independent continuation evaluation measures a {pct(gap['mean'])}-point gap relative to same-draw maximization. "
         f"The matched direct controller changes success by {pct(dc['mean'])} points versus continuation and {pct(dm['mean'])} points versus the strongest runnable comparator. "
         "The principal result is therefore a measurement protocol and a bounded controller comparison, not a claim that intervention always helps. "
         "Runtime controllers should include no action, freeze their choices before outcomes, and value them on continuation draws not used for selection."
@@ -260,7 +246,7 @@ Contrast & Mean & Task 95\\% & Group 95\\% & Group $p$ & Holm $p$ \\\\
 \\end{{tabular}}
 \\end{{table}}
 
-ALFWorld same-draw optimism is {pct(alf['same_draw_selection_optimism']['mean'])} points with task-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'task_bootstrap_95')}, group-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'group_bootstrap_95')}, raw group sign-flip $p={p_value(alf['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$, and Holm-adjusted $p={p_value(alf['same_draw_selection_optimism']['holm_p_primary_family']).replace('$', '')}$. ScienceWorld optimism is {pct(sw['same_draw_selection_optimism']['mean'])} points with task-family-bootstrap interval {interval(sw['same_draw_selection_optimism'], 'group_bootstrap_95')} and unadjusted group sign-flip $p={p_value(sw['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$.
+ALFWorld same-draw optimism is {pct(alf['same_draw_selection_optimism']['mean'])} points with task-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'task_bootstrap_95')}, group-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'group_bootstrap_95')}, raw group sign-flip $p={p_value(alf['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$, and Holm-adjusted $p={p_value(alf['same_draw_selection_optimism']['holm_p_primary_family']).replace('$', '')}$. These preregistered $p$ values are retained for audit; the nonnegative gap makes their symmetric null scientifically narrow, and they are not tests of intervention benefit. ScienceWorld optimism is {pct(sw['same_draw_selection_optimism']['mean'])} points with task-family-bootstrap interval {interval(sw['same_draw_selection_optimism'], 'group_bootstrap_95')} and unadjusted group sign-flip $p={p_value(sw['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$.
 
 \\begin{{table}}[ht]
 \\caption{{Mean selected-suffix cost per planned task. Structural early terminations have zero suffix cost.}}

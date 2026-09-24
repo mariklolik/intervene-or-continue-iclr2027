@@ -2,7 +2,7 @@
 
 | ID | Atomic claim | Class | Evidence | Status |
 |---|---|---|---|---|
-| C1 | Same-outcome maximization over four stochastic continuations is optimistic relative to scoring the selected action on the other draw. | Confirmatory inference | Frozen ALFWorld panel: +15.36 points, group 95% CI [12.46, 18.30], Holm-adjusted p < 0.0001; result SHA-256 `d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d` | Supported |
+| C1 | Same-outcome maximization over four stochastic continuations is optimistic relative to scoring the selected action on the other draw. | Preregistered measurement; sign-flip inference qualified | Frozen ALFWorld panel: +15.36 points, group 95% CI [12.46, 18.30]. The preregistered Holm-adjusted sign-flip p < 0.0001 is retained for audit but its symmetric null is not a test of intervention benefit; result SHA-256 `d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d` | Supported |
 | C2 | The feature-matched direct signed-benefit controller improves success relative to `CONTINUE`. | Confirmatory inference | Frozen ALFWorld panel: +1.56 points, group 95% CI [-0.12, 3.41], Holm-adjusted p = 0.2096 | Not supported |
 | C3 | The direct signed-benefit controller improves success relative to the strongest development-selected matched controller. | Confirmatory inference | Frozen ALFWorld panel: -0.39 points, group 95% CI [-2.26, 1.57], Holm-adjusted p = 0.7927 | Not supported |
 | C4 | The direct learner and repeated arm-outcome learner use the same prefix features, four task-group folds, 200-tree capacity, leaf and margin grids, and action menu. | Implementation fact | `controller/direct_advantage.py`, `extension/policies.py`, fit manifests | Verified |
