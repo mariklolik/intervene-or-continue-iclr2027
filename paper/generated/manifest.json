@@ -24,7 +24,7 @@
     },
     {
       "path": "paper/generated/appendix_results.tex",
-      "sha256": "7cd1833a7af814c1edcad54f778f990475b1811f82a4471ff3ca19b98ceb358c"
+      "sha256": "e5b9297c03f6cc32d853625190f03882a1799961df73e57667ee1b9dc1956166"
     },
     {
       "path": "paper/figures/design.pdf",
@@ -40,5 +40,5 @@
     }
   ],
   "results_sha256": "d9a94b01002c8be3668c1091218ff9a903533d2b701cc88248aa29dd6513a09d",
-  "text_builder_sha256": "33a078b65b5f2be8911d77c38b712e20a22a05b94a436a34e29cd46979c83102"
+  "text_builder_sha256": "cb699397dc2fa2e81157c4bb2a2c1c6b49712903d26530ee1070aaaf8fc35bc8"
 }

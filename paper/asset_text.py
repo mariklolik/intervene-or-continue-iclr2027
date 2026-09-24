@@ -234,7 +234,7 @@ Contrast & Mean & Task 95\\% & Group 95\\% & Group $p$ & Holm $p$ \\\\
 \\end{{table}}
 
 \\begin{{table}}[ht]
-\\caption{{All ScienceWorld contrasts, retained as unadjusted boundary analyses. Values are percentage points.}}
+\\caption{{All ScienceWorld contrasts, retained as unadjusted boundary analyses. Values are percentage points. Arm outcome equals Best fixed because both choose replan on every eligible prefix; Safe selected equals Matched/Single-1.}}
 \\label{{tab:scienceworld-contrasts}}
 \\centering
 \\scriptsize
@@ -247,10 +247,10 @@ Contrast & Mean & Task 95\\% & Group 95\\% & Group $p$ & Holm $p$ \\\\
 \\end{{tabular}}
 \\end{{table}}
 
-ALFWorld same-draw optimism is {pct(alf['same_draw_selection_optimism']['mean'])} percentage points with task-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'task_bootstrap_95')}, group-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'group_bootstrap_95')}, raw group sign-flip $p={p_value(alf['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$, and Holm-adjusted $p={p_value(alf['same_draw_selection_optimism']['holm_p_primary_family']).replace('$', '')}$. These preregistered $p$ values are retained for audit; the nonnegative gap makes their symmetric null scientifically narrow, and they are not tests of intervention benefit. ScienceWorld optimism is {pct(sw['same_draw_selection_optimism']['mean'])} percentage points with task-family-bootstrap interval {interval(sw['same_draw_selection_optimism'], 'group_bootstrap_95')} and unadjusted group sign-flip $p={p_value(sw['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$.
+ALFWorld same-draw optimism is {pct(alf['same_draw_selection_optimism']['mean'])} percentage points with task-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'task_bootstrap_95')}, group-bootstrap interval {interval(alf['same_draw_selection_optimism'], 'group_bootstrap_95')}, raw group sign-flip $p={p_value(alf['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$, and Holm-adjusted $p={p_value(alf['same_draw_selection_optimism']['holm_p_primary_family']).replace('$', '')}$. These preregistered $p$ values are retained for audit; the nonnegative gap makes their symmetric null scientifically narrow, and they are not tests of intervention benefit. ScienceWorld optimism is {pct(sw['same_draw_selection_optimism']['mean'])} percentage points with task-family-bootstrap interval {interval(sw['same_draw_selection_optimism'], 'group_bootstrap_95')} and unadjusted group sign-flip $p={p_value(sw['same_draw_selection_optimism']['group_sign_flip_p']).replace('$', '')}$. The ScienceWorld Direct-minus-Continue bootstrap interval is [0.00, 0.00] because all observed task contrasts are zero: Direct fires on only six eligible prefixes and changes no binary outcome. It does not imply an exactly zero population effect.
 
 \\begin{{table}}[ht]
-\\caption{{Mean selected-suffix cost per planned task. Structural early terminations have zero suffix cost.}}
+\\caption{{Mean selected-suffix cost per planned task. Structural early terminations have zero suffix cost. In ScienceWorld, Arm outcome and Best fixed make identical decisions, as do Safe selected and Matched.}}
 \\label{{tab:costs}}
 \\centering
 \\small
