@@ -207,7 +207,7 @@ Figure~\\ref{{fig:groups}} keeps the complete group distribution visible. Groups
 \\label{{fig:groups}}
 \\end{{figure}}
 
-ScienceWorld provides a prespecified boundary rather than a second opportunity to claim success. Its same-draw gap is {pct(sw_gap['mean'])} points ({interval(sw_gap, 'group_bootstrap_95')} by task-family bootstrap), and Direct minus Continue is {pct(sw_dc['mean'])} points ({interval(sw_dc, 'group_bootstrap_95')}). All {sw['planned_tasks']} tasks, {sw['groups']} families, six policies, costs, recoveries, and disruptions appear in Table~\\ref{{tab:scienceworld-contrasts}} and the released result JSON. Differences in direction across environments narrow the empirical scope instead of motivating post hoc domain selection.
+ScienceWorld provides a prespecified boundary rather than a second opportunity to claim success. Its same-draw gap is {pct(sw_gap['mean'])} points ({interval(sw_gap, 'group_bootstrap_95')} by task-family bootstrap), and Direct minus Continue is {pct(sw_dc['mean'])} points ({interval(sw_dc, 'group_bootstrap_95')}). All {sw['planned_tasks']} tasks, {sw['groups']} families, six policies, costs, recoveries, and disruptions appear in Table~\\ref{{tab:scienceworld-contrasts}} and the released result JSON. Differences in direction across environments narrow the empirical scope instead of motivating post hoc domain selection. In the stored eligible ScienceWorld panel, 39 of 51 tasks fail under all eight action/draw cells, so their diagnostic gap is necessarily zero. The smaller domain gap can therefore reflect a success floor rather than more stable continuation outcomes.
 """
     out.write_text(text)
 
