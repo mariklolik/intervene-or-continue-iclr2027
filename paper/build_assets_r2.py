@@ -73,6 +73,14 @@ def main() -> None:
         "outputs": [{"path": os.path.relpath(path, ROOT), "sha256": digest(path)} for path in outputs],
     }
     (generated / "r2_manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    first_manifest = generated / "manifest.json"
+    if first_manifest.exists():
+        first = json.loads(first_manifest.read_text())
+        for record in first["outputs"]:
+            candidate = ROOT / record["path"]
+            if candidate in outputs:
+                record["sha256"] = digest(candidate)
+        first_manifest.write_text(json.dumps(first, indent=2, sort_keys=True) + "\n")
 
 
 if __name__ == "__main__":

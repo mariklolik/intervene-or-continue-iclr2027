@@ -8,7 +8,7 @@
     },
     {
       "path": "paper/generated/abstract.tex",
-      "sha256": "8395c45157c359f91ef8613db219908c4c0907ff203889844107175e243affda"
+      "sha256": "0013a4e6c7ced7ca69c371428211008d40dab3c8ef86b2c1705bc1b8e9ebda2f"
     },
     {
       "path": "paper/generated/results.tex",
@@ -20,11 +20,11 @@
     },
     {
       "path": "paper/generated/conclusion.tex",
-      "sha256": "bfab50a829cda280710e3f14191d36075301512663ec5da620d1e3ed7c5f4491"
+      "sha256": "645d3715a4e8cff4d419846ba1aa0c3717a47cfe85c1f9fc3d994fe432134423"
     },
     {
       "path": "paper/generated/appendix_results.tex",
-      "sha256": "f740cde2c0fa5417f90fbdd513503904a0faba8a68f9541769a5e9cf7dd4890c"
+      "sha256": "1f711596cc3d0614c4b651704846a88ded5315a1572a252ae0294067b18fb614"
     },
     {
       "path": "paper/generated/results_floats.tex",
@@ -52,5 +52,5 @@
     }
   ],
   "results_sha256": "d993f18595730f39ba2ca77159a21e18ef294ea4d7e24e12b81a4164ba276d28",
-  "text_builder_sha256": "c2fcb47ce39a3649cf56688373cf7a4669f37d95d918a817381625d338460948"
+  "text_builder_sha256": "32a8c76d608984a81f1c0dab18a13c682cd7e32b4194ba16668222fde28268ef"
 }

@@ -97,17 +97,13 @@ def write_abstract(report: dict, out: Path) -> None:
     gap = alf["same_draw_selection_optimism"]
     direct_continue = alf["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
     direct_matched = alf["contrasts"]["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]
-    gap_claim = primary_decision(
-        gap,
-        "The same-draw maximum overstates cross-draw value",
-        "The same-draw diagnostic is estimated",
-    )
+    gap_claim = "The same-draw maximum exceeds cross-draw value on this panel"
     text = (
         "Selecting a runtime intervention and evaluating it on the same stochastic continuation credits favorable branch noise. "
         "We test this problem with four actions, including no intervention, and two independent continuations from each shared prefix. "
         f"The confirmation covers {alf['planned_tasks']} identity-disjoint ALFWorld tasks ({alf['groups']} floorplan groups), with predictions frozen before arm outcomes. "
         f"{gap_claim}: the planned-task gap is {pct(gap['mean'])} percentage points "
-        f"(group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}, Holm-adjusted ${p_claim(gap['holm_p_primary_family'])}$). "
+        f"(group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}). "
         "Holding features, task-ID folds, forest capacity, and action support fixed, direct signed-benefit prediction changes success by "
         f"{pct(direct_continue['mean'])} points versus continuation and {pct(direct_matched['mean'])} points versus the strongest runnable matched controller. "
         "Neither controller contrast reaches significance before or after multiplicity correction. We retain the complete ScienceWorld boundary panel and adverse historical results, and make no cross-harness state-of-the-art claim. "
@@ -309,7 +305,7 @@ Domain & Policy & Requests & Input tokens & Output tokens & Client seconds \\\\
 \\end{{tabular}}
 \\end{{table}}
 
-The diagnostic $G$ is nonnegative pathwise, so its sign-flip and Holm values audit the all-zero-$G$ null rather than test intervention benefit. ScienceWorld controller intervals [0, 0] reflect unchanged recorded binary outcomes under the selected actions; they do not establish policy equivalence.
+The diagnostic $G$ is nonnegative pathwise, so its sign-flip and Holm values audit the all-zero-$G$ null rather than test intervention benefit. The ScienceWorld Direct-minus-Continue interval [0, 0] reflects unchanged recorded binary outcomes under the selected actions; they do not establish policy equivalence.
 
 Across baseline, arm, and retained attempt records, the episode ledger contains {usage['requests']:,} model requests, {usage['input_tokens']:,} input tokens, {usage['output_tokens']:,} output tokens, and {usage['wall_s']:,.1f} client-seconds. It records {usage['failed_requests']} failed requests and {usage['unknown_usage_requests']} requests with unknown token usage. The separate GPU lease ledger charges model loading, qualification probes, generation, idle occupancy, failures, and cleanup.
 """
