@@ -108,7 +108,7 @@ def write_abstract(report: dict, out: Path) -> None:
         f"The confirmation covers {alf['planned_tasks']} identity-disjoint ALFWorld tasks ({alf['groups']} floorplan groups), with predictions frozen before arm outcomes. "
         f"{gap_claim}: the planned-task gap is {pct(gap['mean'])} percentage points "
         f"(group-bootstrap 95\\% interval {interval(gap, 'group_bootstrap_95')}, Holm-adjusted ${p_claim(gap['holm_p_primary_family'])}$). "
-        "Holding features, whole-task folds, forest capacity, and action support fixed, direct signed-benefit prediction changes success by "
+        "Holding features, task-ID folds, forest capacity, and action support fixed, direct signed-benefit prediction changes success by "
         f"{pct(direct_continue['mean'])} points versus continuation and {pct(direct_matched['mean'])} points versus the strongest runnable matched controller. "
         "Neither controller contrast reaches significance before or after multiplicity correction. We retain the complete ScienceWorld boundary panel and adverse historical results, and make no cross-harness state-of-the-art claim. "
         "The resulting protocol turns an outcome-selected rescue into an auditable policy-value estimate."
@@ -157,6 +157,8 @@ def write_results(report: dict, out: Path) -> None:
     alf = report["domains"]["alfworld"]
     dc = alf["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
     dm = alf["contrasts"]["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]
+    arm_outcome = alf["contrasts"]["DIRECT_ADVANTAGE_vs_ARM_OUTCOME"]
+    fixed = alf["contrasts"]["DIRECT_ADVANTAGE_vs_BEST_FIXED"]
     safe = alf["contrasts"]["SAFE_SELECTED_vs_CONTINUE"]
     direct = alf["policies"]["DIRECT_ADVANTAGE"]
     matched = alf["policies"]["MATCHED_COMPARATOR"]
@@ -164,7 +166,7 @@ def write_results(report: dict, out: Path) -> None:
     extra_recoveries = best["recovered_rounds"] - direct["recovered_rounds"]
     extra_disruptions = best["harmful_rounds"] - direct["harmful_rounds"]
     net_draws = extra_recoveries - extra_disruptions
-    text = f"""We estimate the direct effect against continuation at {pct(dc['mean'])} percentage points (group-bootstrap 95\\% interval {interval(dc, 'group_bootstrap_95')}; group sign-flip ${p_claim(dc['group_sign_flip_p'])}$; Holm-adjusted ${p_claim(dc['holm_p_primary_family'])}$). Against the matched arm-outcome comparator we estimate {pct(dm['mean'])} percentage points (group-bootstrap 95\\% interval {interval(dm, 'group_bootstrap_95')}; raw group sign-flip ${p_claim(dm['group_sign_flip_p'])}$; Holm-adjusted ${p_claim(dm['holm_p_primary_family'])}$). The two controllers reach {pct(direct['planned_mean'])}\\% and {pct(matched['planned_mean'])}\\%. The denominator contains all {alf['planned_tasks']} planned tasks: {alf['eligible_tasks']} reached the frozen checkpoint and {alf['early_terminal_tasks']} ended earlier, and Table~\\ref{{tab:confirmation-policies}} reports the full census. Neither primary controller comparison is significant before or after Holm correction. The development-selected safe policy changes success by {pct(safe['mean'])} percentage points relative to continuation. These tests answer the frozen comparisons; a favorable unadjusted subset is not substituted for them.
+    text = f"""We estimate the direct effect against continuation at {pct(dc['mean'])} percentage points (group-bootstrap 95\\% interval {interval(dc, 'group_bootstrap_95')}; group sign-flip ${p_claim(dc['group_sign_flip_p'])}$; Holm-adjusted ${p_claim(dc['holm_p_primary_family'])}$). Against the matched arm-outcome comparator we estimate {pct(dm['mean'])} percentage points (group-bootstrap 95\\% interval {interval(dm, 'group_bootstrap_95')}; raw group sign-flip ${p_claim(dm['group_sign_flip_p'])}$; Holm-adjusted ${p_claim(dm['holm_p_primary_family'])}$). The two controllers reach {pct(direct['planned_mean'])}\\% and {pct(matched['planned_mean'])}\\%. The denominator contains all {alf['planned_tasks']} planned tasks: {alf['eligible_tasks']} reached the frozen checkpoint and {alf['early_terminal_tasks']} ended earlier, and Table~\\ref{{tab:confirmation-policies}} reports the full census. Neither primary controller comparison is significant before or after Holm correction. Secondary comparisons estimate Direct minus arm outcome at {pct(arm_outcome['mean'])} percentage points (group-bootstrap 95\\% interval {interval(arm_outcome, 'group_bootstrap_95')}) and Direct minus best fixed at {pct(fixed['mean'])} percentage points (interval {interval(fixed, 'group_bootstrap_95')}). The development-selected safe policy changes success by {pct(safe['mean'])} percentage points relative to continuation. These tests answer the frozen comparisons; a favorable unadjusted subset is not substituted for them.
 
 Direct selects continuation on {direct['action_counts_eligible'][0]:.0f}/{alf['eligible_tasks']} eligible prefixes, warning on {direct['action_counts_eligible'][1]:.0f}, replanning on {direct['action_counts_eligible'][2]:.0f}, and rollback on {direct['action_counts_eligible'][3]:.0f}. Matched selects rollback on {matched['action_counts_eligible'][3]:.0f} eligible prefixes. Direct records {direct['recovered_rounds']:.0f} draw-level recoveries and {direct['harmful_rounds']:.0f} disruptions. Matched intervenes on {pct(matched['firing_rate_eligible'], 1)}\\% of prefixes, with {matched['recovered_rounds']:.0f} recoveries and {matched['harmful_rounds']:.0f} disruptions. Best fixed replanning reaches {pct(best['planned_mean'])}\\% versus {pct(direct['planned_mean'])}\\% for Direct. Its {best['recovered_rounds']:.0f} recoveries and {best['harmful_rounds']:.0f} disruptions exceed Direct's counts by {extra_recoveries:.0f} and {extra_disruptions:.0f}, respectively, leaving {net_draws:.0f} additional successful draw-level contrasts ({pct(best['planned_mean']-direct['planned_mean'])} percentage points). These descriptive counts do not identify why the fixed rule scores higher. Direct uses {direct['suffix_cost']['requests']['planned_mean']:.1f} calls, {direct['suffix_cost']['input_tokens']['planned_mean']:.0f} input tokens, and {direct['suffix_cost']['wall_s']['planned_mean']:.1f} client-seconds per planned task, versus {alf['policies']['CONTINUE']['suffix_cost']['requests']['planned_mean']:.1f}, {alf['policies']['CONTINUE']['suffix_cost']['input_tokens']['planned_mean']:.0f}, and {alf['policies']['CONTINUE']['suffix_cost']['wall_s']['planned_mean']:.1f} for continuation. These summaries are descriptive. Section~\\ref{{sec:analysis}} reads the same branches for what this decision point and this menu could have delivered, which is what the second confirmation then changes.
 
@@ -236,7 +238,7 @@ def write_analysis_floats(report: dict, out: Path) -> None:
     text = f"""\\begin{{figure}}[ht]
 \\centering
 \\includegraphics[width=\\linewidth]{{figures/group-results.pdf}}
-\\caption{{Group-level measurement and policy effects. Each point is a complete floorplan or task-family group; area is proportional to its task count. Vertical position is same-draw optimism and horizontal position is Direct minus Continue; a group in the upper left shows optimism from the outcome-informed selector while the deployable controller loses utility. Every ScienceWorld group lies on the horizontal zero-effect line. Dashed lines mark zero.}}
+\\caption{{Group-level measurement and policy effects. Each point is a complete floorplan or task-family group; area is proportional to its task count. Vertical position is same-draw optimism and horizontal position is Direct minus Continue; a group in the upper left shows optimism from the outcome-informed selector while the deployable controller loses utility. Every ScienceWorld group lies on the vertical zero-effect line. Dashed lines mark zero.}}
 \\label{{fig:groups}}
 \\end{{figure}}
 
@@ -249,8 +251,7 @@ def write_conclusion(report: dict, out: Path) -> None:
     gap = alf["same_draw_selection_optimism"]
     dc = alf["contrasts"]["DIRECT_ADVANTAGE_vs_CONTINUE"]
     dm = alf["contrasts"]["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]
-    established = gap["mean"] > 0 and gap["holm_p_primary_family"] < .05
-    gap_text = "establishes" if established else "estimates"
+    gap_text = "measures"
     text = (
         f"On the frozen ALFWorld panel, independent continuation evaluation {gap_text} a {pct(gap['mean'])}-point gap relative to same-draw maximization. "
         f"The matched direct controller changes success by {pct(dc['mean'])} points versus continuation and {pct(dm['mean'])} points versus the strongest runnable comparator. "
@@ -307,6 +308,8 @@ Domain & Policy & Requests & Input tokens & Output tokens & Client seconds \\\\
 \\bottomrule
 \\end{{tabular}}
 \\end{{table}}
+
+The diagnostic $G$ is nonnegative pathwise, so its sign-flip and Holm values audit the all-zero-$G$ null rather than test intervention benefit. ScienceWorld controller intervals [0, 0] reflect unchanged recorded binary outcomes under the selected actions; they do not establish policy equivalence.
 
 Across baseline, arm, and retained attempt records, the episode ledger contains {usage['requests']:,} model requests, {usage['input_tokens']:,} input tokens, {usage['output_tokens']:,} output tokens, and {usage['wall_s']:,.1f} client-seconds. It records {usage['failed_requests']} failed requests and {usage['unknown_usage_requests']} requests with unknown token usage. The separate GPU lease ledger charges model loading, qualification probes, generation, idle occupancy, failures, and cleanup.
 """

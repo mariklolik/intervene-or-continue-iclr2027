@@ -19,7 +19,7 @@
     },
     {
       "path": "paper/figures/headroom.pdf",
-      "sha256": "083fc122e04028d8e7430fa38384da6a515079fd88404269e335ee8b0ee49e3b"
+      "sha256": "a8d6413f47f803869141da580878ee50925b4147a0f47059a67e3e0e439c1ed3"
     },
     {
       "path": "paper/generated/abstract.tex",
@@ -31,7 +31,7 @@
     },
     {
       "path": "paper/generated/conclusion.tex",
-      "sha256": "54ef189a4864bb25801044d8f6e637616ce4357fa0820dfddf5907bb3d66eb6c"
+      "sha256": "645d3715a4e8cff4d419846ba1aa0c3717a47cfe85c1f9fc3d994fe432134423"
     },
     {
       "path": "paper/generated/r2_transfer.tex",
@@ -39,8 +39,8 @@
     },
     {
       "path": "paper/generated/r2_temperature.tex",
-      "sha256": "cfeff0597006c15fa06cd93a521147752df4055c49c89349cdf08e1f38798dc1"
+      "sha256": "d376bd4b5c15b610435155799014f44c6412c412872280584f8f2e38921cf947"
     }
   ],
-  "text_builder_sha256": "3504268871e269e614e421644d89dfeda63d7f12ee3bd1ea176c4d0be64f3d54"
+  "text_builder_sha256": "91e15a9f3b5ba14022ffbb8647653eb8b45fba5d397a834fe12a7f3be9cb1f78"
 }

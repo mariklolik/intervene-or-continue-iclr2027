@@ -290,7 +290,7 @@ def write_conclusion(first: dict, reports: dict, out: Path) -> None:
                   f" and by {pct(cb['mean'])} points against the best fixed repair")
     text = (
         "We introduced a repeated-branch protocol that separates the continuation used to choose a runtime repair from the one used to value it, and a reading of the same branches that says how much per-task signal a decision point and a menu carry before a controller is fitted. "
-        f"On the first frozen panel the protocol establishes a {pct(gap['mean'])}-point gap between same-draw maximization and independent-draw evaluation, "
+        f"On the first frozen panel the protocol measures a {pct(gap['mean'])}-point gap between same-draw maximization and independent-draw evaluation, "
         f"and a within-task exchangeable-label reference places {pct(floor['mean'])} points of it in continuation noise rather than in action advantage. "
         "Where a complete independent draw of the menu cannot beat the best arm in hindsight, the per-task outcome signal is thinner than the menu average, and on a panel run under both checkpoint rules with one menu that is what separates them. "
         f"Moving the decision to the first public failure signal and separating repair depth from repair content lifts that reference to {pct(head['cross_draw_oracle_eligible'])}\\% against {pct(head['best_fixed_eligible'])}\\%, "
@@ -329,7 +329,7 @@ def noise_scaling(hot: list[dict], cold: list[dict], out: Path) -> None:
         f"At 0.7 the mean per-task outcome variance is {b['variance']:.4f} and the same-draw gap is {pct(b['gap'])} percentage points; at 1.0 the variance is {a['variance']:.4f} and the gap is {pct(a['gap'])} points. "
         f"Raising the temperature did not raise the variance on these tasks, and the gap {verdict}. "
         "Temperature is therefore an indirect and non-monotone handle: what the diagnostic follows is the variance of the continuation outcome itself, which the profile in the main text measures directly within a single panel. "
-        "A domain whose tools or simulated users inject randomness of their own raises that variance and so raises the gap, which is the sense in which the estimates here are a lower reference for such settings. "
+        "Tools or simulated users that inject randomness may change outcome variance and the gap; these panels do not identify the direction or size of that change. "
         "This ablation is exploratory: its panel is small, it was generated after the confirmation panels, and it enters no confirmatory family.\n"
     )
     out.write_text(text)

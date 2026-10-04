@@ -8,11 +8,11 @@
     },
     {
       "path": "paper/generated/abstract.tex",
-      "sha256": "0013a4e6c7ced7ca69c371428211008d40dab3c8ef86b2c1705bc1b8e9ebda2f"
+      "sha256": "8395c45157c359f91ef8613db219908c4c0907ff203889844107175e243affda"
     },
     {
       "path": "paper/generated/results.tex",
-      "sha256": "af4e29e8d72aace59885f7538bef0d250fdad002a385fbdeae11b6d9cb764c55"
+      "sha256": "08c02b22a4788ca0eb1fbd7556879b930e1d7c86660101529fd3ea3b4d10b1e4"
     },
     {
       "path": "paper/generated/analysis.tex",
@@ -20,11 +20,11 @@
     },
     {
       "path": "paper/generated/conclusion.tex",
-      "sha256": "54ef189a4864bb25801044d8f6e637616ce4357fa0820dfddf5907bb3d66eb6c"
+      "sha256": "bfab50a829cda280710e3f14191d36075301512663ec5da620d1e3ed7c5f4491"
     },
     {
       "path": "paper/generated/appendix_results.tex",
-      "sha256": "beaaae23455f780000cb5b6f4a2b1e7e057a202385b02b8d30cc700bcc8723e4"
+      "sha256": "f740cde2c0fa5417f90fbdd513503904a0faba8a68f9541769a5e9cf7dd4890c"
     },
     {
       "path": "paper/generated/results_floats.tex",
@@ -32,7 +32,7 @@
     },
     {
       "path": "paper/generated/analysis_floats.tex",
-      "sha256": "326a7aa843f733c8ef0708ccefc55cd9e89d9192eb8759e7aeee654c066aad88"
+      "sha256": "3a167995c4bfb25bff032404a06c8b6854085b858be2c01ea8ea82872a630263"
     },
     {
       "path": "paper/generated/scienceworld.tex",
@@ -40,17 +40,17 @@
     },
     {
       "path": "paper/figures/design.pdf",
-      "sha256": "de162ab67f5e1479ed480a3d1e01ef4318621bed8ce652b8763f198ba2f6b353"
+      "sha256": "cd78193b2af0751bf646689a456708129c70f522336bd93580ded3dd20f7e26b"
     },
     {
       "path": "paper/figures/policy-effects.pdf",
-      "sha256": "39a9180a1af08931be01ad3aa31987b4dbc930711af893e7633335a38d0d03aa"
+      "sha256": "a0f201a817504d1d3dec86eb211a9e5360b4a1226f431222f4e789a6e9bb1926"
     },
     {
       "path": "paper/figures/group-results.pdf",
-      "sha256": "be2cac54fe013a9a175e672d78fdb7b300fbf40384192f4563ad02a582608491"
+      "sha256": "b6e02b9f0a3359263ad197a96192b91e2487ef107a252b50253db767536ecf41"
     }
   ],
   "results_sha256": "d993f18595730f39ba2ca77159a21e18ef294ea4d7e24e12b81a4164ba276d28",
-  "text_builder_sha256": "ea7e645d8f48da51a966030208a194aa65f79d332c0a97450ed8f1ae45682502"
+  "text_builder_sha256": "c2fcb47ce39a3649cf56688373cf7a4669f37d95d918a817381625d338460948"
 }
