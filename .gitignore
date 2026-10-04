@@ -1,0 +1,14 @@
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/
+records/
+artifacts/
+models/
+configs/
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.sty

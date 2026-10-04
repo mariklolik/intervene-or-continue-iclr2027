@@ -1,0 +1,315 @@
+import argparse
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path[:0] = [str(ROOT / "extension"), str(ROOT)]
+from analysis import ARMS, load_blocks
+
+
+def file_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def bootstrap(values: np.ndarray, groups: list[str], seed: int, draws: int = 10000) -> dict:
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 1 or len(x) != len(groups) or not len(x):
+        raise ValueError("Nonempty aligned task values and groups required")
+    rng = np.random.default_rng(seed)
+    task_means = x[rng.integers(0, len(x), size=(draws, len(x)))].mean(axis=1)
+    unique = sorted(set(groups))
+    indices = {group: np.flatnonzero(np.asarray(groups) == group) for group in unique}
+    cluster_means = np.empty(draws)
+    for draw in range(draws):
+        sampled = rng.choice(unique, len(unique), replace=True)
+        chosen = np.concatenate([indices[group] for group in sampled])
+        cluster_means[draw] = x[chosen].mean()
+    sums = np.array([x[indices[group]].sum() for group in unique])
+    signs = rng.choice([-1, 1], size=(50000, len(unique)))
+    null = (signs * sums).sum(axis=1) / len(x)
+    p = (1 + np.sum(np.abs(null) >= abs(x.mean()) - 1e-12)) / (len(null) + 1)
+    return {
+        "mean": float(x.mean()),
+        "n_tasks": len(x),
+        "n_groups": len(unique),
+        "task_bootstrap_95": np.quantile(task_means, [.025, .975]).tolist(),
+        "group_bootstrap_95": np.quantile(cluster_means, [.025, .975]).tolist(),
+        "group_sign_flip_p": float(p),
+        "raw_task_values": x.tolist(),
+    }
+
+
+def holm(values: list[float]) -> list[float]:
+    p = np.asarray(values, dtype=float)
+    order = np.argsort(p, kind="stable")
+    adjusted = np.empty(len(p))
+    adjusted[order] = np.minimum(1, np.maximum.accumulate(p[order] * np.arange(len(p), 0, -1)))
+    return adjusted.tolist()
+
+
+def cell_costs(rows: list[dict], field: str, arms: list[str] | None = None, replicas: int = 2) -> np.ndarray:
+    arms = list(ARMS) if arms is None else arms
+    values = np.zeros((len(rows), replicas, len(arms)))
+    for row_index, row in enumerate(rows):
+        for cell in row["cells"]:
+            events = cell["local_call_events"]
+            values[row_index, cell["round"], arms.index(cell["arm"])] = len(events) if field == "requests" else sum(event.get(field, 0) or 0 for event in events)
+    return values
+
+
+def optimism(y: np.ndarray) -> np.ndarray:
+    replicas = y.shape[1]
+    rows = np.arange(len(y))
+    total = np.zeros(len(y))
+    for left in range(replicas):
+        for right in range(replicas):
+            if left != right:
+                total += y[:, left].max(axis=1) - y[rows, left, y[:, right].argmax(axis=1)]
+    return total / (replicas * (replicas - 1))
+
+
+def cross_draw_oracle(y: np.ndarray) -> np.ndarray:
+    replicas = y.shape[1]
+    rows = np.arange(len(y))
+    total = np.zeros(len(y))
+    for left in range(replicas):
+        for right in range(replicas):
+            if left != right:
+                total += y[rows, left, y[:, right].argmax(axis=1)]
+    return total / (replicas * (replicas - 1))
+
+
+def variance_profile(y: np.ndarray, edges=(0.0, 1e-9, 0.15, 0.31)) -> dict:
+    if not len(y):
+        return {"bins": [], "correlation": None}
+    gap = optimism(y)
+    rate = y.reshape(len(y), -1).mean(axis=1)
+    spread = rate * (1 - rate)
+    bins = []
+    for low, high in zip(edges[:-1], edges[1:]):
+        mask = (spread >= low) & (spread < high) if high < edges[-1] else (spread >= low)
+        if mask.sum():
+            bins.append({"lower": float(low), "upper": float(high), "n_tasks": int(mask.sum()),
+                         "mean_success": float(rate[mask].mean()), "mean_optimism": float(gap[mask].mean())})
+    return {"bins": bins, "correlation": float(np.corrcoef(spread, gap)[0, 1]),
+            "zero_variance_tasks": int((spread <= 1e-9).sum()),
+            "definition": "Tasks binned by the variance of a Bernoulli with their pooled arm-by-draw success rate; the diagnostic is a function of that variance"}
+
+
+def label_exchange_floor(y: np.ndarray, seed: int, draws: int = 20000) -> dict:
+    if not len(y):
+        return {"mean": None, "interval_95": None, "one_sided_p": None, "draws": draws}
+    rng = np.random.default_rng(seed)
+    flat = y.reshape(len(y), -1)
+    null = np.empty(draws)
+    for draw in range(draws):
+        null[draw] = optimism(rng.permuted(flat, axis=1).reshape(y.shape)).mean()
+    observed = optimism(y).mean()
+    return {"mean": float(null.mean()), "interval_95": np.quantile(null, [.025, .975]).tolist(),
+            "observed_eligible_mean": float(observed),
+            "one_sided_p": float((1 + np.sum(null <= observed + 1e-12)) / (draws + 1)),
+            "draws": draws,
+            "definition": "Within-task permutation of every arm/draw outcome; the sharp null of exchangeable arm and draw labels"}
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", type=Path, action="append", required=True)
+    parser.add_argument("--raw", type=Path, action="append", required=True)
+    parser.add_argument("--predictions", type=Path, required=True)
+    parser.add_argument("--prediction-freeze", type=Path, required=True)
+    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--primary", action="append", default=None,
+                        help="Contrast key in the confirmatory family; repeat once per hypothesis. "
+                             "Omitted, the first study's family of optimism and two direct contrasts is used.")
+    args = parser.parse_args()
+    if args.out.exists():
+        raise FileExistsError(args.out)
+    prediction_bytes = args.predictions.read_bytes()
+    predictions = json.loads(prediction_bytes)
+    freeze = json.loads(args.prediction_freeze.read_text())
+    if file_hash(args.predictions) != freeze["predictions_sha256"]:
+        raise ValueError("Prediction freeze mismatch")
+    rows, audits = [], []
+    task_meta = {}
+    early = {}
+    roots = args.raw if len(args.raw) == len(args.config) else [args.raw[0]] * len(args.config)
+    if len(args.raw) not in (1, len(args.config)):
+        raise ValueError("Supply one raw root, or one per config")
+    for config_path, raw_root in zip(args.config, roots):
+        config = json.loads(config_path.read_text())
+        accepted, audit = load_blocks(config_path, raw_root / config_path.stem)
+        rows.extend(accepted)
+        audits.append(audit)
+        for task in config["tasks"]:
+            task_meta[(task["env"], task["task_id"])] = task
+        for task in audit["tasks"]:
+            if task["state"] == "terminal_before_checkpoint":
+                early[(task_meta[(task["env"], task["task_id"])]["env"], task["task_id"])] = float(task["baseline_success"])
+    rows.sort(key=lambda row: (row["env"], row["task_id"]))
+    expected = predictions["rows"]
+    actual = [{key: row[key] for key in ["model", "env", "split", "task_id", "config_sha256"]} for row in rows]
+    expected_core = [{key: row[key] for key in ["model", "env", "split", "task_id", "config_sha256"]} for row in expected]
+    if actual != expected_core:
+        raise ValueError("Complete holdout rows differ from frozen prediction rows")
+    arms = audits[0]["arms"] if audits and "arms" in audits[0] else list(ARMS)
+    replicas = audits[0].get("rounds", 2) if audits else 2
+    probability = {name: np.asarray(values, dtype=float) for name, values in predictions["policies"].items()}
+    if any(values.shape != (len(rows), len(arms)) for values in probability.values()):
+        raise ValueError("Policy probability shape mismatch")
+    report = {
+        "status": "COMPLETE",
+        "domains": {},
+        "prediction_freeze_sha256": file_hash(args.prediction_freeze),
+        "predictions_sha256": file_hash(args.predictions),
+        "all_recorded_usage": {
+            field: sum(audit["usage"][field] for audit in audits)
+            for field in ["requests", "input_tokens", "output_tokens", "wall_s", "failed_requests", "unknown_usage_requests"]
+        },
+    }
+    for domain_index, env in enumerate(["alfworld", "scienceworld"]):
+        indices = [index for index, row in enumerate(rows) if row["env"] == env]
+        subset = [rows[index] for index in indices]
+        planned = [task for (task_env, _), task in task_meta.items() if task_env == env]
+        if not planned:
+            continue
+        complete_ids = {row["task_id"] for row in subset}
+        early_ids = {task_id for task_env, task_id in early if task_env == env}
+        missing = [task["task_id"] for task in planned if task["task_id"] not in complete_ids | early_ids]
+        if missing:
+            raise ValueError(f"Incomplete planned frame for {env}: {len(missing)}")
+        y = np.asarray([row["Y"] for row in subset], dtype=float)
+        policies = {
+            "CONTINUE": probability["CONTINUE"][indices],
+            "BEST_FIXED": probability["BEST_FIXED"][indices],
+            "DIRECT_ADVANTAGE": probability["DIRECT_ADVANTAGE"][indices],
+            "ARM_OUTCOME": probability["ARM_OUTCOME"][indices],
+            "MATCHED_COMPARATOR": probability[f"MATCHED_{env.upper()}"][indices],
+        }
+        for extra in ["CROSS_DRAW", "PAIRWISE", "FAILURE_RISK", "RF_LCB"]:
+            if extra in probability:
+                policies[extra] = probability[extra][indices]
+        selected_name = predictions["selection"][env]["selected"]["name"]
+        if selected_name in policies:
+            policies["SAFE_SELECTED"] = policies[selected_name]
+        elif selected_name == predictions["selection"][env]["strongest_matched_comparator"]:
+            policies["SAFE_SELECTED"] = policies["MATCHED_COMPARATOR"]
+        else:
+            raise ValueError(f"Unknown selected safe policy: {selected_name}")
+        values = {name: (y.mean(axis=1) * p).sum(axis=1) for name, p in policies.items()}
+        groups = [task_meta[(env, row["task_id"])]["group_id"] for row in subset]
+        early_values = np.array([early[(env, task_id)] for task_id in sorted(early_ids)])
+        summaries = {}
+        for name, value in values.items():
+            chosen = policies[name]
+            harmful = float((chosen[:, None, :] * (y == 0) * (y[:, :, :1] == 1)).sum())
+            recovered = float((chosen[:, None, :] * (y == 1) * (y[:, :, :1] == 0)).sum())
+            costs = {}
+            for field in ["requests", "input_tokens", "output_tokens", "wall_s"]:
+                per_task = (cell_costs(subset, field, arms, replicas).mean(axis=1) * chosen).sum(axis=1)
+                costs[field] = {
+                    "eligible_mean": float(per_task.mean()),
+                    "planned_mean": float(per_task.sum() / len(planned)),
+                }
+            summaries[name] = {
+                "eligible_mean": float(value.mean()),
+                "planned_mean": float((value.sum() + early_values.sum()) / len(planned)),
+                "firing_rate_eligible": float(1 - chosen[:, 0].mean()),
+                "action_counts_eligible": chosen.sum(axis=0).tolist(),
+                "harmful_rounds": harmful,
+                "recovered_rounds": recovered,
+                "suffix_cost": costs,
+            }
+        pairs = [
+            ("DIRECT_ADVANTAGE", "CONTINUE"),
+            ("DIRECT_ADVANTAGE", "MATCHED_COMPARATOR"),
+            ("DIRECT_ADVANTAGE", "ARM_OUTCOME"),
+            ("DIRECT_ADVANTAGE", "BEST_FIXED"),
+            ("SAFE_SELECTED", "CONTINUE"),
+        ]
+        if "CROSS_DRAW" in policies:
+            pairs = [("CROSS_DRAW", "CONTINUE"), ("CROSS_DRAW", "BEST_FIXED"), ("CROSS_DRAW", "MATCHED_COMPARATOR"),
+                     ("CROSS_DRAW", "DIRECT_ADVANTAGE"), ("CROSS_DRAW", "ARM_OUTCOME")] + pairs
+            pairs += [(name, "CONTINUE") for name in ["PAIRWISE", "FAILURE_RISK", "RF_LCB"] if name in policies]
+            pairs += [("CROSS_DRAW", name) for name in ["PAIRWISE", "FAILURE_RISK", "RF_LCB"] if name in policies]
+        contrasts = {}
+        for left, right in pairs:
+            contrast_values = np.r_[values[left] - values[right], np.zeros(len(early_values))]
+            contrast_groups = groups + [task_meta[(env, task_id)]["group_id"] for task_id in sorted(early_ids)]
+            contrasts[f"{left}_vs_{right}"] = bootstrap(contrast_values, contrast_groups, 270914 + domain_index)
+        gap = optimism(y) if len(y) else np.array([])
+        gap_values = np.r_[gap, np.zeros(len(early_values))]
+        gap_groups = groups + [task_meta[(env, task_id)]["group_id"] for task_id in sorted(early_ids)]
+        measurement = bootstrap(gap_values, gap_groups, 271014 + domain_index)
+        measurement["exchangeable_label_floor"] = label_exchange_floor(y, 271014 + domain_index)
+        measurement["variance_profile"] = variance_profile(y)
+        if len(y):
+            arm_means = y.mean(axis=(0, 1))
+            oracle = cross_draw_oracle(y)
+            report["domains"].setdefault(env, {})
+            headroom = {
+                "arm_means_eligible": arm_means.tolist(),
+                "continue_eligible": float(arm_means[0]),
+                "best_fixed_eligible": float(arm_means[1:].max()),
+                "best_fixed_arm": int(arm_means[1:].argmax()) + 1,
+                "cross_draw_oracle_eligible": float(oracle.mean()),
+                "oracle_minus_best_fixed": float(oracle.mean() - arm_means[1:].max()),
+                "same_draw_oracle_eligible": float(y.max(axis=2).mean()),
+                "definition": "Value of an outcome-informed selector that reads one complete independent draw of every arm and is scored on another; an honest reference for what any prefix-conditional policy can reach at this draw count",
+            }
+        else:
+            headroom = None
+        if env == "alfworld":
+            if args.primary is None:
+                primary = [measurement, contrasts["DIRECT_ADVANTAGE_vs_CONTINUE"], contrasts["DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]]
+                family = ["same_draw_selection_optimism", "DIRECT_ADVANTAGE_vs_CONTINUE", "DIRECT_ADVANTAGE_vs_MATCHED_COMPARATOR"]
+            else:
+                family = list(args.primary)
+                primary = [measurement if key == "same_draw_selection_optimism" else contrasts[key] for key in family]
+            for item, adjusted in zip(primary, holm([item["group_sign_flip_p"] for item in primary])):
+                item["holm_p_primary_family"] = adjusted
+            report["primary_family"] = family
+        group_rows = []
+        for group in sorted(set(gap_groups)):
+            complete_indices = [index for index, value in enumerate(groups) if value == group]
+            group_early = sum(task_meta[(env, task_id)]["group_id"] == group for task_id in early_ids)
+            denominator = len(complete_indices) + group_early
+            group_rows.append({
+                "group_id": group,
+                "n_tasks": denominator,
+                "same_draw_selection_optimism": float(gap[complete_indices].sum() / denominator),
+                "direct_vs_continue": float((values["DIRECT_ADVANTAGE"][complete_indices] - values["CONTINUE"][complete_indices]).sum() / denominator),
+                "direct_vs_matched_comparator": float((values["DIRECT_ADVANTAGE"][complete_indices] - values["MATCHED_COMPARATOR"][complete_indices]).sum() / denominator),
+            })
+        report["domains"][env] = {
+            "planned_tasks": len(planned),
+            "eligible_tasks": len(subset),
+            "early_terminal_tasks": len(early_values),
+            "groups": len(set(gap_groups)),
+            "policies": summaries,
+            "contrasts": contrasts,
+            "same_draw_selection_optimism": measurement,
+            "headroom": headroom,
+            "selection": predictions["selection"][env],
+            "group_results": group_rows,
+        }
+    args.out.mkdir(parents=True)
+    (args.out / "results.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    (args.out / "ingestion-audits.json").write_text(json.dumps(audits, indent=2, sort_keys=True) + "\n")
+    (args.out / "analysis-rows.json").write_text(json.dumps(rows, indent=2, sort_keys=True) + "\n")
+    manifest = {
+        "results_sha256": file_hash(args.out / "results.json"),
+        "ingestion_audits_sha256": file_hash(args.out / "ingestion-audits.json"),
+        "analysis_rows_sha256": file_hash(args.out / "analysis-rows.json"),
+        "inputs": [{"path": str(path), "sha256": file_hash(path)} for path in args.config + [args.predictions, args.prediction_freeze, Path(__file__)]],
+    }
+    (args.out / "verification.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+
+
+if __name__ == "__main__":
+    main()
